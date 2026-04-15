@@ -76,6 +76,9 @@
     const rowLabel = usePairedLabels ? "" : labels[0] || "";
     const linkMarkup = urls
       .map((entry, index) => {
+        if (entry.includes("player.bilibili.com")) {
+          return `<div class="bilibili-player"><iframe src="${escapeHtml(entry)}" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" style="width:100%;height:400px;max-width:800px;"></iframe></div>`;
+        }
         const linkText = usePairedLabels ? labels[index] : entry;
         return `<a class="detail-link-anchor" href="${escapeHtml(entry)}" target="_blank" rel="noreferrer">${escapeHtml(linkText)}</a>`;
       })

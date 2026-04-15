@@ -191,7 +191,7 @@
     "related_report_url": "https://mp.weixin.qq.com/s/9E2KL7PZj7tE8Xa3fqF5Ng",
     "full_video_label_zh": "完整视频在：",
     "full_video_label_en": "Watch full video:",
-    "full_video_url": "/images/news/news-010/video-web.mp4",
+    "full_video_url": "https://player.bilibili.com/player.html?bvid=BV1hhQEBvE8G&page=1",
     "cover_image": "/images/news/news-010/cover.webp",
     "gallery_images": []
   },
@@ -207,7 +207,7 @@
     "related_report_url": "",
     "full_video_label_zh": "完整视频在：",
     "full_video_label_en": "Watch full video:",
-    "full_video_url": "/images/news/news-011/video-web.mp4",
+    "full_video_url": "https://player.bilibili.com/player.html?bvid=BV13hQEBiEDg&page=1",
     "cover_image": "/images/news/news-011/cover.webp",
     "gallery_images": []
   },

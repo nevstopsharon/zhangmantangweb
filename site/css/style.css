@@ -1277,6 +1277,19 @@ p,
   }
 }
 
+.bilibili-player {
+  margin-top: 16px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+@media (max-width: 760px) {
+  .bilibili-player iframe {
+    height: 240px !important;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

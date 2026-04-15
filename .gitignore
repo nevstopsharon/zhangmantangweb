@@ -16,3 +16,12 @@ docs_internal/
 *.zip
 *.rar
 *.7z
+
+# Vercel
+.vercel
+.env*.local
+
+# 备份和输出文件夹
+backups/
+output/
+.playwright-cli/
