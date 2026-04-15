@@ -241,7 +241,7 @@
       secondaryBundlePromise = new Promise((resolve, reject) => {
         const script = document.createElement("script");
         const base = site.siteBase === "/" ? "" : site.siteBase;
-        script.src = `${base}/site/js/renderers-secondary.js?v=20260413a`;
+        script.src = `${base}/js/renderers-secondary.js?v=20260413a`;
         script.defer = true;
         script.onload = () => {
           site.fullRendererReady = true;
