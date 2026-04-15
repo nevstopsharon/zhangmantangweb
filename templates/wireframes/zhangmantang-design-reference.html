@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>张满堂官网 · 设计参考稿 · 桌面端全集</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400&family=Noto+Sans+SC:wght@300;400&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    /* ── TOKENS ─────────────────────────────────────────────────────── */
+    :root {
+      --bg:          #F2EFED;
+      --card:        #FFFFFF;
+      --accent:      #C8A060;
+      --ink:         #1A1A1A;
+      --mid:         #6A6868;
+      --soft:        #A8A4A0;
+      --border-soft: #D6D2CE;
+      --hero-fallback: #D4CEC6;
+      --contact-bg:  #F5F2EE;
+
+      --border: 1px solid #1A1A1A;
+      --line:   1px solid #D6D2CE;
+      --shadow: 0 10px 24px rgba(26,26,26,.10);
+      --shadow-float: 0 10px 24px rgba(26,26,26,.14);
+
+      --s:  16px;
+      --m:  40px;
+      --l:  90px;
+      --xl: 120px;
+      --maxw: 1440px;
+      --nav-h: 88px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Noto Sans SC', sans-serif;
+      font-weight: 300;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    a { text-decoration: none; color: inherit; cursor: pointer; }
+    button { font: inherit; font-weight: 300; background: none; border: none; cursor: pointer; color: inherit; }
+    img { display: block; width: 100%; }
+
+    /* ── SITE SHELL ─────────────────────────────────────────────────── */
+    .site {
+      max-width: var(--maxw);
+      margin: 0 auto;
+      background: var(--card);
+      min-height: 100vh;
+      border-left: var(--line);
+      border-right: var(--line);
+    }
+
+    /* ── TYPOGRAPHY ─────────────────────────────────────────────────── */
+    .h1 { font-family: 'Noto Serif SC', serif; font-size: 48px; font-weight: 300; line-height: 1.15; }
+    .h2 { font-family: 'Noto Serif SC', serif; font-size: 24px; font-weight: 300; line-height: 1.3; }
+    .kicker { font-size: 16px; color: var(--mid); margin-bottom: 6px; }
+    .meta   { font-size: 16px; color: var(--mid); margin-top: 6px; }
+    .tag    { font-size: 16px; color: var(--accent); margin-bottom: 8px; }
+
+    /* ── NAV ────────────────────────────────────────────────────────── */
+    .nav {
+      height: var(--nav-h);
+      padding: 0 var(--l);
+      border-bottom: var(--line);
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: var(--m);
+      position: sticky;
+      top: 0;
+      background: rgba(255,255,255,.96);
+      backdrop-filter: blur(6px);
+      z-index: 10;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; justify-self: start; }
+    .seal {
+      width: 32px; height: 32px; flex-shrink: 0;
+      border: var(--border);
+      display: grid; place-items: center;
+      font-family: 'Noto Serif SC', serif; font-size: 13px;
+      color: var(--accent);
+    }
+    .brand-names { display: flex; gap: 16px; align-items: center; }
+    .brand-cn { font-family: 'Noto Serif SC', serif; font-size: 22px; font-weight: 300; }
+    .brand-en { font-size: 16px; color: var(--mid); letter-spacing: .04em; white-space: nowrap; }
+    .menu { display: flex; gap: var(--m); justify-self: center; }
+    .nav-link { font-size: 16px; color: var(--mid); padding-bottom: 4px; border-bottom: 1px solid transparent; transition: color .2s, border-color .2s; }
+    .nav-link:hover, .nav-link.active { color: var(--accent); border-bottom-color: var(--accent); }
+    .nav-tools { display: flex; justify-self: end; gap: var(--s); align-items: center; }
+
+    /* search box */
+    .search-shell { position: relative; }
+    .search-box {
+      min-width: 260px; height: 42px;
+      padding: 0 12px;
+      border: var(--border);
+      display: flex; align-items: center; justify-content: space-between; gap: 8px;
+      background: var(--card);
+      font-size: 16px; color: var(--ink);
+      cursor: text;
+    }
+    .search-input {
+      flex: 1; height: 100%; border: none; outline: none; background: transparent;
+      font: inherit; font-weight: 300; font-size: 16px; color: var(--ink);
+    }
+    .search-input::placeholder { color: var(--soft); }
+    .search-icon { color: var(--mid); font-size: 18px; }
+    .search-suggestions {
+      position: absolute; top: calc(100% + 8px); left: 0;
+      width: 100%; min-width: 260px;
+      border: var(--line); background: var(--card);
+      box-shadow: var(--shadow); z-index: 12;
+      display: grid; gap: 10px; padding: 14px 16px;
+    }
+    .search-suggestion { font-size: 16px; color: var(--mid); text-align: left; transition: color .2s; }
+    .search-suggestion:hover { color: var(--accent); }
+
+    /* lang switch */
+    .lang-switch { display: flex; border: var(--line); }
+    .lang-btn { padding: 10px 14px; font-size: 16px; color: var(--mid); border-left: var(--line); transition: color .2s; }
+    .lang-btn:first-child { border-left: none; }
+    .lang-btn.active { color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+
+    /* ── HERO ───────────────────────────────────────────────────────── */
+    .hero {
+      height: calc(100vh - var(--nav-h));
+      min-height: 700px;
+      position: relative; overflow: hidden;
+      border-bottom: var(--line);
+      background-color: var(--hero-fallback);
+      background: linear-gradient(160deg, #5A4E44 0%, #2E261E 55%, #1A1510 100%);
+    }
+    .hero-art {
+      position: absolute; inset: 0;
+      background-color: var(--hero-fallback);
+      background: linear-gradient(135deg,#4A3E36 0%,#2A211A 50%,#1A1510 100%);
+      display: grid; place-items: center;
+    }
+    .hero-watermark {
+      font-family: 'Noto Serif SC', serif; font-size: 260px; font-weight: 300;
+      color: rgba(200,160,96,.06); user-select: none; letter-spacing: -.02em;
+    }
+    .hero-overlay {
+      position: absolute; left: var(--l); right: var(--l); bottom: var(--xl);
+      display: flex; justify-content: space-between; align-items: flex-end; gap: var(--m);
+    }
+    .hero-copy { max-width: 700px; color: #fff; }
+    .hero-copy .h1 { color: #fff; white-space: pre-line; }
+    .hero-copy .body { color: rgba(255,255,255,.92); font-size: 16px; margin-top: var(--s); max-width: 520px; }
+    .hero-trust { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 28px; }
+    .trust-item { font-size: 12px; color: rgba(255,255,255,.76); letter-spacing: .08em; text-transform: uppercase; border-left: 1px solid rgba(255,255,255,.35); padding-left: 12px; }
+    .scroll-mark {
+      width: 40px; height: 40px; border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.72); color: #fff;
+      display: grid; place-items: center; font-size: 22px; flex-shrink: 0;
+    }
+
+    /* ── SECTION LAYOUT ─────────────────────────────────────────────── */
+    .section { padding: var(--xl) var(--l); border-bottom: var(--line); }
+    .section-head {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      gap: var(--m); margin-bottom: var(--m);
+    }
+    .section-link { font-size: 16px; color: var(--accent); border-bottom: 1px solid var(--accent); padding-bottom: 4px; }
+
+    /* ── GRIDS ──────────────────────────────────────────────────────── */
+    .grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: var(--m); }
+    .span-2 { grid-column: span 2; }
+
+    /* ── WORK CARD ──────────────────────────────────────────────────── */
+    .work-card { border: var(--line); background: var(--card); transition: transform .2s, box-shadow .2s, border-color .2s; cursor: pointer; }
+    .work-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: var(--accent); }
+    .art-frame {
+      aspect-ratio: 5/4; border-bottom: var(--line);
+      background: #FAF8F5; display: flex; align-items: center; justify-content: center;
+      padding: 18px; overflow: hidden;
+    }
+    .art-frame-label { font-size: 13px; color: rgba(26,26,26,.45); text-align: center; }
+    .card-body { padding: 24px; }
+
+    /* ── FILTERS ────────────────────────────────────────────────────── */
+    .filter-row { display: flex; justify-content: space-between; align-items: flex-end; gap: var(--m); margin-bottom: var(--m); }
+    .filters { display: flex; gap: var(--s); flex-wrap: wrap; }
+    .filter-btn { padding: 10px 18px; border: var(--line); color: var(--mid); font-size: 16px; background: var(--card); transition: color .2s, border-color .2s; }
+    .filter-btn.active, .filter-btn:hover { color: var(--accent); border-color: var(--accent); box-shadow: var(--shadow); text-decoration: underline; text-underline-offset: 6px; text-decoration-color: var(--accent); }
+
+    /* dropdown */
+    .preview-anchor { position: relative; display: inline-flex; align-items: center; }
+    .preview-panel {
+      position: absolute; top: calc(100% - 1px); left: 0;
+      min-width: 340px; background: var(--card);
+      border: var(--border); border-top: none;
+      box-shadow: var(--shadow); padding: 20px 24px; z-index: 8;
+    }
+    .preview-list { display: grid; gap: 12px; justify-items: start; }
+    .preview-link { font-size: 16px; color: var(--mid); transition: color .2s; }
+    .preview-link:hover { color: var(--accent); text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
+    .preview-anchor.open .filter-btn { color: var(--accent); border-color: var(--accent); border-bottom-color: var(--card); background: var(--card); z-index: 9; }
+
+    /* ── YEAR LAYOUT (exhibitions + news + detail shells) ───────────── */
+    .year-layout { display: grid; grid-template-columns: 140px 1fr; gap: var(--m); align-items: start; }
+    .year-rail {
+      position: sticky; top: calc(var(--nav-h) + 32px);
+      display: flex; flex-direction: column; gap: 24px;
+      padding-top: 8px; position: relative;
+    }
+    .year-rail::before {
+      content: ''; position: absolute;
+      left: 5px; top: 0; bottom: 0; width: 1px;
+      background: var(--mid); opacity: .35;
+    }
+    .year-node {
+      position: relative; display: flex; align-items: center; gap: 16px;
+      font-size: 16px; color: var(--mid); text-align: left;
+      transition: color .2s; padding: 0;
+    }
+    .year-node::before {
+      content: ''; width: 12px; height: 12px; border-radius: 999px;
+      border: 1px solid var(--soft); background: var(--card);
+      flex-shrink: 0; z-index: 1; transition: background .2s, border-color .2s;
+    }
+    .year-node.active { color: var(--accent); }
+    .year-node.active::before { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 0 4px rgba(200,160,96,.16); }
+    .year-node:hover { color: var(--accent); }
+
+    /* ── EXHIBITION CARD ────────────────────────────────────────────── */
+    .timeline { display: flex; flex-direction: column; gap: var(--m); }
+    .exhibition-block {
+      border: var(--line); background: var(--card);
+      display: grid; grid-template-columns: 1fr .85fr;
+      transition: transform .2s, box-shadow .2s, border-color .2s; cursor: pointer;
+    }
+    .exhibition-block:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: var(--accent); }
+    .exhibition-image {
+      min-height: 320px; border-right: var(--line);
+      background: #F7F3EE; display: flex; align-items: center; justify-content: center; padding: 18px;
+    }
+    .exhibition-image-label { font-size: 13px; color: rgba(26,26,26,.45); text-align: center; }
+    .exhibition-info { padding: 32px; display: flex; flex-direction: column; justify-content: center; gap: var(--s); }
+
+    /* ── NEWS CARD ──────────────────────────────────────────────────── */
+    .news-card { border: var(--line); background: var(--card); transition: transform .2s, box-shadow .2s, border-color .2s; cursor: pointer; }
+    .news-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: var(--accent); }
+    .news-card .news-image {
+      min-height: 220px; border-bottom: var(--line);
+      background: #F7F3EE; display: flex; align-items: center; justify-content: center; padding: 18px;
+    }
+    .news-card .news-image-label { font-size: 13px; color: rgba(26,26,26,.45); }
+    .news-card .card-body { display: flex; flex-direction: column; min-height: 160px; }
+    .news-time { font-size: 16px; color: var(--mid); margin-top: auto; padding-top: var(--s); }
+
+    /* ── ABOUT ──────────────────────────────────────────────────────── */
+    .about-wrap { display: grid; grid-template-columns: 400px 1fr; gap: 56px; align-items: start; }
+    .portrait-stack { display: grid; gap: 0; align-content: start; justify-items: start; }
+    .portrait-primary {
+      width: min(100%, 332px);
+      background: linear-gradient(135deg, #E2DDD6 0%, #C8C0B4 50%, #9A9080 100%);
+      aspect-ratio: 3/4; display: grid; place-items: center;
+    }
+    .portrait-secondary {
+      width: min(56%, 188px); aspect-ratio: 2/3;
+      background: linear-gradient(135deg, #DDD8D0, #C0B8AC);
+      display: grid; place-items: center;
+      margin-top: -18px; margin-left: 146px;
+    }
+    .portrait-label { font-size: 12px; color: rgba(26,26,26,.45); }
+    .bio-block { display: flex; flex-direction: column; gap: 32px; }
+    .timeline-list { display: grid; gap: 0; padding-top: 24px; border-top: var(--line); }
+    .timeline-item {
+      display: grid; grid-template-columns: 96px 1fr; gap: 20px;
+      padding: 18px 0 20px; border-bottom: var(--line); width: 100%;
+    }
+    .tl-year { font-family: 'Noto Serif SC', serif; font-size: 20px; font-weight: 300; color: var(--accent); line-height: 1.2; }
+
+    /* ── CONTACT STRIP ──────────────────────────────────────────────── */
+    .contact-section { background: var(--contact-bg); }
+    .contact { display: grid; grid-template-columns: minmax(320px,1fr) minmax(420px,.95fr); gap: var(--m); align-items: start; }
+    .contact-meta { display: grid; gap: 14px; align-content: start; }
+    .contact-row { display: grid; grid-template-columns: 84px 1fr; gap: 24px; align-items: baseline; }
+    .contact-label { font-size: 16px; color: var(--mid); }
+
+    /* ── DETAIL PAGES ───────────────────────────────────────────────── */
+    .detail-page { padding: var(--xl) var(--l); border-bottom: var(--line); }
+    .back-link { display: inline-block; font-size: 16px; color: var(--mid); margin-bottom: var(--m); border-bottom: 1px solid transparent; transition: color .2s, border-color .2s; }
+    .back-link:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+    /* detail shell: year rail + main */
+    .detail-content-shell { display: grid; grid-template-columns: 140px 1fr; gap: var(--m); align-items: start; }
+    .detail-content-main { min-width: 0; }
+
+    /* media component */
+    .detail-media { position: relative; }
+    .detail-media-frame {
+      display: grid; grid-template-columns: 36px minmax(0,1fr) 36px;
+      gap: 14px; align-items: center;
+    }
+    .detail-media-frame.single { grid-template-columns: minmax(0,1fr); }
+    .detail-hero {
+      width: 100%; min-height: 420px; border: var(--line);
+      background: #FAF8F5; display: flex; align-items: center; justify-content: center; padding: 24px;
+    }
+    .detail-hero img { width: 100%; height: 100%; max-height: 70vh; object-fit: contain; }
+    .detail-hero-label { font-size: 16px; color: rgba(26,26,26,.45); }
+    .detail-media-nav {
+      width: 36px; height: 36px;
+      border-radius: 999px; background: rgba(255,255,255,.94); border: var(--line);
+      display: grid; place-items: center;
+      box-shadow: var(--shadow-float); transition: transform .2s, box-shadow .2s, border-color .2s;
+    }
+    .detail-media-nav:hover:not(:disabled) { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 14px 28px rgba(26,26,26,.18); }
+    .detail-media-nav:disabled { opacity: .38; cursor: default; }
+    .nav-arrow { width: 10px; height: 10px; display: block; border-top: 1.5px solid currentColor; border-right: 1.5px solid currentColor; }
+    .nav-arrow.prev { transform: rotate(-135deg); margin-left: 3px; }
+    .nav-arrow.next { transform: rotate(45deg); margin-right: 3px; }
+    .detail-thumbs { display: flex; gap: 12px; margin-top: 18px; flex-wrap: wrap; }
+    .detail-thumb {
+      width: auto; min-width: 72px; max-width: 160px; height: 92px;
+      border: var(--line); padding: 6px; background: var(--card);
+      display: flex; align-items: center; justify-content: center; cursor: pointer;
+    }
+    .detail-thumb.active { border-color: var(--accent); box-shadow: var(--shadow); }
+    .detail-thumb-label { font-size: 11px; color: rgba(26,26,26,.45); }
+
+    /* detail info grid */
+    .detail-meta-grid { display: grid; grid-template-columns: minmax(0,1.2fr) minmax(280px,.8fr); gap: var(--m); margin-top: var(--m); align-items: start; }
+    .detail-copy { color: var(--mid); display: grid; gap: 16px; font-size: 16px; line-height: 1.8; }
+    .detail-specs { border-top: var(--line); padding-top: 24px; display: grid; gap: 12px; }
+    .detail-spec-row { display: grid; grid-template-columns: 96px 1fr; gap: 16px; font-size: 16px; }
+    .detail-spec-label { color: var(--mid); }
+
+    /* exhibition detail specs (compact, right-aligned) */
+    .exhibition-detail-specs { width: min(420px,100%); margin-top: 24px; margin-left: auto; }
+    .exhibition-detail-specs .detail-spec-row { grid-template-columns: 84px 1fr; gap: 12px; }
+
+    /* news detail layout */
+    .news-detail-layout { display: grid; grid-template-columns: minmax(0,1fr) minmax(280px,.75fr); gap: var(--m); margin-top: var(--m); align-items: start; }
+    .news-detail-text { display: grid; gap: 20px; font-size: 16px; line-height: 1.9; }
+    .detail-link-list { display: grid; gap: 10px; margin-top: 24px; }
+    .detail-link-row { font-size: 16px; color: var(--ink); }
+    .detail-link-label { color: var(--mid); margin-right: 8px; }
+    .detail-link-anchor { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+
+    .detail-divider { margin: 48px 0; border: none; border-top: var(--line); }
+
+    /* ── SEARCH RESULTS ─────────────────────────────────────────────── */
+    .search-results { display: grid; gap: 20px; }
+    .search-result { border: var(--line); background: var(--card); transition: transform .2s, box-shadow .2s, border-color .2s; cursor: pointer; }
+    .search-result:hover { transform: translateY(-2px); box-shadow: var(--shadow); border-color: var(--accent); }
+    .search-result-inner { padding: 24px 28px; display: grid; gap: 8px; }
+    .search-result-type { font-size: 12px; color: var(--accent); letter-spacing: .08em; text-transform: uppercase; }
+    .search-query-bar {
+      display: flex; align-items: center; gap: 12px;
+      border: var(--border); padding: 0 16px; height: 48px;
+      background: var(--card); margin-bottom: var(--m);
+    }
+    .search-query-input { flex: 1; font: inherit; font-size: 16px; border: none; outline: none; background: transparent; }
+    .search-count { font-size: 16px; color: var(--mid); margin-bottom: var(--m); }
+
+    /* ── FOOTER ─────────────────────────────────────────────────────── */
+    .footer { padding: var(--m) var(--l); display: flex; justify-content: space-between; align-items: center; border-top: var(--line); color: var(--mid); font-size: 16px; }
+
+    /* ── PAGE SWITCHER (design reference nav) ───────────────────────── */
+    .ref-nav {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+      background: rgba(26,26,26,.92); backdrop-filter: blur(8px);
+      border-radius: 40px; padding: 10px 20px;
+      display: flex; gap: 4px; z-index: 9999;
+      box-shadow: 0 8px 32px rgba(0,0,0,.35);
+    }
+    .ref-nav-btn {
+      padding: 6px 14px; border-radius: 20px;
+      font-size: 12px; color: rgba(255,255,255,.65);
+      transition: background .15s, color .15s; white-space: nowrap;
+    }
+    .ref-nav-btn:hover { color: #fff; background: rgba(255,255,255,.1); }
+    .ref-nav-btn.active { background: var(--accent); color: #fff; }
+
+    /* ── RESPONSIVE ─────────────────────────────────────────────────── */
+    @media (max-width: 1100px) {
+      :root { --l: 40px; }
+      .nav { grid-template-columns: 1fr; height: auto; padding: 20px var(--l); }
+      .brand,.menu,.nav-tools { justify-self: start; }
+      .hero { height: auto; min-height: 640px; }
+      .hero-overlay { position: static; padding: var(--xl) var(--l); display: grid; }
+      .grid-3 { grid-template-columns: 1fr 1fr; }
+      .year-layout,.about-wrap,.contact,.detail-meta-grid,.detail-content-shell,.news-detail-layout { grid-template-columns: 1fr; }
+      .year-rail { position: static; flex-direction: row; flex-wrap: wrap; gap: 12px 20px; padding-top: 0; }
+      .year-rail::before { display: none; }
+      .exhibition-block { grid-template-columns: 1fr; }
+      .exhibition-image { border-right: none; border-bottom: var(--line); }
+    }
+    @media (max-width: 760px) {
+      :root { --l: 24px; --xl: 72px; --font-h1: 38px; }
+      .h1 { font-size: 38px; }
+      .grid-3 { grid-template-columns: 1fr; }
+      .span-2 { grid-column: auto; }
+      .ref-nav { bottom: 12px; padding: 8px 12px; gap: 2px; }
+      .ref-nav-btn { font-size: 11px; padding: 5px 10px; }
+    }
+  </style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState, useCallback, useRef } = React;
+
+/* ─── CONTENT DATA ───────────────────────────────────────────────────────── */
+
+const WORKS = [
+  { id:1, tagZh:'代表作', tagEn:'Masterwork', titleZh:'七律《军民情》', titleEn:'Qilü — Military-Civilian Bond', metaZh:'宣纸 · 人民大会堂永久收藏', metaEn:'Xuan Paper · Great Hall of the People, Permanent Collection', project:'人民大会堂永久收藏项目', medium:'宣纸', size:'138 × 68 cm', year:2024, statusZh:'馆藏', statusEn:'In Collection' },
+  { id:2, tagZh:'太空项目', tagEn:'Space Project', titleZh:'《走向胜利》', titleEn:'Towards Victory', metaZh:'宣纸 · 2016年搭载天宫二号进入太空', metaEn:'Xuan Paper · Carried aboard Tiangong-2, 2016', project:'天宫二号太空搭载项目', medium:'宣纸', size:'68 × 136 cm', year:2016, statusZh:'国际项目', statusEn:'International Project' },
+  { id:3, tagZh:'展览级作品', tagEn:'Exhibition', titleZh:'《卜算子·咏梅》', titleEn:'Pu Suanzi — Ode to Plum Blossom', metaZh:'海瓷四联屏 · 卢浮宫国际展', metaEn:'Ocean Porcelain Quadriptych · Louvre Exhibition', project:'卢浮宫国际文化艺术节项目', medium:'瓷', size:'240 × 60 cm × 4', year:2025, statusZh:'展览级', statusEn:'Exhibition Work' },
+  { id:4, tagZh:'收藏系列', tagEn:'Collection', titleZh:'百花齐放', titleEn:'A Hundred Flowers Bloom', metaZh:'紫砂 · 个人定制收藏', metaEn:'Zisha Clay · Private Commission', project:'', medium:'紫砂', size:'', year:null, statusZh:'可定制', statusEn:'Available for Commission' },
+  { id:5, tagZh:'器物作品', tagEn:'Object', titleZh:'《努力向前》', titleEn:'Striving Forward', metaZh:'紫砂盘 · "一带一路"延展项目', metaEn:'Zisha Plate · Belt & Road Project Extension', project:'七国"一带一路"国际邮票项目', medium:'紫砂', size:'', year:2023, statusZh:'项目延展', statusEn:'Project Work' },
+  { id:6, tagZh:'书法延展', tagEn:'Object', titleZh:'《力求进步》折扇', titleEn:'Seeking Progress — Folding Fan', metaZh:'折扇 · 书法延展', metaEn:'Folding Fan · Calligraphic Object', project:'', medium:'折扇', size:'', year:null, statusZh:'可定制', statusEn:'Available for Commission' },
+];
+
+const EXHIBITIONS = [
+  { id:1, year:2025, titleZh:'法国卢浮宫 第35届世界文化艺术节', titleEn:'35th World Culture & Arts Festival — Louvre, Paris', locZh:'巴黎，法国', locEn:'Paris, France', descZh:'张满堂受邀参加第35届卢浮宫世界文化艺术节，展出海瓷四联屏《卜算子·咏梅》等代表性作品，是当代中国书法走向国际最高殿堂的重要里程碑。', descEn:'Zhang Mantang was invited to the 35th World Culture & Arts Festival at the Louvre, presenting his ocean-porcelain quadriptych Pu Suanzi — Ode to Plum Blossom, marking a landmark for contemporary Chinese calligraphy on the world stage.' },
+  { id:2, year:2024, titleZh:'人民大会堂《军民情》永久收藏仪式', titleEn:'Permanent Collection Ceremony — Great Hall of the People', locZh:'北京，中国', locEn:'Beijing, China', descZh:'张满堂书法作品《七律·军民情》正式被中国人民大会堂永久收藏，收藏入藏仪式在北京举行。', descEn:'Zhang Mantang\'s calligraphy Qilü — Military-Civilian Bond was officially permanently acquired by the Great Hall of the People in a ceremony held in Beijing.' },
+  { id:3, year:2013, titleZh:'百名将军暨书画名家展', titleEn:'Exhibition of 100 Generals and Master Calligraphers', locZh:'北京，中国', locEn:'Beijing, China', descZh:'与百名将军及书画名家共同参展，是张满堂作品走进国家军政文化空间的重要展出。', descEn:'Exhibited alongside 100 generals and master calligraphers, marking an important occasion for Zhang Mantang\'s work in national cultural and military spaces.' },
+  { id:4, year:2009, titleZh:'东京中国书法美术作品展', titleEn:'China Calligraphy & Fine Arts Exhibition, Tokyo', locZh:'东京，日本', locEn:'Tokyo, Japan', descZh:'2009年7月赴东京参展，荣获国际金奖，同期被授予"中日文化交流友好使者"称号。', descEn:'Participated in July 2009 in Tokyo, winning an international gold award and being named China-Japan Cultural Exchange Friendship Ambassador.' },
+];
+
+const NEWS = [
+  { id:1, tagZh:'媒体专访', tagEn:'Interview', titleZh:'《中华英才》半月刊人物专访', titleEn:"Feature Interview — China's Talents Biweekly", date:'2026', bodyZh:'张满堂先生接受《中华英才》半月刊专题采访，系统介绍其毛体书法艺术创作历程与文化传承理念，引发广泛关注与讨论。', bodyEn:"Zhang Mantang sat down with China's Talents Biweekly for an in-depth feature discussing the artistic journey and cultural philosophy behind his Mao-style calligraphy.", videoLabel:'', videoUrl:'' },
+  { id:2, tagZh:'封面人物', tagEn:'Cover Feature', titleZh:'《读者》杂志年度封面人物', titleEn:"Cover Story — Reader's Digest China", date:'2025', bodyZh:'作为2025年度最具影响力的文化人物之一，张满堂受邀担任《读者》杂志年度封面人物，专访聚焦其书法艺术与文化外交使命。', bodyEn:"Named one of the most influential cultural figures of 2025, Zhang Mantang appears on the cover of Reader's Digest China, discussing art and cultural diplomacy.", videoLabel:'', videoUrl:'' },
+  { id:3, tagZh:'国家级认定', tagEn:'Recognition', titleZh:'《世界非物质文化遗产传承人大辞典》收录', titleEn:'Listed in World Intangible Cultural Heritage Dictionary', date:'2025', bodyZh:'张满堂被正式收录于《世界非物质文化遗产传承人大辞典》，标志着其国家级非遗传承人身份获得重要认可。', bodyEn:'Zhang Mantang has been officially listed in the World Intangible Cultural Heritage Master Dictionary, a landmark recognition of his status as a national-level inheritor.', videoLabel:'', videoUrl:'' },
+  { id:4, tagZh:'国家级收藏', tagEn:'Collection', titleZh:'人民大会堂永久收藏七律《军民情》', titleEn:'Great Hall of the People Acquires Qilü — Military-Civilian Bond', date:'2024', bodyZh:'张满堂毛体书法《七律·军民情》被中国人民大会堂正式永久收藏，成为当代书法进入国家最高礼仪空间的重要里程碑。', bodyEn:"Zhang Mantang's Mao-style calligraphy Qilü — Military-Civilian Bond has been permanently acquired by the Great Hall of the People, a landmark moment for contemporary calligraphy.", videoLabel:'中央电视台报道', videoUrl:'#' },
+  { id:5, tagZh:'重要项目', tagEn:'Project', titleZh:'毛体书法印于七国"一带一路"国际邮票', titleEn:'Calligraphy Featured on Belt & Road International Stamps', date:'2023', bodyZh:'张满堂毛体书法作品被选用于七个共建"一带一路"国家发行的国际邮票，成为文化外交的重要媒介与中国书法的国际符号。', bodyEn:"Zhang Mantang's calligraphy was selected for international stamps issued by seven Belt & Road countries, cementing his work as a symbol of cultural diplomacy.", videoLabel:'', videoUrl:'' },
+  { id:6, tagZh:'媒体封面', tagEn:'Media', titleZh:'《中外画刊》封面人物', titleEn:'Cover Figure — China & International Pictorial', date:'2011', bodyZh:'张满堂成为《中外画刊》封面人物，在国际艺术媒体上首次获得大幅专题报道，开启其国际文化传播之路。', bodyEn:'Zhang Mantang was featured as the cover figure of China & International Pictorial, marking his first major exposure in international art media.', videoLabel:'', videoUrl:'' },
+];
+
+const TIMELINE = [
+  { year:2026, zh:'《中华英才》半月刊人物专访', en:"Featured in China's Talents Biweekly" },
+  { year:2025, zh:'法国卢浮宫展出；《读者》封面人物；世界非遗传承人认定', en:"Exhibited at Louvre; Reader's Digest cover; World Intangible Heritage recognition" },
+  { year:2024, zh:'《军民情》被中国人民大会堂永久收藏', en:'Military-Civilian Bond permanently acquired by Great Hall of the People' },
+  { year:2023, zh:'毛体书法印于七国"一带一路"国际邮票', en:"Calligraphy featured on Belt & Road stamps for seven nations" },
+  { year:2016, zh:'作品搭载天宫二号进入太空', en:'Artwork carried aboard Tiangong-2 space laboratory' },
+  { year:2009, zh:'东京书法美术展获国际金奖；授予中日文化交流友好使者称号', en:'International Gold Prize, Tokyo Calligraphy Exhibition; named China-Japan Cultural Exchange Ambassador' },
+];
+
+const SEARCH_RESULTS = [
+  { id:1, type:'artwork', typeZh:'作品', titleZh:'七律《军民情》', titleEn:'Qilü — Military-Civilian Bond', metaZh:'宣纸 · 人民大会堂永久收藏 · 2024', metaEn:'Xuan Paper · Great Hall of the People, Permanent Collection · 2024' },
+  { id:2, type:'exhibition', typeZh:'展览', titleZh:'法国卢浮宫 第35届世界文化艺术节', titleEn:'35th World Culture & Arts Festival — Louvre', metaZh:'巴黎，法国 · 2025', metaEn:'Paris, France · 2025' },
+  { id:3, type:'news', typeZh:'新闻', titleZh:'人民大会堂永久收藏七律《军民情》', titleEn:'Great Hall of the People Acquires Qilü', metaZh:'2024 · 国家级收藏', metaEn:'2024 · Collection' },
+];
+
+/* ─── SHARED COMPONENTS ──────────────────────────────────────────────────── */
+
+function ImgPlaceholder({ label, style = {}, className = '' }) {
+  return (
+    <div className={className} style={{ display:'grid', placeItems:'center', ...style }}>
+      <span style={{ fontSize:13, color:'rgba(26,26,26,.4)', textAlign:'center', padding:'0 8px' }}>{label}</span>
+    </div>
+  );
+}
+
+function Nav({ lang, setLang, page, setPage, t }) {
+  const [searchVal, setSearchVal] = useState('');
+  const [suggestOpen, setSuggestOpen] = useState(false);
+  const suggestions = [
+    { zh:'人民大会堂永久收藏', en:'Great Hall of the People Collection' },
+    { zh:'卢浮宫国际展览', en:'Louvre Exhibition' },
+    { zh:'天宫二号太空项目', en:'Tiangong-2 Space Project' },
+  ];
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchVal.trim()) { setPage('search'); setSuggestOpen(false); }
+  };
+
+  return (
+    <header className="nav">
+      <div className="brand" style={{cursor:'pointer'}} onClick={() => setPage('home')}>
+        <div className="seal">印</div>
+        <div className="brand-names">
+          <span className="brand-cn">张满堂</span>
+          <span className="brand-en">ZHANG MANTANG</span>
+        </div>
+      </div>
+
+      <nav className="menu">
+        {['home','works','exhibitions','news','about'].map(p => (
+          <a key={p} className={`nav-link ${page===p?'active':''}`} onClick={() => setPage(p)}>
+            {{ home:lang==='zh'?'首页':'Home', works:lang==='zh'?'作品':'Works', exhibitions:lang==='zh'?'展览':'Exhibitions', news:lang==='zh'?'新闻':'News', about:lang==='zh'?'关于':'About' }[p]}
+          </a>
+        ))}
+      </nav>
+
+      <div className="nav-tools">
+        <div className="search-shell">
+          <form className="search-box" onSubmit={handleSearch}>
+            <input
+              className="search-input"
+              placeholder={lang==='zh'?'搜索作品、展览、新闻…':'Search works, exhibitions, news…'}
+              value={searchVal}
+              onChange={e => { setSearchVal(e.target.value); setSuggestOpen(e.target.value.length === 0); }}
+              onFocus={() => setSuggestOpen(true)}
+              onBlur={() => setTimeout(() => setSuggestOpen(false), 150)}
+            />
+            <span className="search-icon">⌕</span>
+          </form>
+          {suggestOpen && (
+            <div className="search-suggestions">
+              {suggestions.map((s,i) => (
+                <button key={i} className="search-suggestion" onClick={() => { setSearchVal(lang==='zh'?s.zh:s.en); setPage('search'); setSuggestOpen(false); }}>
+                  {lang==='zh' ? s.zh : s.en}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+        <div className="lang-switch">
+          <button className={`lang-btn ${lang==='zh'?'active':''}`} onClick={() => setLang('zh')}>中</button>
+          <button className={`lang-btn ${lang==='en'?'active':''}`} onClick={() => setLang('en')}>EN</button>
+        </div>
+      </div>
+    </header>
+  );
+}
+
+function ContactStrip({ lang }) {
+  const rows = [
+    { zh:'所在城市', en:'Based in',    valZh:'滨州 · 北京', valEn:'Binzhou · Beijing' },
+    { zh:'邮箱',   en:'Email',         valZh:'studio@zhangmantang.com', valEn:'studio@zhangmantang.com' },
+    { zh:'回复时间', en:'Response',     valZh:'3 个工作日内', valEn:'Within 3 business days' },
+    { zh:'Instagram', en:'Instagram',  valZh:'@zhangmantang', valEn:'@zhangmantang' },
+  ];
+  return (
+    <section className="section contact-section">
+      <div className="contact">
+        <div>
+          <div className="kicker">{lang==='zh'?'联系':'Contact'}</div>
+          <h1 className="h1">{lang==='zh'?'洽谈合作':'Enquire'}</h1>
+        </div>
+        <div className="contact-meta">
+          {rows.map((r,i) => (
+            <div key={i} className="contact-row">
+              <span className="contact-label">{lang==='zh'?r.zh:r.en}</span>
+              <span>{lang==='zh'?r.valZh:r.valEn}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Footer({ lang }) {
+  return (
+    <footer className="footer">
+      <span>{lang==='zh'?'张满堂书法工作室':'Zhang Mantang Calligraphy Studio'}</span>
+      <span>© 2025 Zhang Mantang Calligraphy Studio</span>
+    </footer>
+  );
+}
+
+/* ─── PAGE: HOME ─────────────────────────────────────────────────────────── */
+function HomePage({ lang, setPage, setDetailId, setDetailType }) {
+  const featured = WORKS.slice(0, 6); // 3×2
+  const recentEx = EXHIBITIONS[0];
+
+  return (
+    <>
+      {/* HERO — 纯视觉首屏 */}
+      <section className="hero">
+        <div className="hero-art">
+          <span className="hero-watermark">書</span>
+        </div>
+        <div className="hero-overlay">
+          <div className="hero-copy">
+            <h1 className="h1">{lang==='zh'?'张满堂\n书法艺术':'Zhang Mantang\nCalligraphy'}</h1>
+            <p className="body" style={{marginTop:'var(--s)'}}>
+              {lang==='zh'
+                ? '当代毛体书法代表传承人，作品被中国人民大会堂永久收藏，参与天宫二号太空搭载项目，展览遍及国际重要文化机构。'
+                : 'Leading inheritor of Mao-style calligraphy. Works permanently collected by the Great Hall of the People, carried aboard Tiangong-2, and exhibited at major cultural institutions worldwide.'}
+            </p>
+            <div className="hero-trust">
+              {(lang==='zh'
+                ? ['人民大会堂永久收藏','天宫二号太空项目','卢浮宫国际展览']
+                : ['Great Hall of the People — Permanent Collection','Tiangong-2 Space Programme','Louvre — World Culture & Arts Festival']
+              ).map((tr,i) => <span key={i} className="trust-item">{tr}</span>)}
+            </div>
+          </div>
+          <div className="scroll-mark">↓</div>
+        </div>
+      </section>
+
+      {/* FEATURED WORKS — 精选作品 3×2 */}
+      <section className="section">
+        <div className="section-head">
+          <div>
+            <div className="kicker">{lang==='zh'?'精选':'Selected'}</div>
+            <h2 className="h2">{lang==='zh'?'精选作品':'Featured Works'}</h2>
+          </div>
+          <a className="section-link" onClick={() => setPage('works')}>{lang==='zh'?'查看全部作品':'View All Works'}</a>
+        </div>
+        <div className="grid-3">
+          {featured.map((w, i) => (
+            <article key={w.id} className={`work-card ${i===0?'span-2':''}`}
+              onClick={() => { setDetailType('artwork'); setDetailId(w.id); setPage('artwork-detail'); }}>
+              <div className="art-frame" style={{aspectRatio: i===0?'5/3':'5/4'}}>
+                <span className="art-frame-label">{lang==='zh'?w.titleZh:w.titleEn}</span>
+              </div>
+              <div className="card-body">
+                <div className="tag">{lang==='zh'?w.tagZh:w.tagEn}</div>
+                <div className="h2">{lang==='zh'?w.titleZh:w.titleEn}</div>
+                <div className="meta">{lang==='zh'?w.metaZh:w.metaEn}</div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {/* RECENT EXHIBITION — 近期展览 1 条 */}
+      <section className="section">
+        <div className="section-head">
+          <div>
+            <div className="kicker">{lang==='zh'?'展览':'Exhibitions'}</div>
+            <h2 className="h2">{lang==='zh'?'近期展览':'Recent Exhibition'}</h2>
+          </div>
+          <a className="section-link" onClick={() => setPage('exhibitions')}>{lang==='zh'?'查看全部展览':'View All Exhibitions'}</a>
+        </div>
+        <article className="exhibition-block"
+          onClick={() => { setDetailType('exhibition'); setDetailId(recentEx.id); setPage('exhibition-detail'); }}>
+          <ImgPlaceholder
+            label={lang==='zh'?recentEx.titleZh:recentEx.titleEn}
+            className="exhibition-image"
+          />
+          <div className="exhibition-info">
+            <div className="tag">{recentEx.year}</div>
+            <div className="h2">{lang==='zh'?recentEx.titleZh:recentEx.titleEn}</div>
+            <div className="meta">{lang==='zh'?recentEx.locZh:recentEx.locEn}</div>
+            <p style={{fontSize:16, color:'var(--mid)', marginTop:8}}>
+              {lang==='zh'?recentEx.descZh:recentEx.descEn}
+            </p>
+          </div>
+        </article>
+      </section>
+
+      <ContactStrip lang={lang} />
+      <Footer lang={lang} />
+    </>
+  );
+}
+
+/* ─── PAGE: WORKS LIST ───────────────────────────────────────────────────── */
+function WorksPage({ lang, setPage, setDetailId, setDetailType }) {
+  const [openProject, setOpenProject] = useState(false);
+  const [openMedium, setOpenMedium]   = useState(false);
+
+  const projects = lang==='zh'
+    ? ['天宫二号太空搭载项目','七国"一带一路"国际邮票项目','人民大会堂永久收藏项目','卢浮宫国际文化艺术节项目']
+    : ['Tiangong-2 Space Programme','Belt & Road International Stamp Project','Great Hall of the People Collection','Louvre World Culture & Arts Festival'];
+  const mediums = lang==='zh' ? ['宣纸','紫砂','瓷','折扇'] : ['Xuan Paper','Zisha Clay','Porcelain','Folding Fan'];
+
+  return (
+    <>
+      <section className="section">
+        <div className="filter-row">
+          <div>
+            <div className="kicker">{lang==='zh'?'作品':'Works'}</div>
+            <h1 className="h1">{lang==='zh'?'作品':'Works'}</h1>
+          </div>
+          <div className="filters">
+            <button className="filter-btn active">{lang==='zh'?'全部':'All'}</button>
+
+            <div className="preview-anchor" style={{position:'relative'}}
+              onMouseEnter={() => setOpenProject(true)} onMouseLeave={() => setOpenProject(false)}>
+              <button className={`filter-btn ${openProject?'active':''}`}>{lang==='zh'?'项目':'Project'}</button>
+              {openProject && (
+                <div className="preview-panel">
+                  <div className="preview-list">
+                    {projects.map((p,i) => <button key={i} className="preview-link">{p}</button>)}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="preview-anchor" style={{position:'relative'}}
+              onMouseEnter={() => setOpenMedium(true)} onMouseLeave={() => setOpenMedium(false)}>
+              <button className={`filter-btn ${openMedium?'active':''}`}>{lang==='zh'?'材质':'Medium'}</button>
+              {openMedium && (
+                <div className="preview-panel">
+                  <div className="preview-list">
+                    {mediums.map((m,i) => <button key={i} className="preview-link">{m}</button>)}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        <div className="grid-3">
+          {WORKS.map(w => (
+            <article key={w.id} className="work-card"
+              onClick={() => { setDetailType('artwork'); setDetailId(w.id); setPage('artwork-detail'); }}>
+              <div className="art-frame">
+                <span className="art-frame-label">{lang==='zh'?w.titleZh:w.titleEn}</span>
+              </div>
+              <div className="card-body">
+                <div className="tag">{lang==='zh'?w.tagZh:w.tagEn}</div>
+                <div className="h2">{lang==='zh'?w.titleZh:w.titleEn}</div>
+                <div className="meta">{lang==='zh'?w.metaZh:w.metaEn}</div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+      <Footer lang={lang} />
+    </>
+  );
+}
+
+/* ─── PAGE: ARTWORK DETAIL ───────────────────────────────────────────────── */
+function ArtworkDetailPage({ lang, id, setPage }) {
+  const work = WORKS.find(w => w.id === id) || WORKS[0];
+  const [activeThumb, setActiveThumb] = useState(0);
+  const thumbCount = 3;
+
+  return (
+    <>
+      <div className="detail-page">
+        <a className="back-link" onClick={() => setPage('works')}>← {lang==='zh'?'返回作品':'Back to Works'}</a>
+
+        <div style={{marginBottom:28}}>
+          <div className="kicker">{lang==='zh'?work.tagZh:work.tagEn}</div>
+          <h1 className="h2" style={{marginTop:6}}>{lang==='zh'?work.titleZh:work.titleEn}</h1>
+        </div>
+
+        {/* media: left nav | main image | right nav */}
+        <div className="detail-media">
+          <div className="detail-media-frame">
+            <button className="detail-media-nav" disabled={activeThumb===0} onClick={() => setActiveThumb(i => i-1)}>
+              <span className="nav-arrow prev" />
+            </button>
+            <ImgPlaceholder
+              label={`${lang==='zh'?'主图':'Main Image'} ${activeThumb+1}/${thumbCount} — ${lang==='zh'?work.titleZh:work.titleEn}`}
+              className="detail-hero"
+            />
+            <button className="detail-media-nav" disabled={activeThumb===thumbCount-1} onClick={() => setActiveThumb(i => i+1)}>
+              <span className="nav-arrow next" />
+            </button>
+          </div>
+          <div className="detail-thumbs">
+            {Array.from({length:thumbCount}).map((_,i) => (
+              <div key={i} className={`detail-thumb ${activeThumb===i?'active':''}`} onClick={() => setActiveThumb(i)}>
+                <span className="detail-thumb-label">{i+1}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* info: left description | right specs */}
+        <div className="detail-meta-grid">
+          <div className="detail-copy">
+            <p>{lang==='zh'
+              ? '该作品采用毛体书法传统笔墨技法，以精湛的用笔与深厚的文化内涵，展现出张满堂书法艺术的核心审美追求。作品在构图上注重整体气韵与局部节奏的平衡，是当代毛体书法的重要代表之作。'
+              : "This work employs the techniques of Mao-style calligraphy with masterful brushwork, reflecting Zhang Mantang's core aesthetic pursuit. The composition balances overall rhythmic energy with fine detail, representing an important achievement in contemporary Mao-style calligraphy."
+            }</p>
+          </div>
+          <div className="detail-specs">
+            <div className="detail-spec-row"><span className="detail-spec-label">{lang==='zh'?'材质':'Medium'}</span><span>{work.medium}</span></div>
+            {work.size  && <div className="detail-spec-row"><span className="detail-spec-label">{lang==='zh'?'尺寸':'Dimensions'}</span><span>{work.size}</span></div>}
+            {work.year  && <div className="detail-spec-row"><span className="detail-spec-label">{lang==='zh'?'创作时间':'Year'}</span><span>{work.year}</span></div>}
+            {work.project && <div className="detail-spec-row"><span className="detail-spec-label">{lang==='zh'?'项目归属':'Project'}</span><span style={{fontSize:14}}>{work.project}</span></div>}
+            <div className="detail-spec-row"><span className="detail-spec-label">{lang==='zh'?'状态':'Status'}</span><span>{lang==='zh'?work.statusZh:work.statusEn}</span></div>
+          </div>
+        </div>
+      </div>
+      <Footer lang={lang} />
+    </>
+  );
+}
+
+/* ─── PAGE: EXHIBITIONS LIST ─────────────────────────────────────────────── */
+function ExhibitionsPage({ lang, setPage, setDetailId, setDetailType }) {
+  const [activeYear, setActiveYear] = useState(EXHIBITIONS[0].year);
+  const years = [...new Set(EXHIBITIONS.map(e => e.year))].sort((a,b) => b-a);
+
+  return (
+    <>
+      <section className="section">
+        <div className="kicker">{lang==='zh'?'展览':'Exhibitions'}</div>
+        <h1 className="h1" style={{marginBottom:'var(--m)'}}>{lang==='zh'?'展览':'Exhibitions'}</h1>
+        <div className="year-layout">
+          <aside>
+            <div className="year-rail">
+              {years.map(y => (
+                <button key={y} className={`year-node ${activeYear===y?'active':''}`} onClick={() => setActiveYear(y)}>{y}</button>
+              ))}
+            </div>
+          </aside>
+          <div className="timeline">
+            {EXHIBITIONS.map(e => (
+              <article key={e.id} className="exhibition-block"
+                onClick={() => { setDetailType('exhibition'); setDetailId(e.id); setPage('exhibition-detail'); }}>
+                <ImgPlaceholder label={lang==='zh'?e.titleZh:e.titleEn} className="exhibition-image" />
+                <div className="exhibition-info">
+                  <div className="tag">{e.year}</div>
+                  <div className="h2">{lang==='zh'?e.titleZh:e.titleEn}</div>
+                  <div className="meta">{lang==='zh'?'地点：':'Location: '}{lang==='zh'?e.locZh:e.locEn}</div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+      <Footer lang={lang} />
+    </>
+  );
+}
+
+/* ─── PAGE: EXHIBITION DETAIL ────────────────────────────────────────────── */
+function ExhibitionDetailPage({ lang, id, setPage, setDetailId, setDetailType }) {
+  const ex = EXHIBITIONS.find(e => e.id === id) || EXHIBITIONS[0];
+  const [activeYear, setActiveYear] = useState(ex.year);
+  const years = [...new Set(EXHIBITIONS.map(e => e.year))].sort((a,b) => b-a);
+  const relatedWorks = WORKS.slice(0, 3);
+
+  return (
+    <>
+      <div className="detail-page">
+        <a className="back-link" onClick={() => setPage('exhibitions')}>← {lang==='zh'?'返回展览':'Back to Exhibitions'}</a>
+        <div className="detail-content-shell">
+          <aside>
+            <div className="year-rail">
+              {years.map(y => (
+                <button key={y} className={`year-node ${activeYear===y?'active':''}`}
+                  onClick={() => { setActiveYear(y); setPage('exhibitions'); }}>
+                  {y}
+                </button>
+              ))}
+            </div>
+          </aside>
+          <div className="detail-content-main">
+            <div className="kicker">{ex.year} · {lang==='zh'?ex.locZh:ex.locEn}</div>
+            <h1 className="h2" style={{margin:'8px 0 28px'}}>{lang==='zh'?ex.titleZh:ex.titleEn}</h1>
+
+            {/* media */}
+            <div className="detail-media">
+              <div className="detail-media-frame">
+                <button className="detail-media-nav" disabled><span className="nav-arrow prev" /></button>
+                <ImgPlaceholder label={lang==='zh'?'展览主视觉':'Exhibition Visual'} className="detail-hero" />
+                <button className="detail-media-nav"><span className="nav-arrow next" /></button>
+              </div>
+              <div className="detail-thumbs">
+                {[0,1].map(i => (
+                  <div key={i} className={`detail-thumb ${i===0?'active':''}`}>
+                    <span className="detail-thumb-label">{i+1}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* compact specs — below image, right-aligned */}
+            <div className="exhibition-detail-specs">
+              <div className="detail-specs">
+                <div className="detail-spec-row"><span className="detail-spec-label">{lang==='zh'?'地点':'Location'}</span><span>{lang==='zh'?ex.locZh:ex.locEn}</span></div>
+                <div className="detail-spec-row"><span className="detail-spec-label">{lang==='zh'?'时间':'Date'}</span><span>{ex.year}</span></div>
+              </div>
+              <p style={{fontSize:16, color:'var(--mid)', marginTop:20, lineHeight:1.7}}>
+                {lang==='zh'?ex.descZh:ex.descEn}
+              </p>
+            </div>
+
+            {/* related works */}
+            <hr className="detail-divider" />
+            <div className="kicker" style={{marginBottom:20}}>{lang==='zh'?'参展作品':'Works on View'}</div>
+            <div className="grid-3">
+              {relatedWorks.map(w => (
+                <article key={w.id} className="work-card"
+                  onClick={() => { setDetailType('artwork'); setDetailId(w.id); setPage('artwork-detail'); }}>
+                  <div className="art-frame"><span className="art-frame-label">{lang==='zh'?w.titleZh:w.titleEn}</span></div>
+                  <div className="card-body">
+                    <div className="tag">{lang==='zh'?w.tagZh:w.tagEn}</div>
+                    <div className="h2">{lang==='zh'?w.titleZh:w.titleEn}</div>
+                    <div className="meta">{lang==='zh'?w.metaZh:w.metaEn}</div>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+      <Footer lang={lang} />
+    </>
+  );
+}
+
+/* ─── PAGE: NEWS LIST ────────────────────────────────────────────────────── */
+function NewsPage({ lang, setPage, setDetailId, setDetailType }) {
+  const years = [...new Set(NEWS.map(n => n.date.split('.')[0]))].sort((a,b) => b-a);
+  const [activeYear, setActiveYear] = useState(years[0]);
+
+  return (
+    <>
+      <section className="section">
+        <div className="kicker">NEWS</div>
+        <h1 className="h1" style={{marginBottom:'var(--m)'}}>{lang==='zh'?'新闻':'News'}</h1>
+        <div className="year-layout">
+          <aside>
+            <div className="year-rail">
+              {years.map(y => (
+                <button key={y} className={`year-node ${activeYear===y?'active':''}`} onClick={() => setActiveYear(y)}>{y}</button>
+              ))}
+            </div>
+          </aside>
+          <div className="timeline">
+            {NEWS.map(item => (
+              <article key={item.id} className="news-card"
+                onClick={() => { setDetailType('news'); setDetailId(item.id); setPage('news-detail'); }}>
+                <ImgPlaceholder label={lang==='zh'?item.titleZh:item.titleEn} className="news-image" />
+                <div className="card-body">
+                  <div className="tag">{lang==='zh'?item.tagZh:item.tagEn}</div>
+                  <div className="h2">{lang==='zh'?item.titleZh:item.titleEn}</div>
+                  <div className="news-time">{item.date}</div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+      <Footer lang={lang} />
+    </>
+  );
+}
+
+/* ─── PAGE: NEWS DETAIL ──────────────────────────────────────────────────── */
+function NewsDetailPage({ lang, id, setPage }) {
+  const item = NEWS.find(n => n.id === id) || NEWS[0];
+  const years = [...new Set(NEWS.map(n => n.date.split('.')[0]))].sort((a,b) => b-a);
+  const [activeThumb, setActiveThumb] = useState(0);
+  const thumbCount = 2;
+
+  return (
+    <>
+      <div className="detail-page">
+        <a className="back-link" onClick={() => setPage('news')}>← {lang==='zh'?'返回新闻':'Back to News'}</a>
+        <div className="detail-content-shell">
+          <aside>
+            <div className="year-rail">
+              {years.map(y => (
+                <button key={y} className={`year-node ${item.date.startsWith(y)?'active':''}`}
+                  onClick={() => setPage('news')}>
+                  {y}
+                </button>
+              ))}
+            </div>
+          </aside>
+          <div className="detail-content-main">
+            <div className="tag">{lang==='zh'?item.tagZh:item.tagEn}</div>
+            <h1 className="h2" style={{maxWidth:820, marginTop:10}}>{lang==='zh'?item.titleZh:item.titleEn}</h1>
+            <div className="meta" style={{marginTop:16}}>{item.date}</div>
+
+            {/* media */}
+            <div className="detail-media" style={{marginTop:'var(--m)'}}>
+              <div className="detail-media-frame">
+                <button className="detail-media-nav" disabled={activeThumb===0} onClick={() => setActiveThumb(i => i-1)}>
+                  <span className="nav-arrow prev" />
+                </button>
+                <ImgPlaceholder label={lang==='zh'?'新闻配图':'News Image'} className="detail-hero" style={{minHeight:380}} />
+                <button className="detail-media-nav" disabled={activeThumb===thumbCount-1} onClick={() => setActiveThumb(i => i+1)}>
+                  <span className="nav-arrow next" />
+                </button>
+              </div>
+              <div className="detail-thumbs">
+                {Array.from({length:thumbCount}).map((_,i) => (
+                  <div key={i} className={`detail-thumb ${activeThumb===i?'active':''}`} onClick={() => setActiveThumb(i)}>
+                    <span className="detail-thumb-label">{i+1}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* left text | right info */}
+            <div className="news-detail-layout">
+              <div className="news-detail-text">
+                <p>{lang==='zh'?item.bodyZh:item.bodyEn}</p>
+              </div>
+              <div className="detail-specs">
+                <div className="detail-spec-row"><span className="detail-spec-label">{lang==='zh'?'类型':'Type'}</span><span>{lang==='zh'?item.tagZh:item.tagEn}</span></div>
+                <div className="detail-spec-row"><span className="detail-spec-label">{lang==='zh'?'日期':'Date'}</span><span>{item.date}</span></div>
+              </div>
+            </div>
+
+            {/* optional links */}
+            {item.videoLabel && (
+              <>
+                <hr className="detail-divider" />
+                <div className="detail-link-list">
+                  <div className="detail-link-row">
+                    <span className="detail-link-label">{lang==='zh'?'完整视频':'Full Video'}</span>
+                    <a className="detail-link-anchor" href={item.videoUrl}>{item.videoLabel}</a>
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
+      <Footer lang={lang} />
+    </>
+  );
+}
+
+/* ─── PAGE: ABOUT ────────────────────────────────────────────────────────── */
+function AboutPage({ lang }) {
+  return (
+    <>
+      <section className="section">
+        <div className="about-wrap">
+          {/* left: primary + secondary portrait */}
+          <div className="portrait-stack">
+            <ImgPlaceholder
+              label={lang==='zh'?'主照片 3:4':'Portrait Photo 3:4'}
+              className="portrait-primary"
+            />
+            <ImgPlaceholder
+              label={lang==='zh'?'辅照片':'Secondary Photo'}
+              className="portrait-secondary"
+            />
+          </div>
+
+          {/* right: bio + timeline */}
+          <div className="bio-block">
+            <div>
+              <div className="kicker">{lang==='zh'?'关于':'About'}</div>
+              <h1 className="h1">{lang==='zh'?'张满堂':'Zhang Mantang'}</h1>
+            </div>
+            <p style={{fontSize:16, lineHeight:1.8, maxWidth:640, color:'var(--mid)'}}>
+              {lang==='zh'
+                ? '张满堂，当代著名书法家，毛体书法代表传承人。长期深耕传统书法艺术，以深厚的文化积淀与精湛的笔墨技法，将汉字书写提升至艺术表达的高度。其作品被人民大会堂永久收藏，参与国际邮票、太空搭载等重要项目，在国内外重要场合广泛展出，是连接中国传统文化与国际视野的文化使者。'
+                : "Zhang Mantang is a contemporary calligrapher and the leading inheritor of Mao-style calligraphy. Drawing on decades of study in classical Chinese script, he elevates the written character into a form of artistic expression. His works are held in the permanent collection of the Great Hall of the People, have travelled to space aboard Tiangong-2, and have been shown at leading international institutions, making him a cultural ambassador connecting Chinese tradition with a global audience."
+              }
+            </p>
+            <div>
+              <div className="kicker" style={{marginBottom:'var(--s)'}}>{lang==='zh'?'重要经历':'Milestones'}</div>
+              <div className="timeline-list">
+                {TIMELINE.map((tl,i) => (
+                  <div key={i} className="timeline-item">
+                    <span className="tl-year">{tl.year}</span>
+                    <span style={{fontSize:16}}>{lang==='zh'?tl.zh:tl.en}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <ContactStrip lang={lang} />
+      <Footer lang={lang} />
+    </>
+  );
+}
+
+/* ─── PAGE: SEARCH RESULTS ───────────────────────────────────────────────── */
+function SearchPage({ lang, query, setPage, setDetailId, setDetailType }) {
+  const q = query || (lang==='zh'?'军民情':'Military-Civilian Bond');
+  return (
+    <>
+      <section className="section">
+        <div className="kicker">{lang==='zh'?'搜索结果':'Search Results'}</div>
+
+        {/* active search bar */}
+        <div className="search-query-bar" style={{marginBottom:'var(--m)'}}>
+          <span className="search-icon" style={{color:'var(--mid)', fontSize:18}}>⌕</span>
+          <input className="search-query-input" defaultValue={q} readOnly />
+        </div>
+
+        <div className="search-count" style={{marginBottom:'var(--m)'}}>
+          {lang==='zh'
+            ? `找到 ${SEARCH_RESULTS.length} 条与「${q}」相关的内容`
+            : `${SEARCH_RESULTS.length} results for "${q}"`}
+        </div>
+
+        <div className="search-results">
+          {SEARCH_RESULTS.map(r => (
+            <article key={r.id} className="search-result"
+              onClick={() => {
+                if (r.type==='artwork') { setDetailType('artwork'); setDetailId(r.id); setPage('artwork-detail'); }
+                else if (r.type==='exhibition') { setDetailType('exhibition'); setDetailId(r.id); setPage('exhibition-detail'); }
+                else { setDetailType('news'); setDetailId(r.id); setPage('news-detail'); }
+              }}>
+              <div className="search-result-inner">
+                <div className="search-result-type">{lang==='zh'?r.typeZh:r.type}</div>
+                <div className="h2">{lang==='zh'?r.titleZh:r.titleEn}</div>
+                <div className="meta">{lang==='zh'?r.metaZh:r.metaEn}</div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+      <Footer lang={lang} />
+    </>
+  );
+}
+
+/* ─── PAGE: CONTACT REFERENCE ────────────────────────────────────────────── */
+function ContactReferencePage({ lang }) {
+  return (
+    <>
+      {/* standalone title section */}
+      <section className="section" style={{paddingBottom:'var(--m)'}}>
+        <div className="kicker">{lang==='zh'?'参考页 · 联系模块':'Reference · Contact Module'}</div>
+        <h1 className="h1" style={{marginBottom:20}}>{lang==='zh'?'联系模块完整参考':'Contact Module Reference'}</h1>
+        <p style={{color:'var(--mid)', fontSize:16, maxWidth:640, lineHeight:1.8}}>
+          {lang==='zh'
+            ? '以下为联系模块全站统一展示形态。该模块出现于首页底部与关于页底部，左侧为标题区，右侧为结构化联系信息，标签列与内容列严格对齐。'
+            : 'Below is the canonical presentation of the site-wide contact module. It appears at the bottom of the Home page and the About page. The left side carries the headline; the right side shows structured contact information with strict label–value alignment.'}
+        </p>
+      </section>
+
+      {/* contact module */}
+      <ContactStrip lang={lang} />
+
+      {/* annotation */}
+      <section className="section" style={{paddingTop:'var(--m)', borderBottom:'none'}}>
+        <div style={{display:'grid', gap:12, maxWidth:640}}>
+          <div className="kicker">{lang==='zh'?'规格说明':'Specs'}</div>
+          <div style={{display:'grid', gridTemplateColumns:'120px 1fr', gap:'10px 24px', fontSize:15, color:'var(--mid)'}}>
+            <span>{lang==='zh'?'背景色':'Background'}</span><span>#F5F2EE</span>
+            <span>{lang==='zh'?'内边距':'Padding'}</span><span>120px top/bottom · 90px left/right</span>
+            <span>{lang==='zh'?'网格':'Grid'}</span><span>2-col · min 320px / min 420px</span>
+            <span>{lang==='zh'?'标签列宽':'Label width'}</span><span>84px</span>
+            <span>{lang==='zh'?'标题字体':'Title font'}</span><span>Noto Serif SC · 48px · weight 300</span>
+            <span>{lang==='zh'?'正文字体':'Body font'}</span><span>Noto Sans SC · 16px · weight 300</span>
+          </div>
+        </div>
+      </section>
+
+      <Footer lang={lang} />
+    </>
+  );
+}
+
+/* ─── APP SHELL ──────────────────────────────────────────────────────────── */
+const PAGES = [
+  { key:'home',               labelZh:'首页',         labelEn:'Home' },
+  { key:'works',              labelZh:'作品列表',      labelEn:'Works' },
+  { key:'artwork-detail',     labelZh:'作品详情',      labelEn:'Work Detail' },
+  { key:'exhibitions',        labelZh:'展览列表',      labelEn:'Exhibitions' },
+  { key:'exhibition-detail',  labelZh:'展览详情',      labelEn:'Exh. Detail' },
+  { key:'news',               labelZh:'新闻列表',      labelEn:'News' },
+  { key:'news-detail',        labelZh:'新闻详情',      labelEn:'News Detail' },
+  { key:'about',              labelZh:'关于页',        labelEn:'About' },
+  { key:'search',             labelZh:'搜索结果',      labelEn:'Search' },
+  { key:'contact-reference',  labelZh:'联系参考',      labelEn:'Contact Ref' },
+];
+
+function App() {
+  const [lang, setLang] = useState('zh');
+  const [page, setPage] = useState('home');
+  const [detailId, setDetailId] = useState(1);
+  const [detailType, setDetailType] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('军民情');
+
+  const navigate = useCallback((p) => {
+    setPage(p);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
+  const navPageKey = ['artwork-detail','exhibition-detail','news-detail'].includes(page)
+    ? (detailType || 'home') : page;
+
+  const renderPage = () => {
+    switch(page) {
+      case 'home':               return <HomePage lang={lang} setPage={navigate} setDetailId={setDetailId} setDetailType={setDetailType} />;
+      case 'works':              return <WorksPage lang={lang} setPage={navigate} setDetailId={setDetailId} setDetailType={setDetailType} />;
+      case 'artwork-detail':     return <ArtworkDetailPage lang={lang} id={detailId} setPage={navigate} />;
+      case 'exhibitions':        return <ExhibitionsPage lang={lang} setPage={navigate} setDetailId={setDetailId} setDetailType={setDetailType} />;
+      case 'exhibition-detail':  return <ExhibitionDetailPage lang={lang} id={detailId} setPage={navigate} setDetailId={setDetailId} setDetailType={setDetailType} />;
+      case 'news':               return <NewsPage lang={lang} setPage={navigate} setDetailId={setDetailId} setDetailType={setDetailType} />;
+      case 'news-detail':        return <NewsDetailPage lang={lang} id={detailId} setPage={navigate} />;
+      case 'about':              return <AboutPage lang={lang} />;
+      case 'search':             return <SearchPage lang={lang} query={searchQuery} setPage={navigate} setDetailId={setDetailId} setDetailType={setDetailType} />;
+      case 'contact-reference':  return <ContactReferencePage lang={lang} />;
+      default:                   return <HomePage lang={lang} setPage={navigate} setDetailId={setDetailId} setDetailType={setDetailType} />;
+    }
+  };
+
+  return (
+    <>
+      <div className="site">
+        <Nav lang={lang} setLang={setLang} page={navPageKey} setPage={navigate} />
+        {renderPage()}
+      </div>
+
+      {/* floating page switcher */}
+      <nav className="ref-nav">
+        {PAGES.map(p => (
+          <button key={p.key} className={`ref-nav-btn ${page===p.key?'active':''}`}
+            onClick={() => {
+              if (p.key.includes('detail')) {
+                if (p.key==='artwork-detail')    { setDetailId(1); setDetailType('artwork'); }
+                if (p.key==='exhibition-detail') { setDetailId(1); setDetailType('exhibition'); }
+                if (p.key==='news-detail')       { setDetailId(1); setDetailType('news'); }
+              }
+              navigate(p.key);
+            }}>
+            {lang==='zh' ? p.labelZh : p.labelEn}
+          </button>
+        ))}
+      </nav>
+    </>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+</script>
+</body>
+</html>

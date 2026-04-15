@@ -1,0 +1,114 @@
+[
+  {
+    "id": "exhibition-001",
+    "title_zh": "纪念毛泽东主席诞辰一百一十四周年毛体书法展",
+    "title_en": "Mao-Style Calligraphy Exhibition Commemorating the 114th Anniversary of Chairman Mao's Birth",
+    "year": "2007",
+    "location_zh": "北京",
+    "location_en": "Beijing",
+    "description_zh": "二零零七年十二月在中国人民革命军事博物馆举办，展出一百一十四幅。",
+    "description_en": "Held in December 2007 at the Military Museum of the Chinese People's Revolution, with 114 works exhibited.",
+    "cover_image": "",
+    "gallery_images": []
+  },
+  {
+    "id": "exhibition-002",
+    "title_zh": "敬临毛泽东主席书法作品汇报展",
+    "title_en": "Report Exhibition of Calligraphy Works in Tribute to Chairman Mao",
+    "year": "2008",
+    "location_zh": "",
+    "location_en": "",
+    "description_zh": "二零零八年相关作品展出。",
+    "description_en": "Related works were exhibited in 2008.",
+    "cover_image": "",
+    "gallery_images": []
+  },
+  {
+    "id": "exhibition-003",
+    "title_zh": "东京中国书法美术作品展",
+    "title_en": "China Calligraphy and Fine Arts Exhibition in Tokyo",
+    "year": "2009",
+    "location_zh": "东京",
+    "location_en": "Tokyo",
+    "description_zh": "二零零九年七月参展并获金奖。",
+    "description_en": "Participated in July 2009 and won a gold award.",
+    "cover_image": "/images/exhibitions/exhibition-003/cover.webp",
+    "gallery_images": []
+  },
+  {
+    "id": "exhibition-004",
+    "title_zh": "江山如此多娇红色书画展",
+    "title_en": "The Land So Magnificent: Red-Themed Calligraphy and Painting Exhibition",
+    "year": "2010",
+    "location_zh": "上海",
+    "location_en": "Shanghai",
+    "description_zh": "二零一零年六月上海城市博览会期间举办，展出八十九幅。",
+    "description_en": "Held in June 2010 during the Shanghai Urban Expo period, with 89 works exhibited.",
+    "cover_image": "",
+    "gallery_images": []
+  },
+  {
+    "id": "exhibition-005",
+    "title_zh": "毛泽东诗词墨宝展",
+    "title_en": "Mao Zedong Poetry Calligraphy Treasures Exhibition",
+    "year": "2011",
+    "location_zh": "",
+    "location_en": "",
+    "description_zh": "《仿毛体手抄毛泽东诗词汇报展》作品在该展展出。",
+    "description_en": "Works from the report exhibition of hand-copied Mao Zedong poems in Mao style were shown in this exhibition.",
+    "cover_image": "",
+    "gallery_images": []
+  },
+  {
+    "id": "exhibition-006",
+    "title_zh": "纪念中新建交四十周年书画展",
+    "title_en": "Calligraphy and Painting Exhibition Commemorating the 40th Anniversary of China–Singapore Diplomatic Relations",
+    "year": "2012",
+    "location_zh": "新加坡",
+    "location_en": "Singapore",
+    "description_zh": "二零一二年参展。",
+    "description_en": "Participated in 2012.",
+    "cover_image": "/images/exhibitions/exhibition-006/cover.webp",
+    "gallery_images": []
+  },
+  {
+    "id": "exhibition-007",
+    "title_zh": "中国第十届艺术节古今书法艺术展",
+    "title_en": "Ancient and Modern Calligraphy Exhibition at the 10th China Arts Festival",
+    "year": "2013",
+    "location_zh": "",
+    "location_en": "",
+    "description_zh": "二零一三年十月参展。",
+    "description_en": "Participated in October 2013.",
+    "cover_image": "",
+    "gallery_images": []
+  },
+  {
+    "id": "exhibition-008",
+    "title_zh": "纪念毛泽东诞辰一百二十周年百名将军联合书画家书画展",
+    "title_en": "Joint Calligraphy and Painting Exhibition by One Hundred Generals and Artists Commemorating the 120th Anniversary of Mao Zedong's Birth",
+    "year": "2013",
+    "location_zh": "北京",
+    "location_en": "Beijing",
+    "description_zh": "二零一三年十二月在北京军事博物馆参展，展出一百二十幅。",
+    "description_en": "Held in December 2013 at the Beijing Military Museum, with 120 works exhibited.",
+    "cover_image": "",
+    "gallery_images": []
+  },
+  {
+    "id": "exhibition-009",
+    "title_zh": "第三十五届巴黎卢浮宫当代国际艺术博览会",
+    "title_en": "35th Paris Louvre Contemporary International Art Expo",
+    "year": "2025",
+    "location_zh": "巴黎",
+    "location_en": "Paris",
+    "description_zh": "二零二五年受邀参展（依据资料文件名）。",
+    "description_en": "Invited to exhibit in 2025 (based on source filenames).",
+    "cover_image": "/images/exhibitions/exhibition-009/cover.webp",
+    "gallery_images": [
+      "/images/exhibitions/exhibition-009/gallery-01.webp",
+      "/images/exhibitions/exhibition-009/gallery-03.webp",
+      "/images/exhibitions/exhibition-009/gallery-04.webp"
+    ]
+  }
+]

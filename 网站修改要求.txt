@@ -1,0 +1,9 @@
+在命令提示符里进入项目根目录后运行：
+
+cd C:\Users\weixi\Desktop\zhangmantang-website
+py -m http.server 8000
+然后浏览器打开：
+
+http://127.0.0.1:8000/site/
+
+

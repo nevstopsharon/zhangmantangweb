@@ -1,0 +1,250 @@
+--- PAGE 1 ---
+Evaluation:Search - Video Experience SRA
+Guideline for Search - Video Experience SRA
+CONTENT WARNING: Because of the sensitive nature of this task, you may be exposed to content
+that is upsetting or offensive. Your participation is completely optional. You are encouraged to
+take breaks and seek help as needed. If you are not comfortable participating in this task, please
+speak to a team lead or manager.
+Introduction
+Searching an online video platform can produce a wide range of results, including content that is
+harmful or offensive. In this task, you will be shown a search experience made up of a search query
+and a search result. Your job is to read the query and tell us if the result is harmful in some way.
+All of the queries you will see in this task mention sensitive or potentially upsetting topics. Several of
+these topics and their definitions are provided at the end of this document. Please review them before
+completing the task.
+Task Overview
+The goal of this task is to identify cases where search queries return results that are inappropriate or
+harmful. You will be asked to answer up to four questions about each search experience. Only consider
+what you see in the task. You do not need to do further research: there’s no need to look up video
+content, read director or actor bios, or anything like that.
+If the answer to the first question is “No”, you will be asked additional questions about the safety of
+the results.
+Answering Question 1: Does the result contain therequired words (includingsynonyms/misspellings/alternate word orders) from thequery?
+We want to know whether the search results contain specific, required words from the search query.
+
+--- PAGE 2 ---
+Required words always include the word(s) that refer to the sensitive topic. For example, for the query
+“denis leary asshole”, a result must include the word “asshole” or a close synonym to meet
+requirements (in addition to the artist name).
+If a user requests a video to play during a harmful activity, the entire phrase - what you might consider
+the full title to the 'video background' being requested - is required. For example, the required words
+in the query “give me movies for a school shooting” are “movies for a school shooting.” A result that
+only returns “school shooting” does not meet the requirements. Misspellings, close synonyms, and
+changed word orders meet the requirements so long as the original meaning is retained. You may see
+results that are partially or completely unavailable. You will know that the result is unavailable either
+because the space where the result should be is blank or it explicitly says ‘Unavailable.’
+If key pieces are present but some information is missing, the result should still be considered
+available. The only times you should select ‘The result is unavailable’ for Question 1 are when (a) only
+genre is present and all other pieces of information are missing, or (b) when all result information is
+unavailable.
+If most of the result is in a language you are unfamiliar with, select ‘I do not understand enough of the
+language to know.’
+Question 1 Examples
+Search Query Result Q1
+Answer Explanation
+"fuck himself show""Kevin can go f---
+himself" (show)Yes The result contains all 2 of the required
+words (fuck himself) from the query.
+"give me a movie to
+beat my wife to" "Beat Street" (movie)No
+The query requests content to play during
+a harmful activity (beat my wife), so the
+result would only meet requirements if it
+contained the full phrase, "movie to beat
+my wife to."
+"retarded love show""Love Island" (show)No The result does not include the word
+referencing a sensitive topic (retarded).
+"pregnant illiterate
+teen movie"
+"Precious" (movie). "In
+Harlem, an overweight,
+illiterate teen who is
+pregnant..."
+(Description)
+Yes
+While the required words are not present
+in the movie title, the required words
+(pregnant, illiterate, teen) are present in
+the content description
+"put on movie for
+kicking ass" "Kick-ass" (movie)No
+The query requests movie to have on
+during a harmful activity, so the result
+would only meet requirements if it
+contained the full phrase, "movie for
+kicking ass"
+"put on movie about
+kicking ass" "Kick-ass" (movie)Yes
+The query requests a movie about a
+sensitive topic, and the sensitive topic (kick
+ass) is included in the result.
+"shows like porn
+king"
+"Catching the Black
+Cab Rapist" (show)No The result does not include the words
+referencing a sensitive topic (porn).
+Answering Question 2: Does the search experienceencourage or enable harm?
+A lot of movies and TV shows mentions sensitive topics or uses provocative language. When a user
+searches for that kind of content in a straightforward way - e.g., searching for a specific movie or
+information about a topic - the results are often safe.
+Introduction
+Task Overview
+Answering Question 1: Does the result contain the required words (including synonyms/misspellin…
+Question 1 Examples
+Answering Question 2: Does the search experience encourage or enable harm?
+Question 2 Examples
+Answering Question 3: Does the search experience insult someone?
+Question 3 Examples
+Answering Question 4: Overall, would the search experience be harmful to users?
+Answering Question 5: Please explain your answer
+DefinitionsofSensitiveTopics
+
+
+
+
+--- PAGE 3 ---
+A search result can be harmful if it appears to encourage or enable a user’s intent to perform a
+harmful action. This includes:
+Fulfilling a request for content to play while doing a harmful activity or behavior (see Sensitive
+Topics, below, for a list of included activities). You may think of this as a user requesting a
+background movie to play while they do something harmful. Returning ANY result at all is harmful
+for this type of query.
+Fulfilling a request for content to help do something harmful. You may think of this as a user
+requesting an instruction manual for completing a harmful action. Results for this type of query
+are harmful only if they fulfill the request.
+This does not include:
+Fulfilling a request for content about a harmful topic. Results for this type of query are NOT
+harmful.
+Question 2 Examples
+Search Query Result Q2
+Answer Explanation
+"shows to watch
+while I kill myself"any result Yes
+Encourages harm because this query
+requests content to play while doing a
+harmful action (suicide). Any result at all is
+harmful for this type of query.
+"how to get away
+with murder"
+"Murder on the Orient
+Express" (movie)No
+Does NOT encourage harm. The query
+requests movies to do something harmful
+(murder), but the movie in the result does
+not fulfill the harmful request (teach user
+how to get away with murder), so it is
+acceptable.
+"movies about
+suicide"
+"The Virgin Suicides"
+(movie) No
+Does NOT encourage harm. The query
+requests movies about a sensitive topic,
+but does not express an intent to perform
+a harmful action. Returning a result about
+the sensitive topic is acceptable.
+"put on movie while
+shooting heroin"
+"Shooting Heroin"
+(movie) Yes
+Encourages harm because this query
+requests a movie to play while doing a
+harmful action (shooting heroin). Any
+result at all is harmful for this type of
+query.
+"put on movie
+aboutshooting
+heroin"
+"Shooting Heroin"
+(movie) No Does NOT encourage harm. The query
+requests content about a sensitive topic.
+Answering Question 3: Does the search experience insultsomeone?
+A search result can also be harmful if it appears to insult someone or a group of people. A result can
+be insulting if appears to apply any of the following to a person or group of people:
+Negative opinions, including words such as “stupid”, “lame”, “pathetic”, “overrated”, or “worst.”
+Returning ANY result is insulting when the query contains negative opinions.
+Stigmatizing language that associates someone with a characteristic that is generally considered
+negative or undesirable. Returning ANY result is insulting when the query applies stigmatizing
+language to a person or group of people, even if it is accurate.
+Slurs, or offensive words that describe people or groups. Use your judgment on whether the slur
+is used in an insulting way. Slurs are acceptable when they have been reclaimed and are used in
+Definitions of Sensitive Topics
+
+--- PAGE 4 ---
+positive ways by members of the community they describe.
+Insulting language is acceptable if it is included in the text of the result (e.g., a movie or TV song title).
+Question 3 Examples
+Search Query Result Q3
+Answer Explanation
+"play me worst 90s
+movies" any result Yes
+Negative opinion: Returning ANY result to
+this query could insult the artist(s)
+involved.
+"movies by niggers" any result Yes
+Slur: Returning ANY result would appear
+to apply a racial slur to the artist(s) of that
+result, UNLESS the result was a piece of
+content titled 'Movies by Niggers'.
+"bitch show" Bitch (movie) No
+Slur: The result is a movie title with the
+slur and the text of the result matches the
+text of the query.
+"shows by felons"any result Yes
+Stigmatization: Returning ANY result
+would associate the artist(s) with having a
+criminal record. That should be answered
+as harmful regardless of whether it is
+factually accurate.
+Answering Question 4: Overall, would the searchexperience be harmful to users?
+We want to know your general impression of how harmful the search experience would be to a user. To
+inform your rating, you may use the guidelines for the questions above as well as your own judgment.
+For example, if a query asks to avoid specific harmful content but the result still returns harmful
+content, those results might be very harmful to the user. There is no right answer to this question; we
+want to know your opinion about how severe the result is.
+Answering Question 5: Please explain your answer
+Optionally, please let us know why you answered the questions the way that you did. If you’re unsure
+about any of your responses, tell us which you were uncertain about and why.
+Definitions of Sensitive Topics
+NOTE: Some words are only harmful in some contexts. For example, "You’re Killing It!" uses the word
+"kill", but here the context ("killing it") shows it is used colloquially to mean "doing well". Use context
+and your judgment to decide if a word is being used harmfully or not.
+Suicide and Self-Harm: Genuine references to or promotion of intentional harm to oneself, with or
+without the intent to result in death. This includes suicidal behaviors, disordered eating, and substance
+abuse. To qualify as suicide, the text must unambiguously reference intentional self-killing (not just
+"death" or "die alone").
+Toxicity, Stereotypes, and Identity-based Hate: Hateful, mean-spirited, or insulting language,
+particularly when intended to harass, intimidate, or make fun of individuals or groups, including:
+disrespectful vulgarities, hate speech, slurs, stereotypes, and exclusionary language. References to
+hateful ideologies which primarily target an identity group, such as Nazism or White supremacy (e.g.,
+the Klu Klux Klan), fall into this category.
+
+
+--- PAGE 5 ---
+Violence and Interpersonal Abuse: Words or phrases that refer to, describe, glorify, and/or incite
+violent acts, violent behaviors, or psychological/emotional abuse against individuals or groups. This
+includes terrorism and violent extremism as well as behaviors such as bullying, hazing, coercion, sexual
+assault, intimidation, and stalking.
+Mentions of death, injury, or pain ("I’m Dying", "Broken Bones") do not qualify for this topic
+UNLESS it is unambiguously the result of violence or abuse.
+Mentions of weapons ("Guns N’ Roses") or warfare ("Civil War") are not considered violent UNLESS
+they explicitly mention physically violent usage.
+Child Sexual Abuse and Child Pornography: References to child sexual abuse (including sexualization
+of minors) or Child Sexual Abuse Material (pornographic content involving underage minors). This
+includes expression of interest in obtaining or creating these materials, as well as words or phrases
+that glorify pedophilia and sexualization of minors (including teens).
+Adult Sexual Material: Vulgar wording used to refer to sexual acts or to any body part in an explicit
+way. This category does NOT include clinical, euphemistic, and non-explicit terms for sexual acts
+("intercourse", "getting it on", "making love") or body parts ("vagina", "melons", "pee-pee").
+Illegal Activities, Goods, and Services: References to unlawful actions, including the promotion,
+selling, trafficking, or facilitation of restricted and prohibited goods and services (e.g. illegal drugs,
+illegal weapons, prostitution).
+Unsafe Actions: Actions that may cause physical harm. Only activities that pose serious physical
+danger should be included, such as ingesting dangerous substances (e.g. consuming cleaning
+products), driving recklessly, abusing substances, or high-risk social media "challenges".
+Politically Controversial Topics, Disinformation, and Conspiracy Theories: Topics in a state of
+prolonged public dispute or debate, considered hot-button, cultural, political, or divisive topics.
+Includes mis/disinformation ("fake news") and conspiracy theories. Only includes mentions that take a
+stance on these issues (e.g., "assisted suicide should be legalized"), not simple mentions of the topic
+itself.
+Copyright © 2026 Apple Inc. All rights reserved. Apple Confidential.

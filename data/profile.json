@@ -1,0 +1,72 @@
+{
+  "artist_name_zh": "张满堂",
+  "artist_name_en": "ZHANG MANTANG",
+  "brand": {
+    "seal_image": "/images/branding/seal-red.webp",
+    "signature_image": "/images/branding/signature-ink.webp"
+  },
+  "hero": {
+    "title_zh": "张满堂书法艺术",
+    "title_en": "Zhang Mantang Calligraphy",
+    "subtitle_zh": "当代毛体书法代表传承人，作品被人民大会堂永久收藏，并参与天宫二号、国际邮票与重要国际展览项目。",
+    "subtitle_en": "A contemporary inheritor of Mao-style calligraphy, with works collected by the Great Hall of the People and featured in the Tiangong-2 programme, international stamp projects, and major exhibitions.",
+    "background_image": "/images/home/hero-main.webp",
+    "trust_zh": [
+      "人民大会堂永久收藏",
+      "天宫二号太空搭载项目",
+      "巴黎卢浮宫国际展览"
+    ],
+    "trust_en": [
+      "Permanent Collection of the Great Hall of the People",
+      "Tiangong-2 Space Programme",
+      "International Exhibition at the Louvre, Paris"
+    ]
+  },
+  "about": {
+    "eyebrow_zh": "关于",
+    "eyebrow_en": "About",
+    "headline_zh": "艺术家介绍",
+    "headline_en": "Artist Profile",
+    "bio_zh": "张满堂是一位长期深耕中国书法传统的艺术家，专注于对毛体书法语言的系统研究与当代表达转化。自青年时期起，他持续以实践与理论并行的方式探索书写的结构、节奏与精神内核，逐步形成具有个人辨识度的创作路径。\n\n在其创作中，书法不仅被视为形式技艺，更是一种关于意志、力量与表达边界的语言体系。他从毛体书法中提炼出富有张力的线条逻辑与空间组织方式，并在此基础上进行再建构，使传统书写在当代语境中获得新的视觉与精神维度。\n\n其作品整体气质兼具厚重与流动：笔势开合之间呈现出强烈的节奏感与结构控制力，在宏观上保持庄重与秩序，在细节处则体现出高度的自由与变化。这种张力，使其作品在传统与当代之间建立起一种稳定而开放的对话关系。\n\n多年来，张满堂的作品参与各类国际文化交流与展览，并被多家机构与私人收藏体系收录。他的创作实践不仅指向个人风格的确立，也持续回应一个核心命题：在全球语境下，中国书法如何以自身语言进入更广泛的文化交流场域。",
+    "bio_en": "Zhang Mantang is an artist deeply rooted in the Chinese calligraphic tradition, with a long-term focus on the systematic study and contemporary transformation of Mao-style calligraphic language. Since his youth, he has pursued both practice and theory in parallel, exploring structure, rhythm, and the inner spirit of writing, gradually forming a recognisable creative path of his own.\n\nIn his practice, calligraphy is not treated merely as formal technique, but as a language system concerned with will, force, and the boundaries of expression. From Mao-style calligraphy, he extracts tensile line logic and spatial organisation, then reconstructs them so that traditional writing can attain new visual and spiritual dimensions within a contemporary context.\n\nThe overall character of his work combines weight and flow. His brush movement reveals a strong sense of rhythm and structural control, maintaining dignity and order at the macro level while allowing freedom and variation in the details. This tension enables his work to establish a steady yet open dialogue between tradition and contemporaneity.\n\nOver the years, Zhang Mantang's works have appeared in international cultural exchanges and exhibitions, and have been collected by institutional and private collections. His artistic practice not only points toward the formation of an individual style, but also responds to a central question: how Chinese calligraphy, through its own language, may enter a broader field of global cultural exchange.",
+    "portrait_images": [
+      "/images/about/about-portrait-01.webp",
+      "/images/about/about-portrait-02.webp"
+    ]
+  },
+  "contact": {
+    "city_zh": "滨州 · 北京",
+    "city_en": "Binzhou · Beijing",
+    "email": "studio@zhangmantang.com",
+    "reply_zh": "3个工作日内回复",
+    "reply_en": "Reply within 3 business days",
+    "instagram": "@zhangmantang"
+  },
+  "milestones": [
+    {
+      "year": "2026",
+      "label_zh": "《中华英才》半月刊人物专访",
+      "label_en": "Feature interview in China's Talents Biweekly"
+    },
+    {
+      "year": "2025",
+      "label_zh": "巴黎卢浮宫当代国际艺术博览会参展",
+      "label_en": "Exhibited at the Paris Louvre Contemporary International Art Expo"
+    },
+    {
+      "year": "2024",
+      "label_zh": "作品《军民情》被人民大会堂收藏",
+      "label_en": "Military and Civilian Bond collected by the Great Hall of the People"
+    },
+    {
+      "year": "2023",
+      "label_zh": "“习语”系列作品用于七国邮票发行",
+      "label_en": "Xi Quotations series used for stamp issuance across seven countries and regions"
+    },
+    {
+      "year": "2016",
+      "label_zh": "《走向胜利》搭载天宫二号进入太空",
+      "label_en": "Marching Toward Victory entered space aboard Tiangong-2"
+    }
+  ]
+}

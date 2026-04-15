@@ -1,0 +1,87 @@
+{
+  "meta": {
+    "name": "zhangmantang-design-system",
+    "version": "1.4.0",
+    "sourceOfTruth": [
+      "site/css/style.css",
+      "site/js/state.js",
+      "site/js/components.js",
+      "site/js/renderers.js",
+      "site/js/renderers-secondary.js",
+      "site/js/main.js",
+      "data/profile.json"
+    ]
+  },
+  "color": {
+    "bg": "#FFFFFF",
+    "card": "#FFFFFF",
+    "accent": "#C8A060",
+    "ink": "#1A1A1A",
+    "mid": "#6A6868",
+    "soft": "#A8A4A0",
+    "borderSoft": "#D6D2CE",
+    "heroFallback": "#D4CEC6"
+  },
+  "typography": {
+    "fontFamilyBody": "Noto Sans SC, sans-serif",
+    "fontFamilyHeading": "Noto Serif SC, serif",
+    "fontWeightLight": 300,
+    "fontWeightRegular": 400,
+    "fontSizeBase": "16px",
+    "lineHeightBase": 1.6,
+    "h1": {
+      "fontSize": "48px",
+      "lineHeight": 1.15
+    },
+    "h2": {
+      "fontSize": "24px",
+      "lineHeight": 1.3
+    }
+  },
+  "spacing": {
+    "s": "16px",
+    "m": "40px",
+    "l": "90px",
+    "xl": "120px"
+  },
+  "layout": {
+    "maxWidth": "1440px",
+    "navHeight": "88px",
+    "heroMinHeightDesktop": "700px",
+    "heroMinHeightTablet": "640px",
+    "breakpointTablet": "1100px",
+    "breakpointMobile": "760px"
+  },
+  "effect": {
+    "shadowCard": "0 10px 24px rgba(26, 26, 26, 0.1)",
+    "shadowFloatingControl": "0 10px 24px rgba(26, 26, 26, 0.14)",
+    "shadowFloatingControlHover": "0 14px 28px rgba(26, 26, 26, 0.18)",
+    "transitionFast": "0.2s"
+  },
+  "border": {
+    "default": "1px solid #1A1A1A",
+    "soft": "1px solid #D6D2CE"
+  },
+  "component": {
+    "searchMinWidth": "260px",
+    "searchSuggestionGap": "10px",
+    "searchSuggestionPadding": "14px 16px",
+    "yearRailColumnWidth": "140px",
+    "yearRailGap": "16px",
+    "yearNodeMinHeight": "48px",
+    "yearNodePadding": "12px 18px 12px 0",
+    "yearNodeFontSize": "17px",
+    "yearNodeCurrentBackground": "rgba(200, 160, 96, 0.12)",
+    "yearNodeCurrentRing": "inset 0 0 0 1px rgba(200, 160, 96, 0.18)",
+    "contactLabelWidth": "84px",
+    "contactCompactTitleSize": "34px",
+    "contactCompactPaddingY": "72px",
+    "contactCompactLabelWidth": "72px",
+    "detailMediaNavSizeDesktop": "36px",
+    "detailMediaNavSizeMobile": "32px",
+    "detailMediaNavGapDesktop": "14px",
+    "detailMediaNavGapMobile": "10px",
+    "detailThumbHeightDesktop": "92px",
+    "detailThumbHeightMobile": "72px"
+  }
+}

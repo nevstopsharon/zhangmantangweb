@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>张满堂书法 · ZHANG MANTANG</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400&family=Noto+Sans+SC:wght@300;400&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    :root {
+      --bg: #F2EFED;
+      --card: #FFFFFF;
+      --accent: #C8A060;
+      --ink: #1A1A1A;
+      --mid: #6A6868;
+      --soft: #A8A4A0;
+      --border: 1px solid #1A1A1A;
+      --border-soft: 1px solid #D6D2CE;
+      --shadow: 0 8px 24px rgba(26,26,26,.08);
+      --maxw: 1440px;
+      --s: 16px;
+      --m: 40px;
+      --l: 90px;
+      --xl: 120px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { background: var(--bg); color: var(--ink); font-family: 'Noto Sans SC', sans-serif; font-weight: 300; font-size: 16px; line-height: 1.6; }
+    a { text-decoration: none; color: inherit; cursor: pointer; }
+    button { font: inherit; font-weight: 300; background: none; border: none; cursor: pointer; color: inherit; }
+    img { display: block; width: 100%; }
+
+    .site { max-width: var(--maxw); margin: 0 auto; background: var(--card); min-height: 100vh; border-left: var(--border-soft); border-right: var(--border-soft); }
+
+    /* NAV */
+    .nav { height: 88px; padding: 0 var(--l); border-bottom: var(--border-soft); display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: var(--m); position: sticky; top: 0; background: rgba(255,255,255,.96); backdrop-filter: blur(6px); z-index: 10; }
+    .brand { display: flex; align-items: center; gap: 12px; justify-self: start; }
+    .seal { width: 32px; height: 32px; border: var(--border); display: grid; place-items: center; color: var(--accent); font-family: 'Noto Serif SC', serif; font-size: 14px; flex-shrink: 0; }
+    .brand-cn { font-family: 'Noto Serif SC', serif; font-size: 22px; font-weight: 300; }
+    .brand-en { font-size: 12px; color: var(--mid); letter-spacing: .08em; }
+    .menu { display: flex; gap: var(--m); justify-self: center; }
+    .nav-link { font-size: 16px; color: var(--mid); padding-bottom: 2px; border-bottom: 1px solid transparent; transition: color .2s, border-color .2s; }
+    .nav-link:hover, .nav-link.active { color: var(--accent); border-bottom-color: var(--accent); }
+    .nav-tools { display: flex; justify-self: end; gap: var(--s); align-items: center; }
+    .search-box { min-width: 200px; padding: 9px 14px; border: var(--border); display: flex; justify-content: space-between; align-items: center; font-size: 16px; color: var(--mid); cursor: pointer; }
+    .lang-switch { display: flex; border: var(--border-soft); }
+    .lang-btn { padding: 9px 13px; font-size: 14px; color: var(--mid); border-left: var(--border-soft); transition: color .2s; }
+    .lang-btn:first-child { border-left: none; }
+    .lang-btn.active { color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+
+    /* SECTION */
+    .section { padding: var(--xl) var(--l); border-bottom: var(--border-soft); }
+    .section-head { display: flex; justify-content: space-between; align-items: flex-end; gap: var(--m); margin-bottom: var(--m); }
+    .kicker { font-size: 14px; color: var(--mid); margin-bottom: 6px; letter-spacing: .06em; }
+    .h1 { font-family: 'Noto Serif SC', serif; font-size: 48px; font-weight: 300; line-height: 1.15; }
+    .h2 { font-family: 'Noto Serif SC', serif; font-size: 24px; font-weight: 300; line-height: 1.3; }
+    .section-link { font-size: 16px; color: var(--accent); border-bottom: 1px solid var(--accent); padding-bottom: 3px; }
+
+    /* GRID */
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--m); }
+    .span-2 { grid-column: span 2; }
+
+    /* CARDS */
+    .art-card, .news-card { border: var(--border-soft); background: var(--card); transition: transform .2s, box-shadow .2s, border-color .2s; }
+    .art-card:hover, .news-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: var(--accent); }
+    .art-frame { aspect-ratio: 4/5; background: linear-gradient(135deg, #E8E2DA 0%, #CEC6BC 50%, #9E9288 100%); position: relative; overflow: hidden; border-bottom: var(--border-soft); display: grid; place-items: center; }
+    .art-frame.landscape { aspect-ratio: 5/4; }
+    .art-frame-label { font-size: 13px; color: rgba(26,26,26,.5); }
+    .card-body { padding: 22px 24px; }
+    .tag { font-size: 12px; color: var(--accent); letter-spacing: .06em; margin-bottom: 8px; text-transform: uppercase; }
+    .meta { font-size: 13px; color: var(--mid); margin-top: 6px; }
+
+    /* HERO */
+    .hero { height: calc(100vh - 88px); min-height: 680px; position: relative; overflow: hidden; border-bottom: var(--border-soft); background: linear-gradient(160deg, #3A3530 0%, #1A1510 100%); }
+    .hero-bg { position: absolute; inset: 0; background: linear-gradient(135deg, #4A4038 0%, #2E2820 40%, #1A1510 100%); display: flex; align-items: center; justify-content: center; }
+    .hero-bg-text { font-family: 'Noto Serif SC', serif; font-size: 200px; font-weight: 300; color: rgba(200,160,96,.07); letter-spacing: -.02em; user-select: none; }
+    .hero-overlay { position: absolute; left: var(--l); right: var(--l); bottom: var(--xl); display: flex; justify-content: space-between; align-items: flex-end; gap: var(--m); }
+    .hero-copy { max-width: 640px; color: #fff; }
+    .hero-copy .h1 { color: #fff; margin-bottom: var(--s); }
+    .hero-copy .body { color: rgba(255,255,255,.75); font-size: 16px; max-width: 520px; }
+    .hero-trust { display: flex; gap: 32px; margin-top: 28px; flex-wrap: wrap; }
+    .trust-item { font-size: 12px; color: rgba(255,255,255,.55); letter-spacing: .08em; text-transform: uppercase; border-left: 1px solid var(--accent); padding-left: 12px; }
+    .scroll-cue { width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgba(255,255,255,.4); color: rgba(255,255,255,.7); display: grid; place-items: center; font-size: 18px; flex-shrink: 0; }
+
+    /* FILTERS */
+    .filter-row { display: flex; justify-content: space-between; align-items: flex-end; gap: var(--m); margin-bottom: var(--m); }
+    .filters { display: flex; gap: var(--s); position: relative; }
+    .filter-btn { padding: 9px 18px; border: var(--border-soft); color: var(--mid); font-size: 16px; transition: color .2s, border-color .2s; }
+    .filter-btn.active, .filter-btn:hover { color: var(--accent); border-color: var(--accent); text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 6px; }
+
+    /* DROPDOWN */
+    .dropdown-anchor { position: relative; }
+    .dropdown { position: absolute; top: calc(100% - 1px); left: 0; min-width: 300px; background: var(--card); border: var(--border); border-top: none; box-shadow: var(--shadow); padding: 20px 24px; display: none; z-index: 20; }
+    .dropdown.open { display: block; }
+    .dropdown-list { display: grid; gap: 10px; }
+    .dropdown-link { font-size: 15px; color: var(--mid); transition: color .2s; display: inline; }
+    .dropdown-link:hover { color: var(--accent); text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
+
+    /* EXHIBITIONS */
+    .exhibitions-shell { display: grid; grid-template-columns: 140px 1fr; gap: var(--m); align-items: start; }
+    .year-rail { position: sticky; top: 108px; display: flex; flex-direction: column; gap: 24px; padding-top: 4px; }
+    .year-node { font-size: 14px; color: var(--mid); display: flex; align-items: center; gap: 14px; transition: color .2s; text-align: left; padding: 0; }
+    .year-node::before { content: ''; width: 10px; height: 10px; border-radius: 50%; border: 1px solid var(--soft); background: var(--card); flex-shrink: 0; transition: background .2s, border-color .2s, box-shadow .2s; }
+    .year-node.active { color: var(--accent); }
+    .year-node.active::before { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 0 4px rgba(200,160,96,.15); }
+    .year-node:hover { color: var(--accent); }
+    .timeline { display: flex; flex-direction: column; gap: var(--m); }
+    .exhibit-block { display: grid; grid-template-columns: 60% 40%; border: var(--border-soft); transition: transform .2s, box-shadow .2s, border-color .2s; background: var(--card); }
+    .exhibit-block:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: var(--accent); }
+    .exhibit-image { min-height: 300px; background: linear-gradient(135deg, #DDD5C8 0%, #C8BEB2 50%, #9A9082 100%); border-right: var(--border-soft); display: grid; place-items: center; }
+    .exhibit-image-label { font-size: 13px; color: rgba(26,26,26,.45); }
+    .exhibit-info { padding: 32px; display: flex; flex-direction: column; justify-content: center; gap: var(--s); }
+
+    /* NEWS */
+    .news-card .card-body { min-height: 200px; display: flex; flex-direction: column; }
+    .news-time { font-size: 13px; color: var(--mid); margin-top: auto; padding-top: var(--s); }
+
+    /* ABOUT */
+    .about-grid { display: grid; grid-template-columns: 320px 1fr; gap: var(--m); align-items: start; }
+    .portrait { aspect-ratio: 3/4; border: var(--border-soft); background: linear-gradient(135deg, #E2DDD6 0%, #C8C0B4 50%, #9A9080 100%); display: grid; place-items: center; }
+    .portrait-label { font-size: 13px; color: rgba(26,26,26,.45); }
+    .bio-block { display: flex; flex-direction: column; gap: 28px; }
+    .timeline-list { display: grid; gap: var(--s); padding-top: var(--s); border-top: var(--border-soft); }
+    .timeline-item { display: grid; grid-template-columns: 72px 1fr; gap: var(--s); font-size: 15px; }
+    .tl-year { color: var(--accent); font-family: 'Noto Serif SC', serif; font-size: 14px; padding-top: 2px; }
+
+    /* CONTACT */
+    .contact-strip { display: grid; grid-template-columns: 1fr 1fr; gap: var(--m); align-items: end; background: #F5F2EE; padding: var(--xl) var(--l); border-bottom: var(--border-soft); }
+    .contact-meta { display: grid; gap: var(--s); }
+    .contact-row { display: grid; grid-template-columns: 110px 1fr; gap: var(--s); font-size: 15px; }
+    .contact-label { color: var(--mid); }
+
+    /* DETAIL */
+    .detail-wrap { padding: var(--xl) var(--l); border-bottom: var(--border-soft); }
+    .back-link { display: inline-block; font-size: 15px; color: var(--mid); margin-bottom: var(--m); border-bottom: 1px solid transparent; transition: color .2s, border-color .2s; cursor: pointer; }
+    .back-link:hover { color: var(--accent); border-bottom-color: var(--accent); }
+    .detail-hero { width: 100%; background: linear-gradient(135deg, #DDD5C8 0%, #C8BEB2 50%, #9A9082 100%); position: relative; display: grid; place-items: center; border: var(--border-soft); }
+    .detail-hero.artwork { aspect-ratio: 16/9; min-height: 500px; }
+    .detail-hero.exhibition { aspect-ratio: 16/9; min-height: 480px; }
+    .detail-hero.news-h { aspect-ratio: 4/5; min-height: 560px; }
+    .detail-hero-label { font-size: 16px; color: rgba(26,26,26,.5); }
+    .thumbs { display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap; }
+    .thumb { width: 88px; height: 88px; border: var(--border-soft); background: linear-gradient(135deg, #E5DFD6, #CCC2B6); display: grid; place-items: center; cursor: pointer; transition: border-color .2s; }
+    .thumb.active { border-color: var(--accent); box-shadow: var(--shadow); }
+    .thumb-label { font-size: 11px; color: rgba(26,26,26,.5); }
+    .detail-meta-grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(280px, .8fr); gap: var(--m); margin-top: var(--m); align-items: start; }
+    .detail-specs { border-top: var(--border-soft); padding-top: 22px; display: grid; gap: 12px; }
+    .spec-row { display: grid; grid-template-columns: 90px 1fr; gap: 16px; font-size: 15px; }
+    .spec-label { color: var(--mid); }
+    .detail-copy { display: grid; gap: 18px; max-width: 900px; font-size: 16px; line-height: 1.8; }
+    .detail-subnav { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--m); margin-bottom: 28px; }
+    .detail-shell { display: grid; grid-template-columns: 140px 1fr; gap: var(--m); align-items: start; }
+    .detail-main { min-width: 0; }
+    .divider { margin: 48px 0; border: none; border-top: var(--border-soft); }
+
+    /* NEWS DETAIL */
+    .news-detail-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(320px, .75fr); gap: var(--m); margin-top: var(--m); align-items: start; }
+    .news-detail-text { display: grid; gap: 20px; font-size: 16px; line-height: 1.9; max-width: 680px; }
+
+    /* FOOTER */
+    .footer { padding: var(--m) var(--l); display: flex; justify-content: space-between; align-items: center; color: var(--mid); font-size: 14px; border-top: var(--border-soft); }
+
+    /* COOKIE BANNER */
+    .cookie-banner { position: fixed; bottom: 0; left: 0; right: 0; background: var(--ink); color: #fff; padding: 20px var(--l); display: flex; justify-content: space-between; align-items: center; gap: var(--m); z-index: 100; font-size: 14px; }
+    .cookie-text { color: rgba(255,255,255,.75); max-width: 680px; }
+    .cookie-actions { display: flex; gap: 12px; flex-shrink: 0; }
+    .btn-accept { padding: 9px 22px; background: var(--accent); color: #fff; font-size: 14px; border: none; cursor: pointer; }
+    .btn-decline { padding: 9px 22px; border: 1px solid rgba(255,255,255,.3); color: rgba(255,255,255,.7); font-size: 14px; cursor: pointer; }
+    .btn-primary { padding: 12px 32px; background: var(--ink); color: #fff; font-size: 16px; border: none; cursor: pointer; transition: background .2s; font-family: inherit; font-weight: 300; }
+    .btn-primary:hover { background: #333; }
+
+    /* RESPONSIVE */
+    @media (max-width: 1100px) {
+      :root { --l: 40px; }
+      .nav { grid-template-columns: 1fr; height: auto; padding: 20px var(--l); }
+      .brand, .menu, .nav-tools { justify-self: start; }
+      .hero-overlay { position: static; padding: var(--xl) var(--l); display: grid; }
+      .hero-bg-text { font-size: 120px; }
+      .grid-3 { grid-template-columns: 1fr 1fr; }
+      .span-2 { grid-column: span 2; }
+      .exhibitions-shell { grid-template-columns: 1fr; }
+      .year-rail { position: static; flex-direction: row; flex-wrap: wrap; gap: 12px 20px; }
+      .about-grid { grid-template-columns: 1fr; }
+      .contact-strip { grid-template-columns: 1fr; }
+      .exhibit-block { grid-template-columns: 1fr; }
+      .exhibit-image { border-right: none; border-bottom: var(--border-soft); }
+      .detail-meta-grid { grid-template-columns: 1fr; }
+      .detail-shell { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 700px) {
+      :root { --l: 20px; --xl: 72px; }
+      .grid-3 { grid-template-columns: 1fr; }
+      .span-2 { grid-column: auto; }
+      .menu { flex-wrap: wrap; gap: 14px; }
+      .news-detail-layout { grid-template-columns: 1fr; }
+      .footer { flex-direction: column; gap: 8px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState, useCallback } = React;
+
+// ─── DATA ────────────────────────────────────────────────────────────────────
+const T = {
+  zh: {
+    nav: { home:'首页', works:'作品', exhibitions:'展览', news:'新闻', about:'关于' },
+    brand: { cn:'张满堂', en:'ZHANG MANTANG', seal:'印' },
+    search: '搜索',
+    home: {
+      heroTitle: '张满堂\n书法艺术',
+      heroSub: '当代毛体书法代表传承人，作品被中国人民大会堂永久收藏，参与天宫二号太空搭载项目，展览遍及国际重要文化机构。',
+      trust: ['人民大会堂永久收藏', '天宫二号太空项目', '卢浮宫国际展览'],
+      featuredLabel: '精选', featuredTitle: '精选作品', viewAll: '查看全部作品',
+      contactLabel: '联系', contactTitle: '洽谈合作',
+      city: '所在城市', cityVal: '滨州 · 北京',
+      email: '邮箱', emailVal: 'studio@zhangmantang.com',
+      reply: '回复时间', replyVal: '3个工作日内回复',
+      ig: 'Instagram', igVal: '@zhangmantang',
+    },
+    works: {
+      label: '作品', title: '作品',
+      filterAll: '全部', filterProject: '项目', filterMedium: '介质',
+      projects: ['天宫二号太空搭载项目','七国"一带一路"国际邮票项目','人民大会堂永久收藏项目','卢浮宫国际文化艺术节项目'],
+      mediums: ['宣纸','紫砂','瓷','折扇'],
+    },
+    exhibitions: {
+      label: '展览', title: '展览',
+    },
+    news: { label: 'NEWS', title: '新闻' },
+    about: {
+      label: '关于', title: '张满堂',
+      bio: '张满堂，当代著名书法家，毛体书法代表传承人。长期深耕传统书法艺术，以深厚的文化积淀与精湛的笔墨技法，将汉字书写提升至艺术表达的高度。其作品被人民大会堂永久收藏，参与国际邮票、太空搭载等重要项目，在国内外重要场合广泛展出，是连接中国传统文化与国际视野的文化使者。',
+      tlLabel: '重要经历',
+    },
+    detail: {
+      backWork: '← 返回作品', backEx: '← 返回展览', backNews: '← 返回新闻',
+      medium: '介质', size: '尺寸', year: '创作时间', project: '项目归属', status: '状态',
+      location: '地点', time: '时间', nature: '性质', content: '内容',
+      exhibits: '参展作品',
+    },
+    footer: { studio: '张满堂书法工作室', copy: '© 2025 张满堂书法工作室' },
+    cookie: {
+      text: '本网站使用 Cookie 改善您的浏览体验并进行流量分析。继续使用即表示您同意我们的 Cookie 政策。',
+      accept: '接受', decline: '拒绝',
+    },
+  },
+  en: {
+    nav: { home:'Home', works:'Works', exhibitions:'Exhibitions', news:'News', about:'About' },
+    brand: { cn:'张满堂', en:'ZHANG MANTANG', seal:'印' },
+    search: 'Search',
+    home: {
+      heroTitle: 'Zhang Mantang\nCalligraphy',
+      heroSub: 'Leading inheritor of Mao-style calligraphy. Works permanently collected by the Great Hall of the People, carried aboard Tiangong-2, and exhibited at major cultural institutions worldwide.',
+      trust: ["Great Hall of the People — Permanent Collection", "Tiangong-2 Space Programme", "Louvre — World Culture & Arts Festival"],
+      featuredLabel: 'Selected', featuredTitle: 'Featured Works', viewAll: 'View All Works',
+      contactLabel: 'Contact', contactTitle: 'Enquire',
+      city: 'Based in', cityVal: 'Binzhou · Beijing',
+      email: 'Email', emailVal: 'studio@zhangmantang.com',
+      reply: 'Response', replyVal: 'Within 3 business days',
+      ig: 'Instagram', igVal: '@zhangmantang',
+    },
+    works: {
+      label: 'Works', title: 'Works',
+      filterAll: 'All', filterProject: 'Project', filterMedium: 'Medium',
+      projects: ['Tiangong-2 Space Programme','Belt & Road International Stamp Project','Great Hall of the People Collection','Louvre World Culture & Arts Festival'],
+      mediums: ['Xuan Paper','Zisha Clay','Porcelain','Folding Fan'],
+    },
+    exhibitions: {
+      label: 'Exhibitions', title: 'Exhibitions',
+    },
+    news: { label: 'News', title: 'News' },
+    about: {
+      label: 'About', title: 'Zhang Mantang',
+      bio: 'Zhang Mantang is a contemporary calligrapher and the leading inheritor of Mao-style calligraphy. Drawing on decades of study in classical Chinese script, he elevates the written character into a form of artistic expression. His works are held in the permanent collection of the Great Hall of the People, have travelled to space aboard Tiangong-2, and have been shown at leading international institutions, making him a cultural ambassador connecting Chinese tradition with a global audience.',
+      tlLabel: 'Milestones',
+    },
+    detail: {
+      backWork: '← Back to Works', backEx: '← Back to Exhibitions', backNews: '← Back to News',
+      medium: 'Medium', size: 'Dimensions', year: 'Year', project: 'Project', status: 'Status',
+      location: 'Location', time: 'Date', nature: 'Type', content: 'Content',
+      exhibits: 'Works on View',
+    },
+    footer: { studio: 'Zhang Mantang Calligraphy Studio', copy: '© 2025 Zhang Mantang Calligraphy Studio' },
+    cookie: {
+      text: 'This site uses cookies to improve your experience and analyse traffic. By continuing to browse, you agree to our Cookie Policy.',
+      accept: 'Accept', decline: 'Decline',
+    },
+  },
+};
+
+const WORKS = [
+  { id:1, tagZh:'代表作', tagEn:'Masterwork', titleZh:'七律《军民情》', titleEn:'Qilü — Military-Civilian Bond', metaZh:'宣纸 · 人民大会堂永久收藏', metaEn:'Xuan Paper · Great Hall of the People, Permanent Collection', landscape:true, project:'人民大会堂永久收藏项目', medium:'宣纸', size:'138 × 68 cm', year:2024, statusZh:'馆藏', statusEn:'In Collection' },
+  { id:2, tagZh:'国际项目', tagEn:'Space Project', titleZh:'走向胜利', titleEn:'Towards Victory', metaZh:'宣纸 · 2016年搭载天宫二号进入太空', metaEn:'Xuan Paper · Carried aboard Tiangong-2, 2016', project:'天宫二号太空搭载项目', medium:'宣纸', size:'68 × 136 cm', year:2016, statusZh:'国际项目', statusEn:'International Project' },
+  { id:3, tagZh:'展览级作品', tagEn:'Exhibition', titleZh:'卜算子·咏梅', titleEn:'Pu Suanzi — Ode to Plum Blossom', metaZh:'海瓷四联屏 · 国际展览陈列', metaEn:'Ocean Porcelain Quadriptych · International Exhibition', project:'卢浮宫国际文化艺术节项目', medium:'瓷', size:'240 × 60 cm × 4', year:2025, statusZh:'展览级', statusEn:'Exhibition Work' },
+  { id:4, tagZh:'收藏系列', tagEn:'Collection', titleZh:'百花齐放', titleEn:'A Hundred Flowers Bloom', metaZh:'紫砂 · 个人定制收藏', metaEn:'Zisha Clay · Private Commission', project:'', medium:'紫砂', size:'', year:null, statusZh:'可定制', statusEn:'Available for Commission' },
+  { id:5, tagZh:'器物作品', tagEn:'Object', titleZh:'努力向前', titleEn:'Striving Forward', metaZh:'紫砂盘 · 重要项目延展', metaEn:'Zisha Plate · Major Project Extension', project:'七国"一带一路"国际邮票项目', medium:'紫砂', size:'', year:2023, statusZh:'项目延展', statusEn:'Project Work' },
+  { id:6, tagZh:'书法延展', tagEn:'Object', titleZh:'力求进步', titleEn:'Seeking Progress', metaZh:'折扇 · 书法延展', metaEn:'Folding Fan · Calligraphic Object', project:'', medium:'折扇', size:'', year:null, statusZh:'可定制', statusEn:'Available for Commission' },
+];
+
+const EXHIBITIONS = [
+  { id:1, year:2025, titleZh:'法国卢浮宫 第35届世界文化艺术节', titleEn:'35th World Culture & Arts Festival — Louvre, Paris', locZh:'巴黎', locEn:'Paris, France', works:[1,2,3] },
+  { id:2, year:2024, titleZh:'人民大会堂《军民情》永久收藏入藏展示', titleEn:'Permanent Collection Ceremony — Great Hall of the People', locZh:'北京', locEn:'Beijing, China', works:[1] },
+  { id:3, year:2013, titleZh:'百名将军暨书画名家展', titleEn:'Exhibition of 100 Generals and Master Calligraphers', locZh:'北京', locEn:'Beijing, China', works:[2] },
+  { id:4, year:2009, titleZh:'东京书法美术展', titleEn:'Tokyo Calligraphy & Fine Arts Exhibition', locZh:'东京', locEn:'Tokyo, Japan', works:[] },
+];
+
+const NEWS = [
+  { id:1, tagZh:'媒体专访', tagEn:'Interview', titleZh:'《中华英才》半月刊人物专访', titleEn:'Feature Interview — China\'s Talents Biweekly', date:'2026.02', bodyZh:'张满堂先生接受《中华英才》半月刊专题采访，系统介绍其毛体书法艺术创作历程与文化传承理念，引发广泛关注。', bodyEn:'Zhang Mantang sat down with China\'s Talents Biweekly for an in-depth feature, discussing the artistic journey and cultural philosophy behind his Mao-style calligraphy practice.' },
+  { id:2, tagZh:'封面人物', tagEn:'Cover Feature', titleZh:'《读者》杂志封面人物专访', titleEn:'Cover Story — Reader\'s Digest China', date:'2025.12', bodyZh:'作为2025年底最具影响力的文化人物之一，张满堂受邀担任《读者》杂志年度封面人物，专访聚焦其书法艺术与文化外交使命。', bodyEn:'Named one of the most influential cultural figures of late 2025, Zhang Mantang appears on the cover of Reader\'s Digest China, with an interview focusing on art and cultural diplomacy.' },
+  { id:3, tagZh:'国家级认定', tagEn:'Recognition', titleZh:'《世界非物质文化遗产传承人大辞典》收录', titleEn:'Listed in World Intangible Cultural Heritage Dictionary', date:'2025', bodyZh:'张满堂被正式收录于《世界非物质文化遗产传承人大辞典》，标志着其作为国家级非遗传承人身份的重要认可。', bodyEn:'Zhang Mantang has been officially listed in the World Intangible Cultural Heritage Master Dictionary, a landmark recognition of his status as a national-level inheritor.' },
+  { id:4, tagZh:'国家级收藏', tagEn:'Collection', titleZh:'人民大会堂永久收藏七律《军民情》', titleEn:'Great Hall of the People Acquires Qilü — Military-Civilian Bond', date:'2024', bodyZh:'张满堂毛体书法《七律·军民情》被中国人民大会堂正式永久收藏，成为当代书法进入国家最高礼仪空间的重要里程碑。', bodyEn:'Zhang Mantang\'s Mao-style calligraphy Qilü — Military-Civilian Bond has been permanently acquired by the Great Hall of the People, marking a landmark moment for contemporary calligraphy.' },
+  { id:5, tagZh:'重要项目', tagEn:'Project', titleZh:'毛体书法印于七国"一带一路"国际邮票', titleEn:'Calligraphy Featured on Belt & Road International Stamps', date:'2023', bodyZh:'张满堂毛体书法作品被选用于七个共建"一带一路"国家发行的国际邮票，成为文化外交的重要媒介与中国书法的国际符号。', bodyEn:'Zhang Mantang\'s calligraphy was selected for international stamps issued by seven Belt & Road countries, cementing his work as a symbol of cultural diplomacy.' },
+  { id:6, tagZh:'媒体封面', tagEn:'Media', titleZh:'《中外画刊》封面人物', titleEn:'Cover Figure — China & International Pictorial', date:'2011', bodyZh:'张满堂成为《中外画刊》封面人物，在国际艺术媒体上首次获得大幅专题报道，开启其国际文化传播之路。', bodyEn:'Zhang Mantang was featured as the cover figure of China & International Pictorial, marking his first major exposure in international art media.' },
+];
+
+const TIMELINE = [
+  { year:2026, zh:'《中华英才》半月刊人物专访', en:"Featured in China's Talents Biweekly" },
+  { year:2025, zh:'法国卢浮宫展出；《读者》封面人物；非遗传承人认定', en:'Exhibited at Louvre; Reader\'s Digest cover; Intangible Heritage recognition' },
+  { year:2024, zh:'《军民情》被中国人民大会堂永久收藏', en:'Military-Civilian Bond permanently acquired by Great Hall of the People' },
+  { year:2023, zh:'毛体书法印于七国"一带一路"国际邮票', en:'Calligraphy featured on Belt & Road stamps for seven nations' },
+  { year:2016, zh:'作品搭载天宫二号进入太空', en:'Artwork carried aboard Tiangong-2 space laboratory' },
+  { year:2009, zh:'东京书法美术展获国际金奖', en:'International Gold Prize, Tokyo Calligraphy & Fine Arts Exhibition' },
+];
+
+// ─── COMPONENTS ──────────────────────────────────────────────────────────────
+
+function PlaceholderImage({ label, className = '', style = {} }) {
+  return (
+    <div className={className} style={style}>
+      <span className="art-frame-label">{label}</span>
+    </div>
+  );
+}
+
+function Nav({ lang, setLang, page, setPage, t }) {
+  const n = t.nav;
+  const pages = ['home','works','exhibitions','news','about'];
+  return (
+    <header className="nav">
+      <div className="brand" style={{cursor:'pointer'}} onClick={() => setPage('home')}>
+        <div className="seal">{t.brand.seal}</div>
+        <div>
+          <div className="brand-cn">{t.brand.cn}</div>
+          <div className="brand-en">{t.brand.en}</div>
+        </div>
+      </div>
+      <nav className="menu">
+        {pages.map(p => (
+          <a key={p} className={`nav-link ${page===p?'active':''}`} onClick={() => setPage(p)}>{n[p]}</a>
+        ))}
+      </nav>
+      <div className="nav-tools">
+        <div className="search-box"><span>{t.search}</span><span style={{color:'var(--mid)'}}>⌕</span></div>
+        <div className="lang-switch">
+          <button className={`lang-btn ${lang==='zh'?'active':''}`} onClick={() => setLang('zh')}>中</button>
+          <button className={`lang-btn ${lang==='en'?'active':''}`} onClick={() => setLang('en')}>EN</button>
+        </div>
+      </div>
+    </header>
+  );
+}
+
+function Footer({ t }) {
+  return (
+    <footer className="footer">
+      <div>{t.footer.studio}</div>
+      <div>{t.footer.copy}</div>
+    </footer>
+  );
+}
+
+// ── HOME ──────────────────────────────────────────────────────────────────────
+function HomePage({ lang, t, setPage, setDetailId, setDetailType }) {
+  const h = t.home;
+  const w = t.works;
+  const featured = WORKS.slice(0, 5);
+  return (
+    <>
+      {/* HERO */}
+      <section className="hero">
+        <div className="hero-bg">
+          <div className="hero-bg-text">書</div>
+        </div>
+        <div className="hero-overlay">
+          <div className="hero-copy">
+            <h1 className="h1" style={{whiteSpace:'pre-line'}}>{h.heroTitle}</h1>
+            <p className="body" style={{marginTop:'20px'}}>{h.heroSub}</p>
+            <div className="hero-trust">
+              {h.trust.map((tr,i) => <span key={i} className="trust-item">{tr}</span>)}
+            </div>
+          </div>
+          <div className="scroll-cue">↓</div>
+        </div>
+      </section>
+
+      {/* FEATURED WORKS */}
+      <section className="section">
+        <div className="section-head">
+          <div>
+            <div className="kicker">{h.featuredLabel}</div>
+            <h2 className="h2">{h.featuredTitle}</h2>
+          </div>
+          <a className="section-link" onClick={() => setPage('works')}>{h.viewAll}</a>
+        </div>
+        <div className="grid-3">
+          {featured.map((w, i) => (
+            <article key={w.id} className={`art-card ${i===0?'span-2':''}`}
+              style={{cursor:'pointer'}} onClick={() => { setDetailType('artwork'); setDetailId(w.id); setPage('artwork-detail'); }}>
+              <div className={`art-frame ${i===0?'landscape':''}`}>
+                <span className="art-frame-label">{lang==='zh' ? w.titleZh : w.titleEn}</span>
+              </div>
+              <div className="card-body">
+                <div className="tag">{lang==='zh' ? w.tagZh : w.tagEn}</div>
+                <div className="h2">{lang==='zh' ? w.titleZh : w.titleEn}</div>
+                <div className="meta">{lang==='zh' ? w.metaZh : w.metaEn}</div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {/* CONTACT */}
+      <div className="contact-strip">
+        <div>
+          <div className="kicker">{h.contactLabel}</div>
+          <h1 className="h1">{h.contactTitle}</h1>
+        </div>
+        <div className="contact-meta">
+          <div className="contact-row"><span className="contact-label">{h.city}</span><span>{h.cityVal}</span></div>
+          <div className="contact-row"><span className="contact-label">{h.email}</span><span>{h.emailVal}</span></div>
+          <div className="contact-row"><span className="contact-label">{h.reply}</span><span>{h.replyVal}</span></div>
+          <div className="contact-row"><span className="contact-label">{h.ig}</span><span>{h.igVal}</span></div>
+        </div>
+      </div>
+
+      <Footer t={t} />
+    </>
+  );
+}
+
+// ── WORKS ─────────────────────────────────────────────────────────────────────
+function WorksPage({ lang, t, setPage, setDetailId, setDetailType }) {
+  const w = t.works;
+  const [openProject, setOpenProject] = useState(false);
+  const [openMedium, setOpenMedium] = useState(false);
+  const [filter, setFilter] = useState('all');
+
+  return (
+    <>
+      <section className="section" style={{paddingBottom: 'var(--xl)'}}>
+        <div className="filter-row">
+          <div>
+            <div className="kicker">{w.label}</div>
+            <h1 className="h1">{w.title}</h1>
+          </div>
+          <div className="filters">
+            <button className={`filter-btn ${filter==='all'?'active':''}`} onClick={() => setFilter('all')}>{w.filterAll}</button>
+            <div className="dropdown-anchor"
+              onMouseEnter={() => setOpenProject(true)}
+              onMouseLeave={() => setOpenProject(false)}>
+              <button className={`filter-btn ${openProject?'active':''}`}>{w.filterProject}</button>
+              <div className={`dropdown ${openProject?'open':''}`}>
+                <div className="dropdown-list">
+                  {w.projects.map((p,i) => <a key={i} className="dropdown-link" onClick={() => setFilter(p)}>{p}</a>)}
+                </div>
+              </div>
+            </div>
+            <div className="dropdown-anchor"
+              onMouseEnter={() => setOpenMedium(true)}
+              onMouseLeave={() => setOpenMedium(false)}>
+              <button className={`filter-btn ${openMedium?'active':''}`}>{w.filterMedium}</button>
+              <div className={`dropdown ${openMedium?'open':''}`}>
+                <div className="dropdown-list">
+                  {w.mediums.map((m,i) => <a key={i} className="dropdown-link" onClick={() => setFilter(m)}>{m}</a>)}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="grid-3">
+          {WORKS.map(work => (
+            <article key={work.id} className="art-card" style={{cursor:'pointer'}}
+              onClick={() => { setDetailType('artwork'); setDetailId(work.id); setPage('artwork-detail'); }}>
+              <div className="art-frame">
+                <span className="art-frame-label">{lang==='zh' ? work.titleZh : work.titleEn}</span>
+              </div>
+              <div className="card-body">
+                <div className="tag">{lang==='zh' ? work.tagZh : work.tagEn}</div>
+                <div className="h2">{lang==='zh' ? work.titleZh : work.titleEn}</div>
+                <div className="meta">{lang==='zh' ? work.metaZh : work.metaEn}</div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+      <Footer t={t} />
+    </>
+  );
+}
+
+// ── EXHIBITIONS ───────────────────────────────────────────────────────────────
+function ExhibitionsPage({ lang, t, setPage, setDetailId, setDetailType }) {
+  const ex = t.exhibitions;
+  const [activeYear, setActiveYear] = useState(2025);
+  return (
+    <>
+      <section className="section">
+        <div className="kicker">{ex.label}</div>
+        <h1 className="h1" style={{marginBottom:'var(--m)'}}>{ex.title}</h1>
+        <div className="exhibitions-shell">
+          <aside className="year-rail">
+            {EXHIBITIONS.map(e => (
+              <button key={e.year} className={`year-node ${activeYear===e.year?'active':''}`}
+                onClick={() => setActiveYear(e.year)}>{e.year}</button>
+            ))}
+          </aside>
+          <div className="timeline">
+            {EXHIBITIONS.map(e => (
+              <article key={e.id} className="exhibit-block" style={{cursor:'pointer'}}
+                onClick={() => { setDetailType('exhibition'); setDetailId(e.id); setPage('exhibition-detail'); }}>
+                <div className="exhibit-image">
+                  <span className="exhibit-image-label">{lang==='zh' ? e.titleZh : e.titleEn}</span>
+                </div>
+                <div className="exhibit-info">
+                  <div className="tag">{e.year}</div>
+                  <div className="h2">{lang==='zh' ? e.titleZh : e.titleEn}</div>
+                  <div className="meta">{t.detail.location}：{lang==='zh' ? e.locZh : e.locEn}</div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+      <Footer t={t} />
+    </>
+  );
+}
+
+// ── NEWS ──────────────────────────────────────────────────────────────────────
+function NewsPage({ lang, t, setPage, setDetailId, setDetailType }) {
+  const n = t.news;
+  return (
+    <>
+      <section className="section">
+        <div className="kicker">{n.label}</div>
+        <h1 className="h1" style={{marginBottom:'var(--m)'}}>{n.title}</h1>
+        <div className="grid-3">
+          {NEWS.map(item => (
+            <article key={item.id} className="news-card" style={{cursor:'pointer'}}
+              onClick={() => { setDetailType('news'); setDetailId(item.id); setPage('news-detail'); }}>
+              <div className="card-body">
+                <div className="tag">{lang==='zh' ? item.tagZh : item.tagEn}</div>
+                <div className="h2">{lang==='zh' ? item.titleZh : item.titleEn}</div>
+                <div className="news-time">{item.date}</div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+      <Footer t={t} />
+    </>
+  );
+}
+
+// ── ABOUT ─────────────────────────────────────────────────────────────────────
+function AboutPage({ lang, t }) {
+  const a = t.about;
+  return (
+    <>
+      <section className="section">
+        <div className="about-grid">
+          <div className="portrait">
+            <span className="portrait-label">{lang==='zh'?'作者照片 3:4':'Portrait Photo 3:4'}</span>
+          </div>
+          <div className="bio-block">
+            <div>
+              <div className="kicker">{a.label}</div>
+              <h1 className="h1">{a.title}</h1>
+            </div>
+            <p style={{fontSize:'16px', lineHeight:'1.8', maxWidth:'640px'}}>{a.bio}</p>
+            <div>
+              <div className="kicker" style={{marginBottom:'var(--s)'}}>{a.tlLabel}</div>
+              <div className="timeline-list">
+                {TIMELINE.map((tl,i) => (
+                  <div key={i} className="timeline-item">
+                    <span className="tl-year">{tl.year}</span>
+                    <span style={{fontSize:'15px'}}>{lang==='zh' ? tl.zh : tl.en}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <Footer t={t} />
+    </>
+  );
+}
+
+// ── ARTWORK DETAIL ────────────────────────────────────────────────────────────
+function ArtworkDetail({ lang, t, id, setPage }) {
+  const d = t.detail;
+  const work = WORKS.find(w => w.id === id) || WORKS[0];
+  const [activeThumb, setActiveThumb] = useState(0);
+  return (
+    <>
+      <div className="detail-wrap">
+        <a className="back-link" onClick={() => setPage('works')}>{d.backWork}</a>
+        <div className="detail-subnav">
+          <div>
+            <div className="kicker">{lang==='zh' ? work.tagZh : work.tagEn}</div>
+            <h2 className="h2" style={{marginTop:'6px'}}>{lang==='zh' ? work.titleZh : work.titleEn}</h2>
+          </div>
+        </div>
+        <div className="detail-hero artwork">
+          <span className="detail-hero-label">{lang==='zh' ? work.titleZh : work.titleEn}</span>
+        </div>
+        <div className="thumbs">
+          {[0,1,2].map(i => (
+            <div key={i} className={`thumb ${activeThumb===i?'active':''}`} onClick={() => setActiveThumb(i)}>
+              <span className="thumb-label">{i+1}</span>
+            </div>
+          ))}
+        </div>
+        <div className="detail-meta-grid">
+          <div className="detail-copy">
+            <p>{lang==='zh' ? '该作品采用毛体书法传统笔墨技法，以精湛的用笔与深厚的文化内涵，展现出张满堂书法艺术的核心审美追求。作品在构图上注重整体气韵与局部节奏的平衡，是当代毛体书法的重要代表之作。' : 'This work employs the techniques of Mao-style calligraphy with masterful brushwork, reflecting Zhang Mantang\'s core aesthetic pursuit. The composition balances overall rhythmic energy with fine detail, representing an important achievement in contemporary Mao-style calligraphy.'}</p>
+            {work.project && <p style={{fontSize:'14px', color:'var(--mid)'}}>{lang==='zh'?'项目：':'Project: '}{work.project}</p>}
+          </div>
+          <div className="detail-specs">
+            <div className="spec-row"><span className="spec-label">{d.medium}</span><span>{work.medium}</span></div>
+            {work.size && <div className="spec-row"><span className="spec-label">{d.size}</span><span>{work.size}</span></div>}
+            {work.year && <div className="spec-row"><span className="spec-label">{d.year}</span><span>{work.year}</span></div>}
+            {work.project && <div className="spec-row"><span className="spec-label">{d.project}</span><span style={{fontSize:'13px'}}>{work.project}</span></div>}
+            <div className="spec-row"><span className="spec-label">{d.status}</span><span>{lang==='zh' ? work.statusZh : work.statusEn}</span></div>
+          </div>
+        </div>
+      </div>
+      <Footer t={t} />
+    </>
+  );
+}
+
+// ── EXHIBITION DETAIL ─────────────────────────────────────────────────────────
+function ExhibitionDetail({ lang, t, id, setPage, setDetailId, setDetailType }) {
+  const d = t.detail;
+  const ex = EXHIBITIONS.find(e => e.id === id) || EXHIBITIONS[0];
+  const [activeYear, setActiveYear] = useState(ex.year);
+  const relatedWorks = WORKS.filter(w => ex.works.includes(w.id));
+  return (
+    <>
+      <div className="detail-wrap">
+        <a className="back-link" onClick={() => setPage('exhibitions')}>{d.backEx}</a>
+        <div className="detail-shell">
+          <aside className="year-rail">
+            {EXHIBITIONS.map(e => (
+              <button key={e.year} className={`year-node ${activeYear===e.year?'active':''}`}
+                onClick={() => setActiveYear(e.year)}>{e.year}</button>
+            ))}
+          </aside>
+          <div className="detail-main">
+            <div className="kicker">{lang==='zh' ? ex.titleZh : ex.titleEn}</div>
+            <h2 className="h2" style={{margin:'8px 0 28px'}}>{lang==='zh' ? ex.titleZh : ex.titleEn}</h2>
+            <div className="detail-hero exhibition">
+              <span className="detail-hero-label">{lang==='zh'?'展览主视觉':'Exhibition Visual'}</span>
+            </div>
+            <div className="detail-meta-grid">
+              <div className="detail-copy">
+                <p>{lang==='zh' ? '本次展览汇聚了张满堂最具代表性的书法作品，以毛体书法独特的笔墨语言，在国际重要文化机构中展现中国传统书法艺术的深厚底蕴与当代活力。展览引发广泛关注，有力推动了中国书法艺术的国际传播。' : 'This exhibition brought together Zhang Mantang\'s most representative calligraphic works, presenting the depth of Chinese classical calligraphy and its contemporary vitality to international audiences through the distinctive visual language of Mao-style brushwork.'}</p>
+              </div>
+              <div className="detail-specs">
+                <div className="spec-row"><span className="spec-label">{d.location}</span><span>{lang==='zh' ? ex.locZh : ex.locEn}</span></div>
+                <div className="spec-row"><span className="spec-label">{d.time}</span><span>{ex.year}</span></div>
+              </div>
+            </div>
+            {relatedWorks.length > 0 && (
+              <>
+                <hr className="divider" />
+                <div>
+                  <div className="kicker" style={{marginBottom:'20px'}}>{d.exhibits}</div>
+                  <div className="grid-3">
+                    {relatedWorks.map(w => (
+                      <article key={w.id} className="art-card" style={{cursor:'pointer'}}
+                        onClick={() => { setDetailType('artwork'); setDetailId(w.id); setPage('artwork-detail'); }}>
+                        <div className="art-frame">
+                          <span className="art-frame-label">{lang==='zh' ? w.titleZh : w.titleEn}</span>
+                        </div>
+                        <div className="card-body">
+                          <div className="tag">{lang==='zh' ? w.tagZh : w.tagEn}</div>
+                          <div className="h2">{lang==='zh' ? w.titleZh : w.titleEn}</div>
+                          <div className="meta">{lang==='zh' ? w.metaZh : w.metaEn}</div>
+                        </div>
+                      </article>
+                    ))}
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
+      <Footer t={t} />
+    </>
+  );
+}
+
+// ── NEWS DETAIL ───────────────────────────────────────────────────────────────
+function NewsDetail({ lang, t, id, setPage }) {
+  const d = t.detail;
+  const item = NEWS.find(n => n.id === id) || NEWS[0];
+  const years = [...new Set(NEWS.map(n => n.date.split('.')[0]))].sort((a,b) => b-a);
+  return (
+    <>
+      <div className="detail-wrap">
+        <a className="back-link" onClick={() => setPage('news')}>{d.backNews}</a>
+        <div className="detail-shell">
+          <aside className="year-rail">
+            {years.map(y => (
+              <button key={y} className={`year-node ${item.date.startsWith(y)?'active':''}`}>{y}</button>
+            ))}
+          </aside>
+          <div className="detail-main">
+            <div className="tag">{lang==='zh' ? item.tagZh : item.tagEn}</div>
+            <h2 className="h2" style={{maxWidth:'820px', marginTop:'10px'}}>{lang==='zh' ? item.titleZh : item.titleEn}</h2>
+            <div className="meta" style={{marginTop:'16px'}}>{item.date}</div>
+            <div className="news-detail-layout">
+              <div className="news-detail-text">
+                <p>{lang==='zh' ? item.bodyZh : item.bodyEn}</p>
+              </div>
+              <div className="detail-hero news-h">
+                <span className="detail-hero-label">{lang==='zh'?'新闻配图':'News Image'}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <Footer t={t} />
+    </>
+  );
+}
+
+// ─── APP ──────────────────────────────────────────────────────────────────────
+function App() {
+  const [lang, setLang] = useState('zh');
+  const [page, setPage] = useState('home');
+  const [detailId, setDetailId] = useState(null);
+  const [detailType, setDetailType] = useState(null);
+  const [cookieDismissed, setCookieDismissed] = useState(false);
+
+  const t = T[lang];
+
+  const scrollToTop = useCallback((p) => {
+    setPage(p);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
+  const renderPage = () => {
+    switch(page) {
+      case 'home': return <HomePage lang={lang} t={t} setPage={scrollToTop} setDetailId={setDetailId} setDetailType={setDetailType} />;
+      case 'works': return <WorksPage lang={lang} t={t} setPage={scrollToTop} setDetailId={setDetailId} setDetailType={setDetailType} />;
+      case 'exhibitions': return <ExhibitionsPage lang={lang} t={t} setPage={scrollToTop} setDetailId={setDetailId} setDetailType={setDetailType} />;
+      case 'news': return <NewsPage lang={lang} t={t} setPage={scrollToTop} setDetailId={setDetailId} setDetailType={setDetailType} />;
+      case 'about': return <AboutPage lang={lang} t={t} />;
+      case 'artwork-detail': return <ArtworkDetail lang={lang} t={t} id={detailId} setPage={scrollToTop} />;
+      case 'exhibition-detail': return <ExhibitionDetail lang={lang} t={t} id={detailId} setPage={scrollToTop} setDetailId={setDetailId} setDetailType={setDetailType} />;
+      case 'news-detail': return <NewsDetail lang={lang} t={t} id={detailId} setPage={scrollToTop} />;
+      default: return <HomePage lang={lang} t={t} setPage={scrollToTop} setDetailId={setDetailId} setDetailType={setDetailType} />;
+    }
+  };
+
+  const detailPages = ['artwork-detail','exhibition-detail','news-detail'];
+
+  return (
+    <div className="site">
+      <Nav lang={lang} setLang={setLang} page={detailPages.includes(page)?detailType||'home':page} setPage={scrollToTop} t={t} />
+      {renderPage()}
+
+      {!cookieDismissed && (
+        <div className="cookie-banner">
+          <p className="cookie-text">{t.cookie.text}</p>
+          <div className="cookie-actions">
+            <button className="btn-accept" onClick={() => setCookieDismissed(true)}>{t.cookie.accept}</button>
+            <button className="btn-decline" onClick={() => setCookieDismissed(true)}>{t.cookie.decline}</button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+</script>
+</body>
+</html>

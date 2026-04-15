@@ -1,0 +1,6 @@
+baseurl: "/site"
+url: "https://yourusername.github.io"
+exclude:
+  - scripts/
+  - excel/
+  - images/original/
