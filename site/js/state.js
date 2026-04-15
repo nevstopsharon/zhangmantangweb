@@ -15,7 +15,7 @@
    * 站点基础路径
    * @type {string}
    */
-  site.siteBase = document.documentElement.dataset.siteBase || "..";
+  site.siteBase = document.documentElement.dataset.siteBase || "/";
   
   /**
    * 站点 URL

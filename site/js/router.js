@@ -3,7 +3,7 @@
   const rootNode = document.documentElement;
 
   function siteMount() {
-    const raw = String(rootNode.dataset.siteMount !== undefined ? rootNode.dataset.siteMount : "site").trim().replace(/^\/+|\/+$/g, "");
+    const raw = String(rootNode.dataset.siteMount !== undefined ? rootNode.dataset.siteMount : "").trim().replace(/^\/+|\/+$/g, "");
     return raw ? `/${raw}` : "";
   }
 
