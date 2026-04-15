@@ -25,3 +25,6 @@ docs_internal/
 backups/
 output/
 .playwright-cli/
+
+# 临时文件目录
+tmpshots/
