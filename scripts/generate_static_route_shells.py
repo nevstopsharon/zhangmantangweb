@@ -257,6 +257,12 @@ def html_shell(route: str, lang: str, metadata: dict, repo_root: Path, page_path
   <link rel="stylesheet" href="{site_asset_prefix}/assets/fonts/web/fonts.css?v={VERSION}">
   <link rel="stylesheet" href="{site_asset_prefix}/css/style.css?v={VERSION}">
   <script id="structured-data" type="application/ld+json">{schema_json}</script>
+  
+  <!-- Vercel Web Analytics -->
+  <script>
+    window.va = window.va || function () {{ (window.vaq = window.vaq || []).push(arguments); }};
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#main-content">{'跳过导航，直达正文' if lang == 'zh' else 'Skip navigation and jump to content'}</a>
