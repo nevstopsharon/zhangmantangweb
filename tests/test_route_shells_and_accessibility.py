@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import unittest
 from pathlib import Path
 
@@ -33,6 +34,21 @@ class RouteShellAndAccessibilityTests(unittest.TestCase):
         ]
         for page in expected:
             self.assertTrue(page.exists(), f"Missing static route shell: {page}")
+
+    def test_publish_output_contains_runtime_images_and_data(self) -> None:
+        expected = [
+            ROOT / "site" / "data" / "works.json",
+            ROOT / "site" / "data" / "profile.json",
+            ROOT / "site" / "images" / "home" / "hero-main.webp",
+            ROOT / "site" / "images" / "works" / "work-001" / "cover.webp",
+        ]
+        for path in expected:
+            self.assertTrue(path.exists(), f"Missing publish asset: {path}")
+
+    def test_vercel_config_builds_publish_output_into_site(self) -> None:
+        config = json.loads((ROOT / "vercel.json").read_text(encoding="utf-8"))
+        self.assertEqual(config.get("outputDirectory"), "site")
+        self.assertIn("build_site_publish.py", config.get("buildCommand", ""))
 
     def test_route_shells_include_page_specific_route_context(self) -> None:
         work_shell = (ROOT / "site" / "works" / "work-001" / "index.html").read_text(encoding="utf-8")

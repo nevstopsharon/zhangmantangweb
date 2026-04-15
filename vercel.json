@@ -1,5 +1,5 @@
 {
-  "buildCommand": "echo 'Build completed'",
+  "buildCommand": "python3 scripts/build_site_publish.py --repo-root .",
   "outputDirectory": "site",
   "devCommand": "python -m http.server 8080",
   "installCommand": "echo 'No dependencies needed'",
