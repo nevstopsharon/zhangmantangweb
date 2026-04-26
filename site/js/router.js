@@ -68,8 +68,8 @@
     return new URL(relative, `${base}/`).toString();
   }
 
-  function parseHash() {
-    const raw = currentRouteString();
+  function parseRouteString(routeString) {
+    const raw = normalizeRoute(routeString);
     if (!raw) return { page: "home" };
     if (raw.startsWith("search")) {
       const params = new URLSearchParams(raw.split("?")[1] || "");
@@ -81,6 +81,10 @@
     if (parts[0] === "news" && parts[1]) return { page: "news-detail", id: parts[1] };
     const known = new Set(["home", "works", "exhibitions", "news", "about"]);
     return { page: known.has(parts[0]) ? parts[0] : "home" };
+  }
+
+  function readCurrentRoute() {
+    return parseRouteString(currentRouteString());
   }
 
   function go(route) {
@@ -134,7 +138,8 @@
     routeRelativePath,
     routeHref,
     routeUrl,
-    parseHash,
+    parseRouteString,
+    readCurrentRoute,
     go,
     searchRoute,
     yearValue,

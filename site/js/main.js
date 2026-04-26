@@ -4,7 +4,7 @@
  */
 (function () {
   const site = window.ZMTSite;
-  const { appRoot, state, currentUI, go, parseHash, searchRoute, loadData, escapeHtml, setLanguageInUrl, languageFromUrl, setRouteContext, legacyHashRoute, routeHref } = site;
+  const { appRoot, state, currentUI, go, readCurrentRoute, searchRoute, loadData, escapeHtml, setLanguageInUrl, languageFromUrl, setRouteContext, legacyHashRoute, routeHref } = site;
   
   /**
  * 全局事件处理器是否已绑定
@@ -116,8 +116,6 @@ function updateYearRailHighlight(scope, year) {
    */
   async function renderPage(options = {}) {
     const requestId = ++renderRequestId;
-    const route = parseHash();
-    await site.ensureRouteBundle(route);
     if (requestId !== renderRequestId) return;
     site.render();
     site.syncDocumentState();
@@ -139,6 +137,7 @@ function updateYearRailHighlight(scope, year) {
     const panel = shell.querySelector("[data-search-suggestions]");
     if (!input || !panel) return;
     let activeIndex = -1;
+    const optionIdPrefix = input.id || "search-option";
 
     const applyActiveState = () => {
       const options = [...panel.querySelectorAll("[data-search-suggestion]")];
@@ -160,7 +159,7 @@ function updateYearRailHighlight(scope, year) {
       panel.innerHTML = suggestions
         .map(
           (item, index) => `
-            <button id="global-search-suggestion-${index}" class="search-suggestion" type="button" role="option" aria-selected="false" data-search-suggestion="${escapeHtml(item.label)}" ${item.route ? `data-search-route="${escapeHtml(item.route)}"` : ""}>
+            <button id="${optionIdPrefix}-suggestion-${index}" class="search-suggestion" type="button" role="option" aria-selected="false" data-search-suggestion="${escapeHtml(item.label)}" ${item.route ? `data-search-route="${escapeHtml(item.route)}"` : ""}>
               ${escapeHtml(item.label)}
             </button>`
         )
@@ -199,6 +198,8 @@ function updateYearRailHighlight(scope, year) {
       if (!query) return;
       input.value = query;
       state.searchQuery = query;
+      state.mobileSearchOpen = false;
+      state.mobileMenuOpen = false;
       closeSuggestionPanel();
       if (targetRoute) {
         go(targetRoute);
@@ -268,6 +269,8 @@ function updateYearRailHighlight(scope, year) {
       node.addEventListener("click", () => {
         state.selectedMedia = null;
         state.openFilter = null;
+        state.mobileMenuOpen = false;
+        state.mobileSearchOpen = false;
         go(node.dataset.route);
       });
     });
@@ -275,6 +278,8 @@ function updateYearRailHighlight(scope, year) {
     appRoot.querySelectorAll("[data-lang]").forEach((node) => {
       node.addEventListener("click", async () => {
         state.lang = node.dataset.lang;
+        state.mobileMenuOpen = false;
+        state.mobileSearchOpen = false;
         setLanguageInUrl(state.lang);
         await loadData();
         void renderPage({ focusMain: true });
@@ -287,6 +292,8 @@ function updateYearRailHighlight(scope, year) {
         const formData = new FormData(node);
         const query = String(formData.get("q") || "").trim();
         state.searchQuery = query;
+        state.mobileMenuOpen = false;
+        state.mobileSearchOpen = false;
         go(searchRoute(query));
       });
     });
@@ -294,6 +301,43 @@ function updateYearRailHighlight(scope, year) {
     appRoot.querySelectorAll("[data-search-shell]").forEach((node) => {
       bindSearchSuggestions(node);
     });
+
+    appRoot.querySelectorAll("[data-mobile-menu-toggle]").forEach((node) => {
+      node.addEventListener("click", (event) => {
+        event.stopPropagation();
+        state.mobileMenuOpen = !state.mobileMenuOpen;
+        state.mobileSearchOpen = false;
+        void renderPage();
+      });
+    });
+
+    appRoot.querySelectorAll("[data-mobile-search-toggle]").forEach((node) => {
+      node.addEventListener("click", (event) => {
+        event.stopPropagation();
+        state.mobileSearchOpen = !state.mobileSearchOpen;
+        state.mobileMenuOpen = false;
+        void renderPage();
+      });
+    });
+
+    appRoot.querySelectorAll("[data-mobile-close]").forEach((node) => {
+      node.addEventListener("click", (event) => {
+        event.stopPropagation();
+        state.mobileMenuOpen = false;
+        state.mobileSearchOpen = false;
+        void renderPage();
+      });
+    });
+
+    if (state.mobileSearchOpen) {
+      const mobileSearchInput = appRoot.querySelector("#mobile-search-input");
+      if (mobileSearchInput) {
+        requestAnimationFrame(() => {
+          mobileSearchInput.focus({ preventScroll: true });
+          mobileSearchInput.select();
+        });
+      }
+    }
 
     appRoot.querySelectorAll("[data-filter-toggle]").forEach((node) => {
       node.addEventListener("click", (event) => {
@@ -346,7 +390,7 @@ function updateYearRailHighlight(scope, year) {
 
     appRoot.querySelectorAll("[data-year-target]").forEach((node) => {
       node.addEventListener("click", () => {
-        const route = parseHash();
+        const route = readCurrentRoute();
         const scope = node.dataset.yearScope;
         const value = node.dataset.yearValue;
         const targetId = node.dataset.yearTarget;
@@ -368,6 +412,11 @@ function updateYearRailHighlight(scope, year) {
         let shouldRender = false;
         if (state.openFilter !== null) {
           state.openFilter = null;
+          shouldRender = true;
+        }
+        if (state.mobileMenuOpen || state.mobileSearchOpen) {
+          state.mobileMenuOpen = false;
+          state.mobileSearchOpen = false;
           shouldRender = true;
         }
         appRoot.querySelectorAll("[data-search-suggestions].is-visible").forEach((node) => {
@@ -430,7 +479,7 @@ function updateYearRailHighlight(scope, year) {
         setRouteContext(site.currentRouteString(), state.lang);
       }
       await loadData();
-      const route = parseHash();
+      const route = readCurrentRoute();
       state.searchQuery = route.page === "search" ? route.query : "";
       await renderPage({ focusMain: true });
       initLazyLoading();
@@ -442,10 +491,12 @@ function updateYearRailHighlight(scope, year) {
   }
 
   window.addEventListener("popstate", () => {
-    const route = parseHash();
+    const route = readCurrentRoute();
     state.lang = languageFromUrl();
     state.selectedMedia = null;
     state.openFilter = null;
+    state.mobileMenuOpen = false;
+    state.mobileSearchOpen = false;
     state.searchQuery = route.page === "search" ? route.query : "";
     void renderPage({ focusMain: true });
   });

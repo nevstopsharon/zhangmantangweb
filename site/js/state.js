@@ -41,6 +41,8 @@
    * @property {string|null} activeNewsYear - 当前活跃的新闻年份
    * @property {string} searchQuery - 搜索查询
    * @property {Object|null} pendingYearScroll - 待处理的年份滚动
+   * @property {boolean} mobileMenuOpen - 手机端导航抽屉是否打开
+   * @property {boolean} mobileSearchOpen - 手机端搜索覆盖层是否打开
    */
   site.state = {
     lang: "zh",
@@ -50,7 +52,9 @@
     activeExhibitionYear: null,
     activeNewsYear: null,
     searchQuery: "",
-    pendingYearScroll: null
+    pendingYearScroll: null,
+    mobileMenuOpen: false,
+    mobileSearchOpen: false
   };
 
   /**
