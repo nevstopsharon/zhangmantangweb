@@ -125,15 +125,18 @@
   }
 
   function detailMediaMarkup(gallery, title, heroClass, fit = "contain", inlineStyle = "") {
-    const media = Array.isArray(gallery) ? gallery.filter(Boolean) : [];
+    const media = Array.isArray(gallery) ? uniqueValues(gallery.filter(Boolean)) : [];
     const selected = state.selectedMedia && media.includes(state.selectedMedia) ? state.selectedMedia : media[0] || "";
-    const currentIndex = media.indexOf(selected);
-    const hasMultiple = media.length > 1;
-    const prevDisabled = currentIndex <= 0;
-    const nextDisabled = currentIndex === -1 || currentIndex >= media.length - 1;
-    const galleryValue = escapeHtml(media.join("|"));
-    const heroStyle = fit ? ` style="object-fit:${fit};"` : "";
-    const wrapperStyle = inlineStyle ? ` style="${inlineStyle}"` : "";
+      const currentIndex = media.indexOf(selected);
+      const hasMultiple = media.length > 1;
+      const prevDisabled = currentIndex <= 0;
+      const nextDisabled = currentIndex === -1 || currentIndex >= media.length - 1;
+      const galleryValue = escapeHtml(media.join("|"));
+      const lightboxAttrs = selected
+        ? ` data-lightbox-open data-lightbox-media="${escapeHtml(selected)}" data-lightbox-index="${currentIndex}" data-media-gallery="${galleryValue}"`
+        : "";
+      const heroStyle = fit ? ` style="object-fit:${fit};"` : "";
+      const wrapperStyle = inlineStyle ? ` style="${inlineStyle}"` : "";
 
     return `
       <div class="detail-media"${wrapperStyle}>
@@ -142,9 +145,12 @@
             <button class="detail-media-nav is-prev" type="button" data-media-nav="prev" data-media-index="${currentIndex}" data-media-gallery="${galleryValue}" aria-label="${escapeHtml(currentUI().detail.previousImage)}" ${prevDisabled ? "disabled" : ""}>
               <span class="detail-media-nav-icon" aria-hidden="true"></span>
             </button>` : ""}
-          <div class="detail-hero ${heroClass}">
-            ${selected ? `<img src="${assetUrl(selected)}" alt="${escapeHtml(title)}" loading="lazy"${heroStyle}>` : `<div class="empty-state">${escapeHtml(currentUI().noImage)}</div>`}
-          </div>
+            <div class="detail-hero ${heroClass}">
+              ${selected ? `
+                <button class="detail-hero-open" type="button"${lightboxAttrs} aria-label="${escapeHtml(title)}">
+                  <img src="${assetUrl(selected)}" alt="${escapeHtml(title)}" loading="lazy"${heroStyle}>
+                </button>` : `<div class="empty-state">${escapeHtml(currentUI().noImage)}</div>`}
+            </div>
           ${hasMultiple ? `
             <button class="detail-media-nav is-next" type="button" data-media-nav="next" data-media-index="${currentIndex}" data-media-gallery="${galleryValue}" aria-label="${escapeHtml(currentUI().detail.nextImage)}" ${nextDisabled ? "disabled" : ""}>
               <span class="detail-media-nav-icon" aria-hidden="true"></span>

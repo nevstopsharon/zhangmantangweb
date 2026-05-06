@@ -427,6 +427,8 @@ function updateYearRailHighlight(scope, year) {
     appRoot.querySelectorAll("[data-route]").forEach((node) => {
       node.addEventListener("click", () => {
         state.selectedMedia = null;
+        state.lightboxMedia = null;
+        state.lightboxGallery = [];
         state.openFilter = null;
         state.mobileMenuOpen = false;
         state.mobileSearchOpen = false;
@@ -534,7 +536,9 @@ function updateYearRailHighlight(scope, year) {
     });
 
     appRoot.querySelectorAll("[data-media-nav]").forEach((node) => {
-      node.addEventListener("click", () => {
+      node.addEventListener("click", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
         const gallery = String(node.dataset.mediaGallery || "")
           .split("|")
           .map((value) => value.trim())
@@ -544,6 +548,52 @@ function updateYearRailHighlight(scope, year) {
         const offset = node.dataset.mediaNav === "next" ? 1 : -1;
         const nextIndex = currentIndex + offset;
         if (nextIndex < 0 || nextIndex >= gallery.length) return;
+        state.selectedMedia = gallery[nextIndex];
+        void renderPage();
+      });
+    });
+
+    appRoot.querySelectorAll("[data-lightbox-open]").forEach((node) => {
+      node.addEventListener("click", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        const gallery = String(node.dataset.mediaGallery || "")
+          .split("|")
+          .map((value) => value.trim())
+          .filter(Boolean);
+        const media = node.dataset.lightboxMedia || gallery[Number(node.dataset.lightboxIndex || 0)] || "";
+        if (!media) return;
+        state.lightboxMedia = media;
+        state.lightboxGallery = gallery.length ? gallery : [media];
+        void renderPage();
+      });
+    });
+
+    appRoot.querySelectorAll("[data-lightbox-close]").forEach((node) => {
+      node.addEventListener("click", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        state.lightboxMedia = null;
+        state.lightboxGallery = [];
+        void renderPage();
+      });
+    });
+
+    appRoot.querySelectorAll("[data-lightbox-nav]").forEach((node) => {
+      node.addEventListener("click", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        const gallery = String(node.dataset.mediaGallery || "")
+          .split("|")
+          .map((value) => value.trim())
+          .filter(Boolean);
+        const currentIndex = Number(node.dataset.mediaIndex || -1);
+        if (!gallery.length || currentIndex < 0) return;
+        const offset = node.dataset.lightboxNav === "next" ? 1 : -1;
+        const nextIndex = currentIndex + offset;
+        if (nextIndex < 0 || nextIndex >= gallery.length) return;
+        state.lightboxMedia = gallery[nextIndex];
+        state.lightboxGallery = gallery;
         state.selectedMedia = gallery[nextIndex];
         void renderPage();
       });
@@ -580,6 +630,11 @@ function updateYearRailHighlight(scope, year) {
           state.mobileSearchOpen = false;
           shouldRender = true;
         }
+        if (state.lightboxMedia) {
+          state.lightboxMedia = null;
+          state.lightboxGallery = [];
+          shouldRender = true;
+        }
         appRoot.querySelectorAll("[data-search-suggestions].is-visible").forEach((node) => {
           node.classList.remove("is-visible");
           node.setAttribute("aria-hidden", "true");
@@ -593,6 +648,12 @@ function updateYearRailHighlight(scope, year) {
         if (shouldRender) {
           void renderPage();
         }
+      });
+      document.addEventListener("keydown", (event) => {
+        if (event.key !== "Escape" || !state.lightboxMedia) return;
+        state.lightboxMedia = null;
+        state.lightboxGallery = [];
+        void renderPage();
       });
       globalHandlersBound = true;
     }
@@ -655,6 +716,8 @@ function updateYearRailHighlight(scope, year) {
     const route = readCurrentRoute();
     state.lang = languageFromUrl();
     state.selectedMedia = null;
+    state.lightboxMedia = null;
+    state.lightboxGallery = [];
     state.openFilter = null;
     state.mobileMenuOpen = false;
     state.mobileSearchOpen = false;

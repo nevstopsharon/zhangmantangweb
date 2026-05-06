@@ -49,6 +49,8 @@
     worksFilter: { project: "", material: "" },
     openFilter: null,
     selectedMedia: null,
+    lightboxMedia: null,
+    lightboxGallery: [],
     activeExhibitionYear: null,
     activeNewsYear: null,
     searchQuery: "",

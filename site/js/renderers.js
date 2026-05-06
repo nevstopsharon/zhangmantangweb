@@ -779,6 +779,39 @@
     }
   }
 
+  function lightboxMarkup() {
+    const media = state.lightboxMedia;
+    if (!media) return "";
+    const gallery = Array.isArray(state.lightboxGallery) ? state.lightboxGallery.filter(Boolean) : [];
+    const index = gallery.indexOf(media);
+    const hasMultiple = gallery.length > 1 && index >= 0;
+    const previousDisabled = !hasMultiple || index <= 0;
+    const nextDisabled = !hasMultiple || index >= gallery.length - 1;
+    const galleryValue = escapeHtml(gallery.join("|"));
+    const label = state.lang === "en" ? "Full-screen image preview" : "全屏图片预览";
+    const closeLabel = state.lang === "en" ? "Close image preview" : "关闭图片预览";
+    const previousLabel = state.lang === "en" ? "Previous image" : "上一张图片";
+    const nextLabel = state.lang === "en" ? "Next image" : "下一张图片";
+
+    return `
+      <div class="media-lightbox" role="dialog" aria-modal="true" aria-label="${escapeHtml(label)}">
+        <button class="media-lightbox-backdrop" type="button" data-lightbox-close aria-label="${escapeHtml(closeLabel)}"></button>
+        <div class="media-lightbox-inner">
+          <button class="media-lightbox-close" type="button" data-lightbox-close aria-label="${escapeHtml(closeLabel)}">×</button>
+          ${hasMultiple ? `
+            <button class="media-lightbox-nav is-prev" type="button" data-lightbox-nav="prev" data-media-index="${index}" data-media-gallery="${galleryValue}" aria-label="${escapeHtml(previousLabel)}" ${previousDisabled ? "disabled" : ""}>
+              <span class="detail-media-nav-icon" aria-hidden="true"></span>
+            </button>` : ""}
+          <img class="media-lightbox-image" src="${assetUrl(media)}" alt="${escapeHtml(label)}">
+          ${hasMultiple ? `
+            <button class="media-lightbox-nav is-next" type="button" data-lightbox-nav="next" data-media-index="${index}" data-media-gallery="${galleryValue}" aria-label="${escapeHtml(nextLabel)}" ${nextDisabled ? "disabled" : ""}>
+              <span class="detail-media-nav-icon" aria-hidden="true"></span>
+            </button>` : ""}
+        </div>
+      </div>
+    `;
+  }
+
   function metadataForRoute(route) {
     const siteData = store.siteData;
     const profile = siteData.profile;
@@ -1001,6 +1034,7 @@
     appRoot.innerHTML = `
       ${headerMarkupResponsive(currentPage, route)}
       <main id="main-content" class="page" tabindex="-1">${bodyMarkup(route)}</main>
+      ${lightboxMarkup()}
       ${contactMarkup(route)}
       ${footerMarkup()}
     `;
@@ -1029,6 +1063,7 @@
     exhibitionDetailMarkup,
     newsDetailMarkup,
     bodyMarkup,
+    lightboxMarkup,
     metadataForRoute,
     syncDocumentState,
     render
