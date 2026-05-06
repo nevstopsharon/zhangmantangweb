@@ -1,6 +1,6 @@
 (function () {
   const site = window.ZMTSite;
-  const { state, ui, siteBase, WORK_FILTER_LABELS } = site;
+  const { state, store, ui, siteBase, WORK_FILTER_LABELS } = site;
 
   function currentUI() {
     return ui[state.lang];
@@ -36,6 +36,10 @@
 
   function workFacetLabel(type, value) {
     if (!value) return "";
+    if (state.lang === "en") {
+      const matched = store.siteData?.works?.find((item) => item?.[`${type}_zh`] === value && item?.[`${type}_en`]);
+      if (matched) return matched[`${type}_en`];
+    }
     return WORK_FILTER_LABELS[state.lang]?.[type]?.[value] || value;
   }
 
