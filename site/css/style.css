@@ -714,14 +714,17 @@ p,
 .preview-list {
   display: grid;
   gap: 12px;
-  justify-items: start;
+  justify-items: stretch;
 }
 
 .preview-link {
-  display: inline;
+  display: block;
+  width: 100%;
   color: var(--mid);
   transition: 0.2s ease;
   text-decoration: none;
+  text-align: left;
+  line-height: 1.55;
 }
 
 .preview-link:hover,
