@@ -4,14 +4,15 @@
     appRoot,
     state,
     store,
-    WORK_FILTERS,
     SEARCH_SUGGESTIONS,
     currentUI,
     assetUrl,
     textOf,
     localizedField,
+    workFacetValue,
     workFacetLabel,
     escapeHtml,
+    uniqueValues,
     readCurrentRoute,
     currentRouteString,
     routeUrl,
@@ -423,11 +424,11 @@
   function worksMarkup() {
     const siteData = store.siteData;
     const copy = currentUI().works;
-    const projectOptions = WORK_FILTERS.project;
-    const materialOptions = WORK_FILTERS.material;
+    const projectOptions = uniqueValues(siteData.works.map((item) => workFacetValue(item, "project")).filter(Boolean));
+    const materialOptions = uniqueValues(siteData.works.map((item) => workFacetValue(item, "material")).filter(Boolean));
     const filtered = siteData.works.filter((item) => {
-      const projectOk = !state.worksFilter.project || item.project_zh === state.worksFilter.project;
-      const materialOk = !state.worksFilter.material || item.material_zh === state.worksFilter.material;
+      const projectOk = !state.worksFilter.project || workFacetValue(item, "project") === state.worksFilter.project;
+      const materialOk = !state.worksFilter.material || workFacetValue(item, "material") === state.worksFilter.material;
       return projectOk && materialOk;
     });
 
@@ -669,8 +670,10 @@
 
     return `
       <section class="hero">
-        <div class="hero-art">
-          <img class="hero-art-image" src="${assetUrl(profile.hero.background_image)}" alt="${escapeHtml(state.lang === "en" ? profile.hero.title_en : profile.hero.title_zh)}" loading="eager" fetchpriority="high" decoding="async">
+        <div class="hero-art hero-ink-reveal" data-ink-hero data-cover-src="${assetUrl(profile.hero.background_image)}">
+          <img class="hero-ink-under" src="${assetUrl("/images/works/work-006/cover.webp")}" alt="${escapeHtml(state.lang === "en" ? "Calligraphy artwork under ink reveal" : "水墨揭示底层书法作品")}" loading="eager" decoding="async">
+          <img class="hero-art-image hero-ink-fallback" src="${assetUrl(profile.hero.background_image)}" alt="${escapeHtml(state.lang === "en" ? profile.hero.title_en : profile.hero.title_zh)}" loading="eager" fetchpriority="high" decoding="async">
+          <canvas class="hero-ink-canvas" data-ink-canvas aria-hidden="true"></canvas>
         </div>
       </section>
 
@@ -712,8 +715,10 @@
 
     return `
       <section class="hero">
-        <div class="hero-art">
-          <img class="hero-art-image" src="${assetUrl(profile.hero.background_image)}" alt="${escapeHtml(heroTitle)}" loading="eager" fetchpriority="high" decoding="async">
+        <div class="hero-art hero-ink-reveal" data-ink-hero data-cover-src="${assetUrl(profile.hero.background_image)}">
+          <img class="hero-ink-under" src="${assetUrl("/images/works/work-006/cover.webp")}" alt="${escapeHtml(state.lang === "en" ? "Calligraphy artwork under ink reveal" : "水墨揭示底层书法作品")}" loading="eager" decoding="async">
+          <img class="hero-art-image hero-ink-fallback" src="${assetUrl(profile.hero.background_image)}" alt="${escapeHtml(heroTitle)}" loading="eager" fetchpriority="high" decoding="async">
+          <canvas class="hero-ink-canvas" data-ink-canvas aria-hidden="true"></canvas>
         </div>
       </section>
       <section class="hero-summary">

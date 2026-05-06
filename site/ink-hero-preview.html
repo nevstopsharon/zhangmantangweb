@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hero Ink Bloom Preview</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #f7f3ee;
+      color: #1a1a1a;
+      font-family: "Noto Sans SC", system-ui, sans-serif;
+    }
+
+    .preview-shell {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr;
+    }
+
+    .preview-bar {
+      height: 64px;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #d6d2ce;
+      background: rgba(255, 255, 255, 0.94);
+      color: #6a6868;
+      font-size: 14px;
+    }
+
+    .preview-title {
+      color: #1a1a1a;
+      font-size: 16px;
+    }
+
+    .ink-hero {
+      position: relative;
+      min-height: calc(100vh - 64px);
+      overflow: hidden;
+      cursor: crosshair;
+      touch-action: none;
+      background: #e9e3dc;
+    }
+
+    .ink-layer,
+    .ink-canvas,
+    .grain-layer {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .ink-layer {
+      object-fit: cover;
+      filter: saturate(0.9) contrast(1.04);
+    }
+
+    .ink-canvas {
+      z-index: 2;
+    }
+
+    .grain-layer {
+      z-index: 3;
+      pointer-events: none;
+      opacity: 0.12;
+      mix-blend-mode: multiply;
+      background-image:
+        radial-gradient(circle at 20% 30%, rgba(20, 20, 20, 0.22) 0 1px, transparent 1.5px),
+        radial-gradient(circle at 70% 60%, rgba(20, 20, 20, 0.12) 0 1px, transparent 1.5px);
+      background-size: 34px 34px, 47px 47px;
+    }
+
+    .hint {
+      position: absolute;
+      left: 24px;
+      bottom: 24px;
+      z-index: 4;
+      width: min(360px, calc(100% - 48px));
+      padding: 14px 16px;
+      border: 1px solid rgba(26, 26, 26, 0.2);
+      background: rgba(255, 255, 255, 0.78);
+      color: #4d4a47;
+      font-size: 14px;
+      line-height: 1.6;
+      backdrop-filter: blur(8px);
+      transition: opacity 0.4s ease;
+    }
+
+    @media (max-width: 760px) {
+      .preview-bar {
+        height: 56px;
+        padding: 0 16px;
+      }
+
+      .preview-note {
+        display: none;
+      }
+
+      .ink-hero {
+        min-height: calc(100vh - 56px);
+      }
+
+      .hint {
+        left: 16px;
+        bottom: 16px;
+        width: calc(100% - 32px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="preview-shell">
+    <header class="preview-bar">
+      <div class="preview-title">水墨晕染揭示效果预览</div>
+      <div class="preview-note">悬浮或触摸查看晕染</div>
+    </header>
+    <main class="ink-hero" id="inkHero" aria-label="水墨晕染揭示效果预览">
+      <img class="ink-layer" src="/images/works/work-006/cover.webp" alt="底层书法作品">
+      <canvas class="ink-canvas" id="inkCanvas"></canvas>
+      <div class="grain-layer" aria-hidden="true"></div>
+      <div class="hint">悬浮在哪里，哪里会像水墨滴落一样晕染开，露出底层书法作品。离开后恢复原样。</div>
+    </main>
+  </div>
+
+  <script>
+    const hero = document.getElementById("inkHero");
+    const canvas = document.getElementById("inkCanvas");
+    const ctx = canvas.getContext("2d", { willReadFrequently: false });
+    const cover = new Image();
+    cover.src = "/images/home/hero-main.webp";
+
+    let pointer = { x: 0, y: 0 };
+    let inkStrength = 0;
+    let targetStrength = 0;
+    let ready = false;
+    let startTime = performance.now();
+    let hideHintTimer = null;
+
+    function fitImage(context, image, width, height) {
+      const scale = Math.max(width / image.naturalWidth, height / image.naturalHeight);
+      const drawWidth = image.naturalWidth * scale;
+      const drawHeight = image.naturalHeight * scale;
+      const x = (width - drawWidth) / 2;
+      const y = (height - drawHeight) / 2;
+      context.drawImage(image, x, y, drawWidth, drawHeight);
+    }
+
+    function resizeCanvas() {
+      const rect = hero.getBoundingClientRect();
+      const ratio = window.devicePixelRatio || 1;
+      canvas.width = Math.round(rect.width * ratio);
+      canvas.height = Math.round(rect.height * ratio);
+      canvas.style.width = `${rect.width}px`;
+      canvas.style.height = `${rect.height}px`;
+      ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+      ready = true;
+    }
+
+    function repaintCover() {
+      const rect = hero.getBoundingClientRect();
+      ctx.globalCompositeOperation = "source-over";
+      ctx.globalAlpha = 1;
+      ctx.clearRect(0, 0, rect.width, rect.height);
+      fitImage(ctx, cover, rect.width, rect.height);
+    }
+
+    function inkBloom(x, y, strength, time) {
+      if (strength <= 0.01) return;
+
+      const pulse = 1 + Math.sin(time * 0.003) * 0.035;
+      const baseRadius = (72 + strength * 92) * pulse;
+      const satelliteCount = 20;
+
+      ctx.save();
+      ctx.globalCompositeOperation = "destination-out";
+
+      const core = ctx.createRadialGradient(x, y, baseRadius * 0.04, x, y, baseRadius);
+      core.addColorStop(0, `rgba(0,0,0,${0.98 * strength})`);
+      core.addColorStop(0.22, `rgba(0,0,0,${0.82 * strength})`);
+      core.addColorStop(0.6, `rgba(0,0,0,${0.32 * strength})`);
+      core.addColorStop(1, "rgba(0,0,0,0)");
+      ctx.fillStyle = core;
+      ctx.beginPath();
+      ctx.arc(x, y, baseRadius, 0, Math.PI * 2);
+      ctx.fill();
+
+      for (let i = 0; i < satelliteCount; i += 1) {
+        const angle = i * 2.399 + Math.sin(time * 0.001 + i) * 0.16;
+        const ring = baseRadius * (0.18 + (i % 5) * 0.105);
+        const offset = ring * (0.86 + Math.sin(time * 0.002 + i * 1.7) * 0.14);
+        const px = x + Math.cos(angle) * offset;
+        const py = y + Math.sin(angle) * offset * 0.72;
+        const radius = baseRadius * (0.13 + (i % 4) * 0.034);
+        const alpha = strength * (0.2 + (i % 3) * 0.08);
+        const blot = ctx.createRadialGradient(px, py, radius * 0.05, px, py, radius);
+        blot.addColorStop(0, `rgba(0,0,0,${alpha})`);
+        blot.addColorStop(0.62, `rgba(0,0,0,${alpha * 0.4})`);
+        blot.addColorStop(1, "rgba(0,0,0,0)");
+        ctx.fillStyle = blot;
+        ctx.beginPath();
+        ctx.arc(px, py, radius, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      ctx.globalAlpha = strength * 0.22;
+      ctx.fillStyle = "rgba(0,0,0,1)";
+      for (let i = 0; i < 26; i += 1) {
+        const angle = i * 1.87;
+        const spread = baseRadius * (0.48 + (i % 6) * 0.085);
+        const px = x + Math.cos(angle) * spread;
+        const py = y + Math.sin(angle) * spread;
+        ctx.beginPath();
+        ctx.arc(px, py, 2 + (i % 4), 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      ctx.restore();
+    }
+
+    function pointFromEvent(event) {
+      const rect = canvas.getBoundingClientRect();
+      return {
+        x: event.clientX - rect.left,
+        y: event.clientY - rect.top
+      };
+    }
+
+    function setPointer(event) {
+      pointer = pointFromEvent(event);
+      targetStrength = 1;
+      window.clearTimeout(hideHintTimer);
+      hideHintTimer = window.setTimeout(() => {
+        const hint = document.querySelector(".hint");
+        if (hint) hint.style.opacity = "0";
+      }, 900);
+    }
+
+    function animate(time) {
+      if (ready) {
+        inkStrength += (targetStrength - inkStrength) * 0.09;
+        repaintCover();
+        inkBloom(pointer.x, pointer.y, inkStrength, time - startTime);
+      }
+      requestAnimationFrame(animate);
+    }
+
+    cover.onload = () => {
+      resizeCanvas();
+      repaintCover();
+    };
+
+    window.addEventListener("resize", () => {
+      resizeCanvas();
+      repaintCover();
+    });
+
+    hero.addEventListener("pointerenter", setPointer);
+    hero.addEventListener("pointermove", setPointer);
+    hero.addEventListener("pointerleave", () => {
+      targetStrength = 0;
+    });
+    hero.addEventListener("pointerdown", (event) => {
+      hero.setPointerCapture(event.pointerId);
+      setPointer(event);
+    });
+    hero.addEventListener("pointerup", () => {
+      targetStrength = 0;
+    });
+
+    requestAnimationFrame(animate);
+  </script>
+</body>
+</html>

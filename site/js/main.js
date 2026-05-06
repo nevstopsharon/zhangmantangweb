@@ -83,6 +83,165 @@ function updateYearRailHighlight(scope, year) {
     state.pendingYearScroll = { scope, value, targetId };
   }
 
+  function initInkHeroReveal() {
+    appRoot.querySelectorAll("[data-ink-hero]").forEach((hero) => {
+      const canvas = hero.querySelector("[data-ink-canvas]");
+      const coverSrc = hero.dataset.coverSrc;
+      if (!canvas || !coverSrc || canvas.dataset.inkInitialized === "true") return;
+
+      canvas.dataset.inkInitialized = "true";
+      const context = canvas.getContext("2d", { willReadFrequently: false });
+      const cover = new Image();
+      const pointer = { x: 0, y: 0 };
+      let inkStrength = 0;
+      let targetStrength = 0;
+      let ready = false;
+      let startTime = performance.now();
+      let animationFrame = 0;
+
+      cover.src = coverSrc;
+
+      function fitImage(image, width, height) {
+        const scale = Math.max(width / image.naturalWidth, height / image.naturalHeight);
+        const drawWidth = image.naturalWidth * scale;
+        const drawHeight = image.naturalHeight * scale;
+        const x = (width - drawWidth) / 2;
+        const y = (height - drawHeight) / 2;
+        context.drawImage(image, x, y, drawWidth, drawHeight);
+      }
+
+      function resizeCanvas() {
+        const rect = hero.getBoundingClientRect();
+        const ratio = window.devicePixelRatio || 1;
+        canvas.width = Math.max(1, Math.round(rect.width * ratio));
+        canvas.height = Math.max(1, Math.round(rect.height * ratio));
+        canvas.style.width = `${rect.width}px`;
+        canvas.style.height = `${rect.height}px`;
+        context.setTransform(ratio, 0, 0, ratio, 0, 0);
+        ready = true;
+      }
+
+      function repaintCover() {
+        const rect = hero.getBoundingClientRect();
+        context.globalCompositeOperation = "source-over";
+        context.globalAlpha = 1;
+        context.clearRect(0, 0, rect.width, rect.height);
+        fitImage(cover, rect.width, rect.height);
+      }
+
+      function inkBloom(x, y, strength, time) {
+        if (strength <= 0.01) return;
+
+        const pulse = 1 + Math.sin(time * 0.003) * 0.035;
+        const baseRadius = (72 + strength * 92) * pulse;
+        const satelliteCount = 20;
+
+        context.save();
+        context.globalCompositeOperation = "destination-out";
+
+        const core = context.createRadialGradient(x, y, baseRadius * 0.04, x, y, baseRadius);
+        core.addColorStop(0, `rgba(0,0,0,${0.98 * strength})`);
+        core.addColorStop(0.22, `rgba(0,0,0,${0.82 * strength})`);
+        core.addColorStop(0.6, `rgba(0,0,0,${0.32 * strength})`);
+        core.addColorStop(1, "rgba(0,0,0,0)");
+        context.fillStyle = core;
+        context.beginPath();
+        context.arc(x, y, baseRadius, 0, Math.PI * 2);
+        context.fill();
+
+        for (let index = 0; index < satelliteCount; index += 1) {
+          const angle = index * 2.399 + Math.sin(time * 0.001 + index) * 0.16;
+          const ring = baseRadius * (0.18 + (index % 5) * 0.105);
+          const offset = ring * (0.86 + Math.sin(time * 0.002 + index * 1.7) * 0.14);
+          const px = x + Math.cos(angle) * offset;
+          const py = y + Math.sin(angle) * offset * 0.72;
+          const radius = baseRadius * (0.13 + (index % 4) * 0.034);
+          const alpha = strength * (0.2 + (index % 3) * 0.08);
+          const blot = context.createRadialGradient(px, py, radius * 0.05, px, py, radius);
+          blot.addColorStop(0, `rgba(0,0,0,${alpha})`);
+          blot.addColorStop(0.62, `rgba(0,0,0,${alpha * 0.4})`);
+          blot.addColorStop(1, "rgba(0,0,0,0)");
+          context.fillStyle = blot;
+          context.beginPath();
+          context.arc(px, py, radius, 0, Math.PI * 2);
+          context.fill();
+        }
+
+        context.globalAlpha = strength * 0.22;
+        context.fillStyle = "rgba(0,0,0,1)";
+        for (let index = 0; index < 26; index += 1) {
+          const angle = index * 1.87;
+          const spread = baseRadius * (0.48 + (index % 6) * 0.085);
+          const px = x + Math.cos(angle) * spread;
+          const py = y + Math.sin(angle) * spread;
+          context.beginPath();
+          context.arc(px, py, 2 + (index % 4), 0, Math.PI * 2);
+          context.fill();
+        }
+
+        context.restore();
+      }
+
+      function pointFromEvent(event) {
+        const rect = canvas.getBoundingClientRect();
+        pointer.x = event.clientX - rect.left;
+        pointer.y = event.clientY - rect.top;
+      }
+
+      function setPointer(event) {
+        pointFromEvent(event);
+        targetStrength = 1;
+      }
+
+      function animate(time) {
+        if (!hero.isConnected) {
+          window.cancelAnimationFrame(animationFrame);
+          return;
+        }
+
+        if (ready && cover.complete && cover.naturalWidth) {
+          inkStrength += (targetStrength - inkStrength) * 0.09;
+          repaintCover();
+          inkBloom(pointer.x, pointer.y, inkStrength, time - startTime);
+        }
+        animationFrame = window.requestAnimationFrame(animate);
+      }
+
+      cover.onload = () => {
+        resizeCanvas();
+        repaintCover();
+        hero.classList.add("ink-ready");
+      };
+
+      if (cover.complete && cover.naturalWidth) {
+        resizeCanvas();
+        repaintCover();
+        hero.classList.add("ink-ready");
+      }
+
+      window.addEventListener("resize", () => {
+        if (!hero.isConnected) return;
+        resizeCanvas();
+        repaintCover();
+      });
+
+      hero.addEventListener("pointerenter", setPointer);
+      hero.addEventListener("pointermove", setPointer);
+      hero.addEventListener("pointerleave", () => {
+        targetStrength = 0;
+      });
+      hero.addEventListener("pointerdown", (event) => {
+        hero.setPointerCapture(event.pointerId);
+        setPointer(event);
+      });
+      hero.addEventListener("pointerup", () => {
+        targetStrength = 0;
+      });
+
+      animationFrame = window.requestAnimationFrame(animate);
+    });
+  }
+
   /**
    * 执行待处理的年份滚动
    */
@@ -338,6 +497,8 @@ function updateYearRailHighlight(scope, year) {
         });
       }
     }
+
+    initInkHeroReveal();
 
     appRoot.querySelectorAll("[data-filter-toggle]").forEach((node) => {
       node.addEventListener("click", (event) => {

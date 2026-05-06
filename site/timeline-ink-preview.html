@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>时间线墨迹预览 | 张满堂</title>
+    <link rel="stylesheet" href="/css/style.css?v=20260507-filterink2">
+    <style>
+      @font-face {
+        font-family: "BrushScriptBTPreview";
+        src: url("/fonts/BrushScript-BT.ttf") format("truetype");
+        font-display: swap;
+      }
+
+      body {
+        cursor: auto;
+      }
+
+      .preview-page {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 88px 72px 120px;
+      }
+
+      .preview-note {
+        max-width: 720px;
+        margin: 18px 0 56px;
+        color: var(--mid);
+        font-size: 15px;
+        line-height: 1.9;
+      }
+
+      .ink-preview-layout {
+        display: grid;
+        grid-template-columns: 260px 1fr;
+        gap: 48px;
+        align-items: start;
+      }
+
+      .ink-year-rail {
+        position: sticky;
+        top: 120px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        padding-top: 8px;
+        width: 260px;
+      }
+
+      .ink-year-rail::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: -10px;
+        bottom: -20px;
+        width: 56px;
+        transform: translateX(-50%);
+        background-image: url("/images/branding/timeline-ink-stroke.png");
+        background-repeat: no-repeat;
+        background-position: 50% 0;
+        background-size: 42px 100%;
+        opacity: 0.86;
+        pointer-events: none;
+      }
+
+      .ink-year-node {
+        position: relative;
+        z-index: 1;
+        min-height: 48px;
+        display: flex;
+        align-items: center;
+        width: 92px;
+        padding: 12px 6px;
+        color: var(--mid);
+        font-family: "BrushScriptBTPreview", "Playfair Display", serif;
+        font-size: 25px;
+        letter-spacing: 0;
+        line-height: 1;
+        text-align: right;
+        justify-content: flex-end;
+      }
+
+      .ink-year-node:nth-child(even) {
+        align-self: flex-end;
+        text-align: left;
+        justify-content: flex-start;
+      }
+
+      .ink-year-node:nth-child(odd) {
+        align-self: flex-start;
+      }
+
+      .ink-year-node.current {
+        color: var(--ink);
+        background: none;
+        box-shadow: none;
+        font-weight: 400;
+      }
+
+      .ink-year-node.current::after {
+        content: "";
+        position: absolute;
+        inset: -15px -80px -13px 4px;
+        z-index: -1;
+        background-image: url("/images/branding/year-highlight-brush.png");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 100% 100%;
+        opacity: 0.76;
+      }
+
+      .ink-year-node.current:nth-child(even)::after {
+        transform: scaleX(-1);
+      }
+
+      .preview-card {
+        border: var(--line);
+        background: var(--card);
+        padding: 28px;
+      }
+
+      .preview-card img {
+        width: min(100%, 760px);
+        margin: 0 auto 28px;
+        border: var(--line);
+        padding: 18px;
+        background: #f7f3ee;
+      }
+
+      .preview-card .tag {
+        margin-bottom: 18px;
+      }
+
+      @media (max-width: 760px) {
+        .preview-page {
+          padding: 48px 24px 88px;
+        }
+
+        .ink-preview-layout {
+          grid-template-columns: 1fr;
+        }
+
+        .ink-year-rail {
+          position: relative;
+          top: auto;
+          max-width: 160px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="preview-page">
+      <div class="h1">时间线墨迹预览</div>
+      <p class="preview-note">
+        这是独立预览页，正式展览页暂未改动。左侧直线用你提供的墨迹素材裁切后拉伸，年份圆点保留在墨迹上方，便于比较阅读性和水墨质感。
+      </p>
+
+      <section class="ink-preview-layout" aria-label="时间线墨迹效果预览">
+        <aside class="ink-year-rail">
+          <div class="ink-year-node current">2025</div>
+          <div class="ink-year-node">2013</div>
+          <div class="ink-year-node">2012</div>
+          <div class="ink-year-node">2011</div>
+          <div class="ink-year-node">2010</div>
+          <div class="ink-year-node">2009</div>
+          <div class="ink-year-node">2008</div>
+          <div class="ink-year-node">2007</div>
+        </aside>
+
+        <article class="preview-card">
+          <img src="/images/exhibitions/exhibition-003/cover.webp" alt="展览现场">
+          <div class="tag">2025</div>
+          <div class="h2">第三十五届巴黎卢浮宫当代国际艺术博览会</div>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>
