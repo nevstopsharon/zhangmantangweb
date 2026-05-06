@@ -112,7 +112,7 @@
   }
 
   function paragraphs(value) {
-    if (!value) return `<p class="body">${escapeHtml(currentUI().noContent)}</p>`;
+    if (!value) return "";
     return String(value)
       .split(/\n+/)
       .filter(Boolean)
