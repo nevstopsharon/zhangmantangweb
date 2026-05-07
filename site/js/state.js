@@ -16,6 +16,11 @@
    * @type {string}
    */
   site.siteBase = document.documentElement.dataset.siteBase || "/";
+  try {
+    site.resourceVersion = new URL(document.currentScript?.src || "", window.location.href).searchParams.get("v") || "";
+  } catch (error) {
+    site.resourceVersion = "";
+  }
   
   /**
    * 站点 URL

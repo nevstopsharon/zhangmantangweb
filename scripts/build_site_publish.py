@@ -24,6 +24,17 @@ RUNTIME_DIRECTORIES = [
     "images",
 ]
 
+RUNTIME_FILES = [
+    "favicon.ico",
+]
+
+PUBLISH_EXCLUDED_PATHS = [
+    ".playwright-cli",
+    ".superpowers",
+    "ink-hero-preview.html",
+    "timeline-ink-preview.html",
+]
+
 
 def remove_path(path: Path) -> None:
     if path.is_dir():
@@ -38,6 +49,9 @@ def rebuild_route_shells(repo_root: Path, site_dir: Path) -> None:
     works = generator.read_json(data_dir / "works.json")
     exhibitions = generator.read_json(data_dir / "exhibitions.json")
     news = generator.read_json(data_dir / "news.json")
+    validate_item_ids("works", works)
+    validate_item_ids("exhibitions", exhibitions)
+    validate_item_ids("news", news)
     routes = generator.collect_routes(works, exhibitions, news)
 
     for output in ROUTE_OUTPUTS:
@@ -59,6 +73,29 @@ def sync_runtime_directories(repo_root: Path, site_dir: Path) -> None:
         remove_path(target)
         shutil.copytree(source, target)
 
+    for file_name in RUNTIME_FILES:
+        source = repo_root / file_name
+        target = site_dir / file_name
+        remove_path(target)
+        if source.exists():
+            shutil.copy2(source, target)
+
+
+def remove_publish_only_files(site_dir: Path) -> None:
+    for relative in PUBLISH_EXCLUDED_PATHS:
+        remove_path(site_dir / relative)
+
+
+def validate_item_ids(name: str, items: list[dict]) -> None:
+    seen: set[str] = set()
+    for index, item in enumerate(items, start=1):
+        item_id = str(item.get("id") or "").strip()
+        if not item_id:
+            raise ValueError(f"{name}[{index}] is missing a stable id.")
+        if item_id in seen:
+            raise ValueError(f"{name} contains duplicate id: {item_id}")
+        seen.add(item_id)
+
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Build a self-contained publish directory in site/.")
@@ -71,6 +108,7 @@ def main() -> None:
 
     rebuild_route_shells(repo_root, site_dir)
     sync_runtime_directories(repo_root, site_dir)
+    remove_publish_only_files(site_dir)
 
     print(f"Built publish output in {site_dir}")
 

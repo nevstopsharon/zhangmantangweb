@@ -1,6 +1,6 @@
 (function () {
   const site = window.ZMTSite;
-  const { state, store, ui, siteBase, WORK_FILTER_LABELS } = site;
+  const { state, store, ui, siteBase, resourceVersion, WORK_FILTER_LABELS } = site;
 
   function currentUI() {
     return ui[state.lang];
@@ -17,7 +17,8 @@
 
   function dataUrl(fileName) {
     const base = siteBase === "/" ? "" : siteBase;
-    return `${base}/data/${fileName}`;
+    const version = resourceVersion ? `?v=${encodeURIComponent(resourceVersion)}` : "";
+    return `${base}/data/${fileName}${version}`;
   }
 
   function textOf(item, zhKey, enKey) {
@@ -31,14 +32,17 @@
   }
 
   function workFacetValue(item, type) {
-    return item?.[`${type}_zh`] || "";
+    return item?.[`${type}_id`] || item?.[`${type}_zh`] || "";
   }
 
   function workFacetLabel(type, value) {
     if (!value) return "";
-    if (state.lang === "en") {
-      const matched = store.siteData?.works?.find((item) => item?.[`${type}_zh`] === value && item?.[`${type}_en`]);
-      if (matched) return matched[`${type}_en`];
+    const matched = store.siteData?.works?.find((item) => {
+      return item?.[`${type}_id`] === value || item?.[`${type}_zh`] === value || item?.[`${type}_en`] === value;
+    });
+    if (matched) {
+      const localized = localizedField(matched, type);
+      if (localized) return localized;
     }
     return WORK_FILTER_LABELS[state.lang]?.[type]?.[value] || value;
   }

@@ -38,6 +38,7 @@
   /* 最大宽度 */
   --maxw: 1440px;
   --brush-cursor: url("/images/branding/brush-cursor.png") 7 93, auto;
+  --brush-highlight-image: url("/images/branding/year-highlight-brush.png");
 }
 
 /**
@@ -107,6 +108,30 @@ button {
   background: none;
   border: none;
   cursor: var(--brush-cursor);
+}
+
+/* English layout convention: short navigation labels may be centered; list items, cards,
+   filter menus, body copy, and multi-line English text should read from the left edge. */
+.brush-highlight {
+  position: relative;
+  isolation: isolate;
+  --brush-highlight-inset: -13px -50px -12px -12px;
+  --brush-highlight-opacity: 0.72;
+  --brush-highlight-transform: none;
+}
+
+.brush-highlight::after {
+  content: "";
+  position: absolute;
+  inset: var(--brush-highlight-inset);
+  z-index: -1;
+  background-image: var(--brush-highlight-image);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+  opacity: var(--brush-highlight-opacity);
+  transform: var(--brush-highlight-transform);
+  pointer-events: none;
 }
 
 a,
@@ -648,8 +673,6 @@ p,
 }
 
 .filter-btn {
-  position: relative;
-  isolation: isolate;
   padding: 10px 18px;
   border: 1px solid transparent;
   color: var(--mid);
@@ -673,20 +696,6 @@ p,
   background: transparent;
 }
 
-.filter-btn.active::after,
-.preview-anchor.open .filter-btn::after {
-  content: "";
-  position: absolute;
-  inset: -13px -50px -12px -12px;
-  z-index: -1;
-  background-image: url("/images/branding/year-highlight-brush.png");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 100% 100%;
-  opacity: 0.72;
-  pointer-events: none;
-}
-
 .preview-anchor {
   position: relative;
   display: inline-flex;
@@ -696,8 +705,9 @@ p,
 .preview-panel {
   position: absolute;
   top: calc(100% - 1px);
-  left: 0;
+  right: 0;
   min-width: 340px;
+  max-width: calc(100vw - 48px);
   background: var(--card);
   border: var(--border);
   border-top: none;
@@ -816,23 +826,13 @@ p,
   background: none;
   box-shadow: none;
   font-weight: 400;
+  --brush-highlight-inset: -15px -80px -13px 4px;
+  --brush-highlight-opacity: 0.76;
 }
 
-.year-node.current::after {
-  content: "";
-  position: absolute;
-  inset: -15px -80px -13px 4px;
-  z-index: -1;
-  background-image: url("/images/branding/year-highlight-brush.png");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 100% 100%;
-  opacity: 0.76;
-}
-
-.year-node.current:nth-child(even)::after {
-  inset: -15px 4px -13px -80px;
-  transform: scaleX(-1);
+.year-node.current:nth-child(even) {
+  --brush-highlight-inset: -15px 4px -13px -80px;
+  --brush-highlight-transform: scaleX(-1);
 }
 
 .year-node:hover {

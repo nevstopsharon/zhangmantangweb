@@ -387,7 +387,7 @@
         ${groups
           .map(
             ({ year }) => `
-            <button class="year-node ${String(activeYear) === String(year) ? "current" : ""}" data-year-scope="${scope}" data-year-target="${scope}-${year}" data-year-value="${year}" aria-label="${escapeHtml(yearNodeLabel(scope, year))}" ${String(activeYear) === String(year) ? 'aria-current="true"' : ""}>
+            <button class="year-node ${String(activeYear) === String(year) ? "current brush-highlight" : ""}" data-year-scope="${scope}" data-year-target="${scope}-${year}" data-year-value="${year}" aria-label="${escapeHtml(yearNodeLabel(scope, year))}" ${String(activeYear) === String(year) ? 'aria-current="true"' : ""}>
               ${escapeHtml(year)}
             </button>`
           )
@@ -399,9 +399,12 @@
   function dropdownMarkup(type, label, allLabel, options, selected) {
     const isOpen = state.openFilter === type;
     const buttonLabel = selected ? workFacetLabel(type, selected) : label;
+    const buttonClass = ["filter-btn"];
+    if (selected) buttonClass.push("active");
+    if (selected || isOpen) buttonClass.push("brush-highlight");
     return `
       <div class="preview-anchor ${isOpen ? "open" : ""}">
-        <button class="filter-btn ${selected ? "active" : ""}" data-filter-toggle="${type}">
+        <button class="${buttonClass.join(" ")}" data-filter-toggle="${type}">
           ${escapeHtml(buttonLabel)}
         </button>
         <div class="preview-panel">
@@ -439,7 +442,7 @@
             <div class="h1">${escapeHtml(copy.title)}</div>
           </div>
           <div class="filters">
-            <button class="filter-btn ${!state.worksFilter.project && !state.worksFilter.material ? "active" : ""}" data-reset-filters="works">${escapeHtml(copy.all)}</button>
+            <button class="filter-btn ${!state.worksFilter.project && !state.worksFilter.material ? "active brush-highlight" : ""}" data-reset-filters="works">${escapeHtml(copy.all)}</button>
             ${dropdownMarkup("project", copy.filterProject, copy.allProjects, projectOptions, state.worksFilter.project)}
             ${dropdownMarkup("material", copy.filterMaterial, copy.allMaterials, materialOptions, state.worksFilter.material)}
           </div>
@@ -580,7 +583,7 @@
         <div class="detail-subnav detail-subnav-simple">
           <div>
             <div class="section-kicker body">${escapeHtml(copy.workTemplate)}</div>
-            <div class="h2">${escapeHtml(textOf(item, "title_zh", "title_en"))}</div>
+            <h1 class="h2">${escapeHtml(textOf(item, "title_zh", "title_en"))}</h1>
           </div>
         </div>
         ${detailMediaMarkup(gallery, textOf(item, "title_zh", "title_en"), "work-hero")}
@@ -611,10 +614,10 @@
       <section class="detail-page">
         <button class="back-link body" data-route="exhibitions">${escapeHtml(copy.backExhibitions)}</button>
         <div class="detail-content-shell">
-          ${yearRailMarkup(groups, "exhibitions", activeYear)}
+            ${yearRailMarkup(groups, "exhibitions", activeYear)}
           <div class="detail-content-main">
             <div class="tag">${escapeHtml(copy.exhibitionTemplate)}</div>
-            <div class="h2" style="max-width:980px;margin-top:12px;">${escapeHtml(textOf(item, "title_zh", "title_en"))}</div>
+            <h1 class="h2" style="max-width:980px;margin-top:12px;">${escapeHtml(textOf(item, "title_zh", "title_en"))}</h1>
             ${detailMediaMarkup(gallery, textOf(item, "title_zh", "title_en"), "exhibition-hero", "contain", "margin-top:32px;")}
             <div class="detail-specs detail-specs-compact exhibition-detail-specs">
               ${specRow(copy.location, textOf(item, "location_zh", "location_en"))}
@@ -640,10 +643,10 @@
       <section class="detail-page">
         <button class="back-link body" data-route="news">${escapeHtml(copy.backNews)}</button>
         <div class="detail-content-shell">
-          ${yearRailMarkup(groups, "news", activeYear)}
+            ${yearRailMarkup(groups, "news", activeYear)}
           <div class="detail-content-main">
             <div class="tag">${escapeHtml(copy.newsTemplate)}</div>
-            <div class="h2" style="max-width:980px;margin-top:12px;">${escapeHtml(textOf(item, "title_zh", "title_en"))}</div>
+            <h1 class="h2" style="max-width:980px;margin-top:12px;">${escapeHtml(textOf(item, "title_zh", "title_en"))}</h1>
             ${detailMediaMarkup(gallery, textOf(item, "title_zh", "title_en"), "exhibition-hero", "contain", "margin-top:32px;")}
             <div class="detail-meta-grid" style="margin-top:24px;">
               <div>
