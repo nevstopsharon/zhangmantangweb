@@ -16,41 +16,49 @@ let globalHandlersBound = false;
  * 时间轴滚动观察者
  * @type {IntersectionObserver|null}
  */
-let yearSectionObserver = null;
+let yearScrollHandler = null;
+let yearScrollFrame = 0;
 
 /**
  * 初始化时间轴滚动监听
  */
 function initYearScrollObserver() {
-  if (yearSectionObserver) {
-    yearSectionObserver.disconnect();
+  if (yearScrollHandler) {
+    window.removeEventListener("scroll", yearScrollHandler);
+    window.removeEventListener("resize", yearScrollHandler);
+    yearScrollHandler = null;
   }
-  
-  yearSectionObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const id = entry.target.id;
-          const [scope, year] = id.split("-");
-          if (scope === "exhibitions" && year) {
-            state.activeExhibitionYear = year;
-          }
-          if (scope === "news" && year) {
-            state.activeNewsYear = year;
-          }
-          updateYearRailHighlight(scope, year);
-        }
-      });
-    },
-    {
-      rootMargin: "-15% 0% -35% 0%",
-      threshold: 0.3
-    }
-  );
 
-  document.querySelectorAll('[id^="exhibitions-"], [id^="news-"]').forEach((section) => {
-    yearSectionObserver.observe(section);
-  });
+  const sections = Array.from(document.querySelectorAll('[id^="exhibitions-"], [id^="news-"]'));
+  if (!sections.length) return;
+
+  const syncActiveYear = () => {
+    yearScrollFrame = 0;
+    const navBottom = document.querySelector(".nav")?.getBoundingClientRect().bottom || 0;
+    const referenceY = navBottom + Math.min(window.innerHeight * 0.28, 240);
+    let active = sections[0];
+
+    sections.forEach((section) => {
+      if (section.getBoundingClientRect().top <= referenceY) {
+        active = section;
+      }
+    });
+
+    const [scope, year] = (active?.id || "").split("-");
+    if (!scope || !year) return;
+    if (scope === "exhibitions") state.activeExhibitionYear = year;
+    if (scope === "news") state.activeNewsYear = year;
+    updateYearRailHighlight(scope, year);
+  };
+
+  yearScrollHandler = () => {
+    if (yearScrollFrame) return;
+    yearScrollFrame = requestAnimationFrame(syncActiveYear);
+  };
+
+  window.addEventListener("scroll", yearScrollHandler, { passive: true });
+  window.addEventListener("resize", yearScrollHandler);
+  syncActiveYear();
 }
 
 /**
@@ -63,6 +71,7 @@ function updateYearRailHighlight(scope, year) {
   yearNodes.forEach((node) => {
     const isActive = node.dataset.yearValue === year;
     node.classList.toggle("current", isActive);
+    node.classList.toggle("brush-highlight", isActive);
     node.setAttribute("aria-current", isActive ? "true" : "false");
   });
 }

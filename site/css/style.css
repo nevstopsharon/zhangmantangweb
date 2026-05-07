@@ -826,13 +826,12 @@ p,
   background: none;
   box-shadow: none;
   font-weight: 400;
-  --brush-highlight-inset: -15px -80px -13px 4px;
+  --brush-highlight-inset: -15px -54px -13px -22px;
   --brush-highlight-opacity: 0.76;
 }
 
 .year-node.current:nth-child(even) {
-  --brush-highlight-inset: -15px 4px -13px -80px;
-  --brush-highlight-transform: scaleX(-1);
+  --brush-highlight-inset: -15px -54px -13px -22px;
 }
 
 .year-node:hover {
