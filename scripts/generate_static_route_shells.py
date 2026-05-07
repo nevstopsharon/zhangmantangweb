@@ -3,11 +3,20 @@ from __future__ import annotations
 import argparse
 import html
 import json
+import os
+import time
 from datetime import date
 from pathlib import Path
 
 
-VERSION = "20260507-foundations2"
+def build_version() -> str:
+    commit = os.environ.get("VERCEL_GIT_COMMIT_SHA") or os.environ.get("GITHUB_SHA")
+    if commit:
+        return commit[:12]
+    return time.strftime("%Y%m%d%H%M%S")
+
+
+VERSION = build_version()
 SITE_URL = "https://zhangmantangweb.vercel.app"
 SITE_MOUNT = ""
 
