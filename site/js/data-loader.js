@@ -1,10 +1,16 @@
 (function () {
   const site = window.ZMTSite;
   const { dataUrl, store } = site;
+  const dataRequestNonce = `${Date.now()}-${Math.random().toString(36).slice(2)}`;
 
   async function fetchJson(fileName) {
     try {
-      const response = await fetch(dataUrl(fileName));
+      const response = await fetch(dataUrl(fileName, { fresh: dataRequestNonce }), {
+        cache: "no-store",
+        headers: {
+          "Cache-Control": "no-cache"
+        }
+      });
       if (!response.ok) {
         throw new Error(`Failed to load ${fileName}: ${response.status}`);
       }

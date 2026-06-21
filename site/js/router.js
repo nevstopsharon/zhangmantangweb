@@ -4,7 +4,9 @@
 
   function siteMount() {
     const raw = String(rootNode.dataset.siteMount !== undefined ? rootNode.dataset.siteMount : "").trim().replace(/^\/+|\/+$/g, "");
-    return raw ? `/${raw}` : "";
+    if (raw) return `/${raw}`;
+    const base = String(site.siteBase || "").trim().replace(/^\/+|\/+$/g, "");
+    return base ? `/${base}` : "";
   }
 
   function normalizeRoute(route) {

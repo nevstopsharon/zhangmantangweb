@@ -77,6 +77,12 @@ def page_site_base() -> str:
     return "/"
 
 
+def page_asset_prefix(route: str, lang: str) -> str:
+    relative = route_relative_path(route, lang).split("?", 1)[0].strip("/")
+    depth = len(Path(relative).parts) if relative else 0
+    return "." if depth == 0 else "/".join([".."] * depth)
+
+
 def absolute_asset_url(path: str) -> str:
     return f"{SITE_URL.rstrip('/')}{path}"
 
@@ -373,18 +379,21 @@ def metadata_for_route(route: str, lang: str, profile: dict, works: list[dict], 
         label = profile["about"]["headline_en"] if lang == "en" else profile["about"]["headline_zh"]
         result["title"] = page_title(label, site_name)
         result["description"] = plain_snippet(profile["about"]["bio_en"] if lang == "en" else profile["about"]["bio_zh"], 180) or default_description
+        main_entity = {
+            "@type": "Person",
+            "name": profile["artist_name_en"],
+            "alternateName": profile["artist_name_zh"],
+            "image": [absolute_asset_url(path) for path in profile["about"]["portrait_images"]],
+        }
+        phone = profile["contact"].get("phone", "").strip()
+        if phone:
+            main_entity["telephone"] = phone
         result["schema"] = {
             **base_schema,
             "@type": "AboutPage",
             "name": result["title"],
             "description": result["description"],
-            "mainEntity": {
-                "@type": "Person",
-                "name": profile["artist_name_en"],
-                "alternateName": profile["artist_name_zh"],
-                "email": profile["contact"]["email"],
-                "image": [absolute_asset_url(path) for path in profile["about"]["portrait_images"]],
-            },
+            "mainEntity": main_entity,
         }
         return result
 
@@ -471,7 +480,7 @@ def html_shell(route: str, lang: str, metadata: dict) -> str:
     def href(value: str) -> str:
         return html.escape(value, quote=True)
 
-    site_asset_prefix = "" if site_base == "/" else site_base.rstrip("/")
+    site_asset_prefix = page_asset_prefix(route, lang)
     schema_json = json.dumps(metadata["schema"], ensure_ascii=False).replace("</", "<\\/")
     return f"""<!DOCTYPE html>
 <html lang="{ 'en' if lang == 'en' else 'zh-CN' }" data-site-base="{href(site_base)}" data-site-url="{href(SITE_URL)}" data-site-mount="{SITE_MOUNT}" data-route="{href(route)}" data-route-lang="{lang}">
@@ -524,7 +533,7 @@ def html_shell_v2(route: str, lang: str, metadata: dict, works: list[dict], exhi
     def href(value: str) -> str:
         return html.escape(value, quote=True)
 
-    site_asset_prefix = "" if site_base == "/" else site_base.rstrip("/")
+    site_asset_prefix = page_asset_prefix(route, lang)
     schema_json = json.dumps(metadata["schema"], ensure_ascii=False).replace("</", "<\\/")
     app_class, app_markup = static_detail_shell(route, lang, works, exhibitions, news)
     return f"""<!DOCTYPE html>

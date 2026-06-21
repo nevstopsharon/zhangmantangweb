@@ -15,10 +15,17 @@
     return siteBase === "/" ? `/${path.replace(/^\.?\//, "")}` : `${siteBase}/${path.replace(/^\.?\//, "")}`;
   }
 
-  function dataUrl(fileName) {
+  function dataUrl(fileName, options = {}) {
     const base = siteBase === "/" ? "" : siteBase;
-    const version = resourceVersion ? `?v=${encodeURIComponent(resourceVersion)}` : "";
-    return `${base}/data/${fileName}${version}`;
+    const params = new URLSearchParams();
+    if (resourceVersion) {
+      params.set("v", resourceVersion);
+    }
+    if (options.fresh) {
+      params.set("_", options.fresh === true ? String(Date.now()) : String(options.fresh));
+    }
+    const query = params.toString();
+    return `${base}/data/${fileName}${query ? `?${query}` : ""}`;
   }
 
   function textOf(item, zhKey, enKey) {

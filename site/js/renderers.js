@@ -187,6 +187,8 @@
   function contactMarkup(route) {
     const profile = store.siteData.profile;
     const copy = currentUI().home;
+    const phoneLabel = state.lang === "en" ? "Phone" : "\u8054\u7cfb\u7535\u8bdd";
+    const phone = profile.contact.phone ? String(profile.contact.phone).trim() : "";
     const compact = route?.page && route.page !== "home";
     return `
       <section class="${compact ? "section contact-section is-compact" : "section contact-section"}">
@@ -197,9 +199,8 @@
           </div>
           <div class="contact-meta">
             <div class="contact-row"><div class="meta">${escapeHtml(copy.city)}</div><div class="body">${escapeHtml(state.lang === "en" ? profile.contact.city_en : profile.contact.city_zh)}</div></div>
-            <div class="contact-row"><div class="meta">${escapeHtml(copy.email)}</div><div class="body">${escapeHtml(profile.contact.email)}</div></div>
+            ${phone ? `<div class="contact-row"><div class="meta">${escapeHtml(phoneLabel)}</div><div class="body">${escapeHtml(phone)}</div></div>` : ""}
             <div class="contact-row"><div class="meta">${escapeHtml(copy.response)}</div><div class="body">${escapeHtml(state.lang === "en" ? profile.contact.reply_en : profile.contact.reply_zh)}</div></div>
-            <div class="contact-row"><div class="meta">${escapeHtml(copy.instagram)}</div><div class="body">${escapeHtml(profile.contact.instagram)}</div></div>
           </div>
         </div>
       </section>
@@ -724,12 +725,6 @@
           <canvas class="hero-ink-canvas" data-ink-canvas aria-hidden="true"></canvas>
         </div>
       </section>
-      <section class="hero-summary">
-        <div class="section-kicker body">${escapeHtml(copy.kicker)}</div>
-        <div class="h1">${escapeHtml(heroTitle)}</div>
-        <div class="body">${escapeHtml(heroSubtitle)}</div>
-      </section>
-
       <section class="section">
         <div class="section-head">
           <div>
@@ -799,7 +794,7 @@
     return `
       <div class="media-lightbox" role="dialog" aria-modal="true" aria-label="${escapeHtml(label)}">
         <button class="media-lightbox-backdrop" type="button" data-lightbox-close aria-label="${escapeHtml(closeLabel)}"></button>
-        <div class="media-lightbox-inner">
+        <div class="media-lightbox-inner ${hasMultiple ? "has-nav" : ""}">
           <button class="media-lightbox-close" type="button" data-lightbox-close aria-label="${escapeHtml(closeLabel)}">×</button>
           ${hasMultiple ? `
             <button class="media-lightbox-nav is-prev" type="button" data-lightbox-nav="prev" data-media-index="${index}" data-media-gallery="${galleryValue}" aria-label="${escapeHtml(previousLabel)}" ${previousDisabled ? "disabled" : ""}>
@@ -886,18 +881,22 @@
     if (route.page === "about") {
       result.title = pageTitle(state.lang === "en" ? profile.about.headline_en : profile.about.headline_zh);
       result.description = plainSnippet(state.lang === "en" ? profile.about.bio_en : profile.about.bio_zh, 180);
+      const mainEntity = {
+        "@type": "Person",
+        name: profile.artist_name_en,
+        alternateName: profile.artist_name_zh,
+        image: (profile.about.portrait_images || []).map((path) => absoluteUrl(assetUrl(path)))
+      };
+      const phone = profile.contact.phone ? String(profile.contact.phone).trim() : "";
+      if (phone) {
+        mainEntity.telephone = phone;
+      }
       result.schema = {
         ...baseSchema,
         "@type": "AboutPage",
         name: result.title,
         description: result.description,
-        mainEntity: {
-          "@type": "Person",
-          name: profile.artist_name_en,
-          alternateName: profile.artist_name_zh,
-          email: profile.contact.email,
-          image: (profile.about.portrait_images || []).map((path) => absoluteUrl(assetUrl(path)))
-        }
+        mainEntity
       };
       return result;
     }

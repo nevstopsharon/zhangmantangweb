@@ -15,7 +15,21 @@
    * 站点基础路径
    * @type {string}
    */
-  site.siteBase = document.documentElement.dataset.siteBase || "/";
+  function normalizeBase(path) {
+    const value = String(path || "").trim().replace(/\/+$/, "");
+    return value ? `/${value.replace(/^\/+/, "")}` : "/";
+  }
+
+  function runtimeSiteBase() {
+    const scriptPath = new URL(document.currentScript?.src || window.location.href, window.location.href).pathname;
+    const marker = "/js/state.js";
+    if (scriptPath.endsWith(marker)) {
+      return normalizeBase(scriptPath.slice(0, -marker.length));
+    }
+    return normalizeBase(document.documentElement.dataset.siteBase || "/");
+  }
+
+  site.siteBase = runtimeSiteBase();
   try {
     site.resourceVersion = new URL(document.currentScript?.src || "", window.location.href).searchParams.get("v") || "";
   } catch (error) {
