@@ -675,7 +675,7 @@
     return `
       <section class="hero">
         <div class="hero-art hero-ink-reveal" data-ink-hero data-cover-src="${assetUrl(profile.hero.background_image)}">
-          <img class="hero-ink-under" src="${assetUrl("/images/works/work-006/cover.webp")}" alt="${escapeHtml(state.lang === "en" ? "Calligraphy artwork under ink reveal" : "水墨揭示底层书法作品")}" loading="eager" decoding="async">
+          <img class="hero-ink-under" src="${assetUrl("/images/works/work-006/cover-01.webp")}" alt="${escapeHtml(state.lang === "en" ? "Calligraphy artwork under ink reveal" : "水墨揭示底层书法作品")}" loading="eager" decoding="async">
           <img class="hero-art-image hero-ink-fallback" src="${assetUrl(profile.hero.background_image)}" alt="${escapeHtml(state.lang === "en" ? profile.hero.title_en : profile.hero.title_zh)}" loading="eager" fetchpriority="high" decoding="async">
           <canvas class="hero-ink-canvas" data-ink-canvas aria-hidden="true"></canvas>
         </div>
@@ -720,7 +720,7 @@
     return `
       <section class="hero">
         <div class="hero-art hero-ink-reveal" data-ink-hero data-cover-src="${assetUrl(profile.hero.background_image)}">
-          <img class="hero-ink-under" src="${assetUrl("/images/works/work-006/cover.webp")}" alt="${escapeHtml(state.lang === "en" ? "Calligraphy artwork under ink reveal" : "水墨揭示底层书法作品")}" loading="eager" decoding="async">
+          <img class="hero-ink-under" src="${assetUrl("/images/works/work-006/cover-01.webp")}" alt="${escapeHtml(state.lang === "en" ? "Calligraphy artwork under ink reveal" : "水墨揭示底层书法作品")}" loading="eager" decoding="async">
           <img class="hero-art-image hero-ink-fallback" src="${assetUrl(profile.hero.background_image)}" alt="${escapeHtml(heroTitle)}" loading="eager" fetchpriority="high" decoding="async">
           <canvas class="hero-ink-canvas" data-ink-canvas aria-hidden="true"></canvas>
         </div>

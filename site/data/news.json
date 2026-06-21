@@ -12,7 +12,7 @@
     "full_video_label_zh": "",
     "full_video_label_en": "",
     "full_video_url": "",
-    "cover_image": "/images/news/news-001/cover.webp",
+    "cover_image": "/images/news/news-001/cover-01.webp",
     "gallery_images": [
       "/images/news/news-001/detail-01.webp",
       "/images/news/news-001/detail-02.webp"
@@ -31,7 +31,7 @@
     "full_video_label_zh": "",
     "full_video_label_en": "",
     "full_video_url": "",
-    "cover_image": "/images/news/news-002/cover.webp",
+    "cover_image": "/images/news/news-002/cover-01.webp",
     "gallery_images": [
       "/images/news/news-002/detail-01.webp",
       "/images/news/news-002/detail-02.webp"
@@ -50,7 +50,7 @@
     "full_video_label_zh": "",
     "full_video_label_en": "",
     "full_video_url": "",
-    "cover_image": "/images/news/news-003/cover.webp",
+    "cover_image": "/images/news/news-003/cover-01.webp",
     "gallery_images": []
   },
   {
@@ -66,7 +66,7 @@
     "full_video_label_zh": "",
     "full_video_label_en": "",
     "full_video_url": "",
-    "cover_image": "/images/news/news-004/cover.webp",
+    "cover_image": "/images/news/news-004/cover-01.webp",
     "gallery_images": [
       "/images/news/news-004/detail-01.webp",
       "/images/news/news-004/detail-02.webp"
@@ -85,7 +85,7 @@
     "full_video_label_zh": "",
     "full_video_label_en": "",
     "full_video_url": "",
-    "cover_image": "/images/news/news-005/cover.webp",
+    "cover_image": "/images/news/news-005/cover-01.webp",
     "gallery_images": [
       "/images/news/news-005/detail-01.webp",
       "/images/news/news-005/detail-02.webp",
@@ -114,9 +114,9 @@
     "full_video_label_zh": "",
     "full_video_label_en": "",
     "full_video_url": "",
-    "cover_image": "/images/news/news-006/军民情.webp",
+    "cover_image": "/images/news/news-006/cover-01.webp",
     "gallery_images": [
-      "/images/news/news-006/军民情.webp"
+      "/images/news/news-006/cover-01.webp"
     ]
   },
   {
@@ -132,7 +132,7 @@
     "full_video_label_zh": "",
     "full_video_label_en": "",
     "full_video_url": "",
-    "cover_image": "/images/news/news-007/cover.webp",
+    "cover_image": "/images/news/news-007/cover-01.webp",
     "gallery_images": [
       "/images/news/news-007/detail-01.webp"
     ]
@@ -150,7 +150,7 @@
     "full_video_label_zh": "",
     "full_video_label_en": "",
     "full_video_url": "",
-    "cover_image": "/images/news/news-008/cover.webp",
+    "cover_image": "/images/news/news-008/cover-01.webp",
     "gallery_images": [
       "/images/news/news-008/detail-01.webp",
       "/images/news/news-008/detail-02.webp",
@@ -176,7 +176,7 @@
     "full_video_label_zh": "",
     "full_video_label_en": "",
     "full_video_url": "",
-    "cover_image": "/images/news/news-009/cover.webp",
+    "cover_image": "/images/news/news-009/cover-01.webp",
     "gallery_images": []
   },
   {
@@ -192,7 +192,7 @@
     "full_video_label_zh": "完整视频在：",
     "full_video_label_en": "Watch full video:",
     "full_video_url": "https://player.bilibili.com/player.html?bvid=BV1hhQEBvE8G&page=1",
-    "cover_image": "/images/news/news-010/cover.webp",
+    "cover_image": "/images/news/news-010/cover-01.webp",
     "gallery_images": []
   },
   {
@@ -208,7 +208,7 @@
     "full_video_label_zh": "完整视频在：",
     "full_video_label_en": "Watch full video:",
     "full_video_url": "https://player.bilibili.com/player.html?bvid=BV13hQEBiEDg&page=1",
-    "cover_image": "/images/news/news-011/cover.webp",
+    "cover_image": "/images/news/news-011/cover-01.webp",
     "gallery_images": []
   },
   {
@@ -224,7 +224,7 @@
     "full_video_label_zh": "",
     "full_video_label_en": "",
     "full_video_url": "",
-    "cover_image": "/images/news/news-013/cover.webp",
+    "cover_image": "/images/news/news-013/cover-01.webp",
     "gallery_images": []
   },
   {
@@ -240,7 +240,7 @@
     "full_video_label_zh": "",
     "full_video_label_en": "",
     "full_video_url": "",
-    "cover_image": "/images/news/news-014/cover.webp",
+    "cover_image": "/images/news/news-014/cover-01.webp",
     "gallery_images": []
   }
 ]

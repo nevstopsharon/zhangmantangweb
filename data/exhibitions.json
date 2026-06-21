@@ -8,9 +8,9 @@
     "location_en": "Beijing",
     "description_zh": "二零零七年十二月在中国人民革命军事博物馆举办，展出一百一十四幅。",
     "description_en": "Held in December 2007 at the Military Museum of the Chinese People's Revolution, with 114 works exhibited.",
-    "cover_image": "/images/exhibitions/exhibition-001/cover.webp",
+    "cover_image": "/images/exhibitions/exhibition-001/cover-01.webp",
     "gallery_images": [
-      "/images/exhibitions/exhibition-001/cover.webp"
+      "/images/exhibitions/exhibition-001/cover-01.webp"
     ]
   },
   {
@@ -22,7 +22,7 @@
     "location_en": "Tokyo",
     "description_zh": "二零零九年七月参展并获金奖。",
     "description_en": "Participated in July 2009 and won a gold award.",
-    "cover_image": "/images/exhibitions/exhibition-003/cover.webp",
+    "cover_image": "/images/exhibitions/exhibition-003/cover-01.webp",
     "gallery_images": []
   },
   {
@@ -34,9 +34,9 @@
     "location_en": "Shanghai",
     "description_zh": "二零一零年六月上海城市博览会期间举办，展出八十九幅。",
     "description_en": "Held in June 2010 during the Shanghai Urban Expo period, with 89 works exhibited.",
-    "cover_image": "/images/exhibitions/exhibition-004/cover.webp",
+    "cover_image": "/images/exhibitions/exhibition-004/cover-01.webp",
     "gallery_images": [
-      "/images/exhibitions/exhibition-004/cover.webp",
+      "/images/exhibitions/exhibition-004/cover-01.webp",
       "/images/exhibitions/exhibition-004/detail-01.webp"
     ]
   },
@@ -49,9 +49,9 @@
     "location_en": "Qingdao",
     "description_zh": "《仿毛体手抄毛泽东诗词汇报展》作品在该展展出。",
     "description_en": "Works from the report exhibition of hand-copied Mao Zedong poems in Mao style were shown in this exhibition.",
-    "cover_image": "/images/exhibitions/exhibition-005/2011年青岛博物馆毛体书法展现场.webp",
+    "cover_image": "/images/exhibitions/exhibition-005/cover-01.webp",
     "gallery_images": [
-      "/images/exhibitions/exhibition-005/2011年青岛博物馆毛体书法展现场.webp"
+      "/images/exhibitions/exhibition-005/cover-01.webp"
     ]
   },
   {
@@ -63,7 +63,7 @@
     "location_en": "Singapore",
     "description_zh": "二零一二年参展。",
     "description_en": "Participated in 2012.",
-    "cover_image": "/images/exhibitions/exhibition-006/cover.webp",
+    "cover_image": "/images/exhibitions/exhibition-006/cover-01.webp",
     "gallery_images": []
   },
   {
@@ -75,9 +75,9 @@
     "location_en": "Beijing",
     "description_zh": "二零一三年十二月在北京军事博物馆参展，展出一百二十幅。",
     "description_en": "Held in December 2013 at the Beijing Military Museum, with 120 works exhibited.",
-    "cover_image": "/images/exhibitions/exhibition-008/cover.webp",
+    "cover_image": "/images/exhibitions/exhibition-008/cover-01.webp",
     "gallery_images": [
-      "/images/exhibitions/exhibition-008/cover.webp",
+      "/images/exhibitions/exhibition-008/cover-01.webp",
       "/images/exhibitions/exhibition-008/detail-01.webp"
     ]
   },
@@ -90,7 +90,7 @@
     "location_en": "Paris",
     "description_zh": "二零二五年受邀参展。",
     "description_en": "Invited to exhibit in 2025 (based on source filenames).",
-    "cover_image": "/images/exhibitions/exhibition-009/cover.webp",
+    "cover_image": "/images/exhibitions/exhibition-009/cover-01.webp",
     "gallery_images": [
       "/images/exhibitions/exhibition-009/detail-01.webp",
       "/images/exhibitions/exhibition-009/detail-02.webp",

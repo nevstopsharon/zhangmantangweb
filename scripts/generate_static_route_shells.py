@@ -503,7 +503,7 @@ def html_shell(route: str, lang: str, metadata: dict) -> str:
   <link rel="alternate" hreflang="en" href="{href(metadata['alternate_en'])}">
   <link rel="alternate" hreflang="x-default" href="{href(metadata['alternate_zh'])}">
   <link rel="icon" href="{site_asset_prefix}/favicon.ico" sizes="any">
-  <link rel="icon" href="{site_asset_prefix}/images/branding/seal-red.webp" type="image/webp">
+  <link rel="icon" href="{site_asset_prefix}/images/branding/seal-01.webp" type="image/webp">
   <link rel="preload" href="{site_asset_prefix}/assets/fonts/web/noto-sans-sc-light.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="{site_asset_prefix}/assets/fonts/web/noto-serif-sc-light.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="{site_asset_prefix}/assets/fonts/web/fonts.css?v={VERSION}">
@@ -557,7 +557,7 @@ def html_shell_v2(route: str, lang: str, metadata: dict, works: list[dict], exhi
   <link rel="alternate" hreflang="en" href="{href(metadata['alternate_en'])}">
   <link rel="alternate" hreflang="x-default" href="{href(metadata['alternate_zh'])}">
   <link rel="icon" href="{site_asset_prefix}/favicon.ico" sizes="any">
-  <link rel="icon" href="{site_asset_prefix}/images/branding/seal-red.webp" type="image/webp">
+  <link rel="icon" href="{site_asset_prefix}/images/branding/seal-01.webp" type="image/webp">
   <link rel="preload" href="{site_asset_prefix}/assets/fonts/web/noto-sans-sc-light.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="{site_asset_prefix}/assets/fonts/web/noto-serif-sc-light.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="{site_asset_prefix}/assets/fonts/web/fonts.css?v={VERSION}">

@@ -32,7 +32,7 @@
 
 说明：
 - `id` 示例：`work-001`
-- `cover_image` 示例：`/images/works/work-001/cover.webp`
+- `cover_image` 示例：`/images/works/work-001/cover-01.webp`
 - `gallery_images` 多图用分号分隔
 - 当前作品页筛选读取：
   - `project`
@@ -54,7 +54,7 @@
 
 说明：
 - `id` 示例：`exhibition-001`
-- `cover_image` 示例：`/images/exhibitions/exhibition-001/cover.webp`
+- `cover_image` 示例：`/images/exhibitions/exhibition-001/cover-01.webp`
 
 ## Sheet 3: news
 
@@ -71,19 +71,20 @@
 说明：
 - `id` 示例：`news-001`
 - `date` 建议写成 `2026-03` 或 `2026-04-07`
-- `cover_image` 示例：`/images/news/news-001/cover.webp`
+- `cover_image` 示例：`/images/news/news-001/cover-01.webp`
 
 ## 图片路径规则
-- 首页：`/images/home/hero-main.webp`
-- 作品：`/images/works/work-001/cover.webp`
-- 展览：`/images/exhibitions/exhibition-001/cover.webp`
-- 新闻：`/images/news/news-001/cover.webp`
+- 首页：`/images/home/hero-01.webp`
+- 作品：`/images/works/work-001/cover-01.webp`
+- 展览：`/images/exhibitions/exhibition-001/cover-01.webp`
+- 新闻：`/images/news/news-001/cover-01.webp`
 
 ## 命名规则
 - 全部小写
 - 使用短横线
 - 不使用中文文件名
-- 编号统一三位：`001`、`002`、`003`
+- 内容项目录编号统一三位：`001`、`002`、`003`
+- 图片文件序号统一两位：`01`、`02`、`03`
 
 ## 图片尺寸修改方式
 图片尺寸不在 Excel 中控制，而由压缩脚本参数控制。

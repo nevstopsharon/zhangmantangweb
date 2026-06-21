@@ -48,8 +48,8 @@ README_CONTENT = {
 - 首页 Hero 主视觉图
 
 推荐命名：
-- hero-main.webp
-- hero-main-mobile.webp
+- hero-01.webp
+- hero-02.webp
 
 建议尺寸：
 - 桌面端：宽 1920px 左右
@@ -59,36 +59,37 @@ README_CONTENT = {
 - 每件作品一个子文件夹
 
 示例：
-- work-001/cover.webp
-- work-001/detail.webp
-- work-001/gallery-01.webp
+- work-001/cover-01.webp
+- work-001/detail-01.webp
+- work-001/detail-02.webp
 
 命名规则：
 - 文件夹：work-001, work-002
-- 图片：cover.webp, detail.webp, gallery-01.webp
+- 图片：cover-01.webp, detail-01.webp, detail-02.webp
 """,
     "images/exhibitions/README.txt": """用途：
 - 每个展览一个子文件夹
 
 示例：
-- exhibition-001/cover.webp
-- exhibition-001/hero.webp
-- exhibition-001/gallery-01.webp
+- exhibition-001/cover-01.webp
+- exhibition-001/detail-01.webp
+- exhibition-001/detail-02.webp
 
 命名规则：
 - 文件夹：exhibition-001, exhibition-002
-- 图片：cover.webp, hero.webp, gallery-01.webp
+- 图片：cover-01.webp, detail-01.webp, detail-02.webp
 """,
     "images/news/README.txt": """用途：
 - 每条新闻一个子文件夹
 
 示例：
-- news-001/cover.webp
-- news-001/detail.webp
+- news-001/cover-01.webp
+- news-001/detail-01.webp
+- news-001/detail-02.webp
 
 命名规则：
 - 文件夹：news-001, news-002
-- 图片：cover.webp, detail.webp
+- 图片：cover-01.webp, detail-01.webp, detail-02.webp
 """,
     "images/thumbnails/README.txt": """用途：
 - 自动生成的缩略图输出目录

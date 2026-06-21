@@ -1,0 +1,99 @@
+先抓主线：这个仓库是 “源数据 + 生成脚本 + 发布目录” 三层结构。
+
+你以后改东西，优先改这里
+
+- 加作品、展览、新闻：先改 [excelcontent.xlsx](CUsersweixiDesktopzhangmantang-websiteexcelcontent.xlsx)
+- 改首页文案、关于页、品牌信息：改 [dataprofile.json](CUsersweixiDesktopzhangmantang-websitedataprofile.json)
+- 加图片：放到 [images](CUsersweixiDesktopzhangmantang-websiteimages)
+- 改样式：改 [sitecssstyle.css](CUsersweixiDesktopzhangmantang-websitesitecssstyle.css)
+- 改交互逻辑：改 [sitejs](CUsersweixiDesktopzhangmantang-websitesitejs)
+- 改页面生成规则：改 [scriptsgenerate_static_route_shells.py](CUsersweixiDesktopzhangmantang-websitescriptsgenerate_static_route_shells.py)
+
+不要优先直接改这里
+
+- [site](CUsersweixiDesktopzhangmantang-websitesite) 是发布目录
+- [sitedata](CUsersweixiDesktopzhangmantang-websitesitedata) 是复制出来的成品数据
+- 如果你直接改这些成品文件，后面重新生成时可能被覆盖
+
+当前文件夹架构
+
+- [site](CUsersweixiDesktopzhangmantang-websitesite)：最终网站成品，CloudBase 手动上传就传这个
+- [data](CUsersweixiDesktopzhangmantang-websitedata)：网站读取的主数据，含 `works.json`、`exhibitions.json`、`news.json`、`profile.json`
+- [excel](CUsersweixiDesktopzhangmantang-websiteexcel)：内容总表，适合批量维护
+- [images](CUsersweixiDesktopzhangmantang-websiteimages)：原始图片资源
+- [scripts](CUsersweixiDesktopzhangmantang-websitescripts)：生成和维护脚本
+- [templates](CUsersweixiDesktopzhangmantang-websitetemplates)：设计和模板文档
+- [tests](CUsersweixiDesktopzhangmantang-websitetests)：测试相关
+- [docs](CUsersweixiDesktopzhangmantang-websitedocs)：说明文档
+
+常见操作怎么做
+
+1. 加作品  展览  新闻
+- 改 [excelcontent.xlsx](CUsersweixiDesktopzhangmantang-websiteexcelcontent.xlsx)
+- 执行：
+```powershell
+py scriptsexcel_to_json.py --workbook excelcontent.xlsx --output-dir data
+py scriptsbuild_site_publish.py --repo-root .
+```
+
+2. 只改首页  about  品牌文案
+- 改 [dataprofile.json](CUsersweixiDesktopzhangmantang-websitedataprofile.json)
+- 执行：
+```powershell
+py scriptsbuild_site_publish.py --repo-root .
+```
+
+3. 加新图片
+- 把图放进 [images](CUsersweixiDesktopzhangmantang-websiteimages)
+- 如需压缩，执行：
+```powershell
+py scriptscompress_images.py --images-root images --max-width 1920 --thumb-width 480 --quality 80
+py scriptsbuild_site_publish.py --repo-root .
+```
+
+4. 改样式或前端逻辑
+- 改 `sitecss` 或 `sitejs`
+- 这类改动通常不需要跑 Excel 导出
+- 如果改到页面生成规则，再跑：
+```powershell
+py scriptsbuild_site_publish.py --repo-root .
+```
+
+推送到 GitHub
+
+先看改了什么：
+```powershell
+git status
+```
+
+提交并推送：
+```powershell
+git add .
+git commit -m 更新网站内容
+git push origin main
+```
+
+如果你只想提交部分文件：
+```powershell
+git add data images site scripts
+git commit -m 更新网站内容
+git push origin main
+```
+
+手动上传到 CloudBase
+
+你既然打算手动上传，本质上只上传成品目录：
+
+- 先本地生成最新站点：
+```powershell
+py scriptsbuild_site_publish.py --repo-root .
+```
+- 然后把 [site](CUsersweixiDesktopzhangmantang-websitesite) 里的内容上传到 CloudBase
+- 不要上传整个仓库根目录
+- 也不要上传 `excel`、`scripts`、`.git`
+
+最稳的理解是：
+- `excel` 和 `data` 是“原料”
+- `scripts` 是“加工机器”
+- `site` 是“最终成品”
+。

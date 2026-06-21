@@ -2,15 +2,15 @@
   "artist_name_zh": "张满堂",
   "artist_name_en": "ZHANG MANTANG",
   "brand": {
-    "seal_image": "/images/branding/seal-red.webp",
-    "signature_image": "/images/branding/signature-ink.webp"
+    "seal_image": "/images/branding/seal-01.webp",
+    "signature_image": "/images/branding/signature-01.webp"
   },
   "hero": {
     "title_zh": "张满堂书法艺术",
     "title_en": "Zhang Mantang Calligraphy",
     "subtitle_zh": "当代毛体书法代表传承人，作品被人民大会堂永久收藏，并参与天宫二号、国际邮票与重要国际展览项目。",
     "subtitle_en": "A contemporary inheritor of Mao-style calligraphy, with works collected by the Great Hall of the People and featured in the Tiangong-2 programme, international stamp projects, and major exhibitions.",
-    "background_image": "/images/home/hero-main.webp",
+    "background_image": "/images/home/hero-01.webp",
     "trust_zh": [
       "人民大会堂永久收藏",
       "天宫二号太空搭载项目",
