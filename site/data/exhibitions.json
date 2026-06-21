@@ -14,18 +14,6 @@
     ]
   },
   {
-    "id": "exhibition-002",
-    "title_zh": "敬临毛泽东主席书法作品汇报展",
-    "title_en": "Report Exhibition of Calligraphy Works in Tribute to Chairman Mao",
-    "year": "2008",
-    "location_zh": "",
-    "location_en": "",
-    "description_zh": "二零零八年相关作品展出。",
-    "description_en": "Related works were exhibited in 2008.",
-    "cover_image": "",
-    "gallery_images": []
-  },
-  {
     "id": "exhibition-003",
     "title_zh": "东京中国书法美术作品展",
     "title_en": "China Calligraphy and Fine Arts Exhibition in Tokyo",
@@ -57,8 +45,8 @@
     "title_zh": "毛泽东诗词墨宝展",
     "title_en": "Mao Zedong Poetry Calligraphy Treasures Exhibition",
     "year": "2011",
-    "location_zh": "",
-    "location_en": "",
+    "location_zh": "青岛",
+    "location_en": "Qingdao",
     "description_zh": "《仿毛体手抄毛泽东诗词汇报展》作品在该展展出。",
     "description_en": "Works from the report exhibition of hand-copied Mao Zedong poems in Mao style were shown in this exhibition.",
     "cover_image": "/images/exhibitions/exhibition-005/2011年青岛博物馆毛体书法展现场.webp",
