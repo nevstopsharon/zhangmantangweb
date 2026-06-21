@@ -8,9 +8,9 @@
     "location_en": "Beijing",
     "description_zh": "二零零七年十二月在中国人民革命军事博物馆举办，展出一百一十四幅。",
     "description_en": "Held in December 2007 at the Military Museum of the Chinese People's Revolution, with 114 works exhibited.",
-    "cover_image": "/images/exhibitions/exhibition-001/2007年12月23日在中国人民军事博物馆举办“纪念毛泽东主席诞辰114周年敬临毛体书法展览”，与毛新宇在交流.webp",
+    "cover_image": "/images/exhibitions/exhibition-001/cover.webp",
     "gallery_images": [
-      "/images/exhibitions/exhibition-001/2007年12月23日在中国人民军事博物馆举办“纪念毛泽东主席诞辰114周年敬临毛体书法展览”，与毛新宇在交流.webp"
+      "/images/exhibitions/exhibition-001/cover.webp"
     ]
   },
   {
@@ -34,10 +34,10 @@
     "location_en": "Shanghai",
     "description_zh": "二零一零年六月上海城市博览会期间举办，展出八十九幅。",
     "description_en": "Held in June 2010 during the Shanghai Urban Expo period, with 89 works exhibited.",
-    "cover_image": "/images/exhibitions/exhibition-004/2010年上海图书馆毛体书法展开幕式.webp",
+    "cover_image": "/images/exhibitions/exhibition-004/cover.webp",
     "gallery_images": [
-      "/images/exhibitions/exhibition-004/2010年上海图书馆毛体书法展开幕式.webp",
-      "/images/exhibitions/exhibition-004/2010年中宣部原常务副部长龚心翰出席上海书展现场.webp"
+      "/images/exhibitions/exhibition-004/cover.webp",
+      "/images/exhibitions/exhibition-004/detail-01.webp"
     ]
   },
   {
@@ -75,10 +75,10 @@
     "location_en": "Beijing",
     "description_zh": "二零一三年十二月在北京军事博物馆参展，展出一百二十幅。",
     "description_en": "Held in December 2013 at the Beijing Military Museum, with 120 works exhibited.",
-    "cover_image": "/images/exhibitions/exhibition-008/2013年全国人大原副委员长布赫出席纪念毛泽东主席诞辰120周年书画展现场.webp",
+    "cover_image": "/images/exhibitions/exhibition-008/cover.webp",
     "gallery_images": [
-      "/images/exhibitions/exhibition-008/2013年全国人大原副委员长布赫出席纪念毛泽东主席诞辰120周年书画展现场.webp",
-      "/images/exhibitions/exhibition-008/2013年在北京军事博物馆，与百名将军联合举办纪念毛泽东主席诞辰120周年书画展.webp"
+      "/images/exhibitions/exhibition-008/cover.webp",
+      "/images/exhibitions/exhibition-008/detail-01.webp"
     ]
   },
   {
